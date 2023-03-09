@@ -27,51 +27,89 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <link rel="stylesheet" href="index.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flickity/3.0.0/flickity.min.css" media="screen">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/3.0.0/flickity.pkgd.min.js"></script>
   </head>
   <body>
-    <div style="overflow-x: hidden;">
-    <div id="header">
-      <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-black">
-        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <div class="navbar-nav">
-            <a href="#header" class="ms-1 me-1 nav-item nav-link active">Home</a>
-            <a href="#about" class="ms-1 me-1 nav-item nav-link">About</a>
-            <a href="#experience" class="ms-1 me-1 nav-item nav-link">Experience</a>
-            <a href="#projects" class="ms-1 me-1 nav-item nav-link">Projects</a>
-            <a href="#recommendations" class="ms-1 me-1 nav-item nav-link">Recommendations</a>
-            <a href="#contact" class="ms-1 me-1 nav-item nav-link">Contact</a>
-        </div>
-    </div>
-    </nav>
-      <div class="container p-2 ps-4 pe-4 pt-5">
-        <div class="header-text text-center">
-          <h1 class="p-2 text-center mb-0"><span class="text-orange">M</span>AANASA <span class="text-orange">N</span>ARAYAN</h1>
-          <h3 class="mb-0 text-center">Software Engineer</h3>
-          <a href="documents/MaanasaNarayan.pdf" download="" class="btn btn-light text-orange mt-3 mb-3">Download Resume</a>
+    <div id="header" class="pt-5">
+      <div class="container p-2 ps-4 pe-4">
+        <nav>
+          <span class="logo"><span class="logo-initial">M</span>aanasa</span>
+          <ul class="mb-0">
+            <li>
+              <a
+                href="#header"
+                class="text-decoration-none text-white position-relative"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a
+                href="#about"
+                class="text-decoration-none text-white position-relative"
+                >About</a
+              >
+            </li>
+            <li>
+              <a
+                href="#experience"
+                class="text-decoration-none text-white position-relative"
+                >Experience</a
+              >
+            </li>
+            <li>
+              <a
+                href="#projects"
+                class="text-decoration-none text-white position-relative"
+                >Projects</a
+              >
+            </li>
+            <li>
+              <a
+                href="#recommendations"
+                class="text-decoration-none text-white position-relative"
+                >Recommendations</a
+              >
+            </li>
+            <li>
+              <a
+                href="#contact"
+                class="text-decoration-none text-white position-relative"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <div class="header-text">
+          <p>Software Developer</p>
+          <h1>
+            Hi, I'm <span class="text-orange">M</span>aanasa
+            <span class="text-orange">N</span>arayan.
+          </h1>
+          <p>MS <span class="text-orange">CS</span>, Northeastern University</p>
+          <a
+            href="documents/MaanasaNarayan.pdf"
+            download
+            class="btn bg-orange mt-1"
+            >Download Resume</a
+          >
         </div>
       </div>
     </div>
-    <div id="about" class="pt-5 pb-5" style="
-    width: 100%;
-">
-      <div class="container" style="">
-        <h1 class="sub-title">About Me</h1>
+    <div id="about" class="pt-5">
+      <div class="container">
+        
         <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-3 align-self-md-center text-center">
-      <img src="images/Me.jpeg" class="w-75 rounded" alt="Maanasa">
-    </div>
-          <div class="col-md-7">
-            
+          <div class="col-md-4">
+            <img src="images/Me.jpeg" class="w-75 m-5 rounded" alt="Maanasa" />
+          </div>
+          <div class="col-md-8 p-2">
+            <h1 class="sub-title">About Me</h1>
+            <p class="pe-3">
+              I am a passionate Software Developer, currently pursuing Computer Science at NEU, Boston. During my time here I have enhanced my technical skills, including expertise in programming languages such as Java, Python, and JavaScript, as well as web technologies like HTML, CSS, React.js, and Node.js. Additionally, my experience interning at top companies such as Amazon and Nokia and working full-time for 2+ years at Adobe, has provided me with valuable hands-on experience working on complex projects in fast-paced environments. I am a good communicator and I have a proactive attitude when it comes to problem-solving. I am also comfortable working under pressure and can manage multiple tasks and meet tight deadlines. Lastly, I am a quick learner, and I am always willing to pick up new technologies and programming languages as needed.
+            </p>
+            </div>
+            <div class="col-md-12">
             <div class="tab-titles">
               <div class="tab-links active-link" onclick="openTab('skills')">
                 Skills
@@ -86,23 +124,34 @@
             <div class="tab-contents active-tab" id="skills">
               <ul class="p-0">
                 <li>
-                  <span class="text-orange font-custom-monospace">Languages</span><br>JavaScript (JS), Java, Python, R, TypeScript (TS)
+                  <span class="text-orange font-monospace">Languages</span
+                  ><br />Java, Python, JavaScript (JS), R, TypeScript (TS)
                 </li>
                 <li>
-                  <span class="text-orange font-custom-monospace">Web Technologies</span><br>React.js, Redux, Node.js, Express.js, Spring Boot, HTML, CSS, Bootstrap, JSON, jQuery, DOM, XML
+                  <span class="text-orange font-monospace"
+                    >Web Technologies</span
+                  ><br />HTML, CSS, Bootstrap, jQuery, JSON, React.js, Node.js,
+                  Express.js
                 </li>
                 <li>
-                  <span class="text-orange font-custom-monospace">Databases</span><br>SQL, SQLite, MySQL (RDBMS), MongoDB (NoSQL)
+                  <span class="text-orange font-monospace">Databases</span
+                  ><br />SQL, MongoDB, RDBMS, NoSQL
                 </li>
                 <li>
-                  <span class="text-orange font-custom-monospace">Tools</span><br>IntelliJ, Visual Studio Code, Eclipse, PyCharm, ServiceNow, Anaconda, PostMan, SoapUI, Android Studio
+                  <span class="text-orange font-monospace">Tools</span
+                  ><br />IntelliJ, Visual Studio Code, Eclipse, PyCharm,
+                  Anaconda, PostMan, SoapUI
                 </li>
                 <li>
-                  <span class="text-orange font-custom-monospace">Other Technologies</span><br>Junit, Jest, Java Swing, JIRA, Git, Docker, AWS Lambda,
-                  AWS API Gateway, AWS S3 Junit, Amazon Web Services (AWS), RESTful API, AJAX, Agile
+                  <span class="text-orange font-monospace"
+                    >Other Technologies</span
+                  ><br />Junit, Jest, Java Swing, JIRA, Git, Docker, AWS Lambda,
+                  AWS API Gateway, AWS S3
                 </li>
                 <li>
-                  <span class="text-orange font-custom-monospace">Non-Technical Skills</span><br>Detail-oriented, Problem Solver, Quick learner,
+                  <span class="text-orange font-monospace"
+                    >Non-Technical Skills</span
+                  ><br />Detail-oriented, Problem Solver, Quick learner,
                   Excellent communication skills
                 </li>
               </ul>
@@ -110,14 +159,18 @@
             <div class="tab-contents" id="education">
               <ul class="p-0">
                 <li>
-                  <span class="text-orange font-custom-monospace">Sep 2021 - Present</span><br>
-                  Master of Science in Computer Science <br>
-                  Northeastern University <br>
+                  <span class="text-orange font-monospace"
+                    >Sep 2021 - Present</span
+                  ><br />
+                  Master of Science in Computer Science <br />
+                  Northeastern University <br />
                   GPA: <span class="text-orange">3.945</span>
                 </li>
                 <li>
-                  <span class="text-orange font-custom-monospace">Aug 2014 - May 2018</span><br>Bachelor of Engineering in Computer Science <br>
-                  KSIT, VTU <br>
+                  <span class="text-orange font-monospace"
+                    >Aug 2014 - May 2018</span
+                  ><br />Bachelor of Engineering in Computer Science <br />
+                  KSIT, VTU <br />
                   Aggregate: <span class="text-orange">85%</span>
                 </li>
               </ul>
@@ -125,55 +178,73 @@
             <div class="tab-contents" id="accolades">
               <ul class="p-0">
                 <li>
-                  <span class="text-orange font-custom-monospace">2020</span><br>
-                  Sales achievement Award <br>
+                  <span class="text-orange font-monospace">2020</span><br />
+                  Sales achievement Award <br />
                   Adobe
                 </li>
                 <li>
-                  <span class="text-orange font-custom-monospace">2019</span><br>Delight Driven Individual Award <br>
+                  <span class="text-orange font-monospace">2019</span
+                  ><br />Delight Driven Individual Award <br />
                   Adobe
                 </li>
                 <li>
-                  <span class="text-orange font-custom-monospace">2018</span><br>10th
-                  Rank and Award of Merit <br>
+                  <span class="text-orange font-monospace">2018</span><br />10th
+                  Rank and Award of Merit <br />
                   VTU
                 </li>
               </ul>
             </div>
-            
-            </div>
-            
-    <div class="col-md-1"></div>
-</div>
-        
+          </div>
+        </div>
       </div>
     </div>
-    <div id="experience" class="pt-5 pb-5">
+    <div id="experience" class="pt-5">
       <div class="container">
         <h1 class="sub-title">Work Experience</h1>
         <div class="row mt-5">
           <div class="col-md-1"></div>
           <div class="col-md-10 col-sm-12">
-            <div id="carouselExampleControls" class="carousel slide" data-interval="false">
-              <div class="carousel-inner p-0">
+            <div
+              id="carouselExampleIndicators"
+              class="carousel slide"
+              data-interval="false"
+            >
+              <ol class="carousel-indicators">
+                <li
+                  data-target="#carouselExampleIndicators"
+                  data-slide-to="0"
+                  class="active"
+                ></li>
+                <li
+                  data-target="#carouselExampleIndicators"
+                  data-slide-to="1"
+                ></li>
+                <li
+                  data-target="#carouselExampleIndicators"
+                  data-slide-to="2"
+                ></li>
+                <li
+                  data-target="#carouselExampleIndicators"
+                  data-slide-to="3"
+                ></li>
+                <li
+                  data-target="#carouselExampleIndicators"
+                  data-slide-to="4"
+                ></li>
+              </ol>
+              <div class="carousel-inner">
                 <div class="carousel-item active">
-                  <div class="cards-wrapper"> 
-                  <div class="card m-0">
-                    <div class="m-0 row">
-                      <div class="col-md-4 p-0">
+                  <div class="card mb-3">
+                    <div class="h-100 m-0 row">
+                      <div class="col-md-4 p-0 h-100">
                         <img
                           src="images/amazon.jpg"
-                          class="card-img desktop"
-                          alt="..."
-                        />
-                        <img
-                          src="images/amazon-mobile.jpg"
-                          class="card-img mobile"
+                          class="card-img h-100"
                           alt="..."
                         />
                       </div>
                       <div class="col-md-8">
-                        <div class="card-body">
+                        <div class="card-body p-0 pt-2">
                           <p class="mb-0 small text-secondary font-monospace">
                             INTERNSHIP
                           </p>
@@ -201,217 +272,199 @@
                       </div>
                     </div>
                   </div>
-                 
-                </div>
                 </div>
                 <div class="carousel-item">
-                  <div class="cards-wrapper">
-                    <div class="card m-0">
-                      <div class="m-0 row">
-                        <div class="col-md-4 p-0">
-                          <img
-                            src="images/nokia.jpg"
-                            class="card-img desktop"
-                            alt="..."
-                          />
-                          <img
-                          src="images/nokia-mobile.jpg"
-                          class="card-img mobile"
+                  <div class="card mb-3">
+                    <div class="h-100 m-0 row">
+                      <div class="col-md-4 p-0 h-100">
+                        <img
+                          src="images/nokia.jpg"
+                          class="card-img h-100"
                           alt="..."
                         />
-                        </div>
-                        <div class="col-md-8">
-                          <div class="card-body">
-                            <p class="mb-0 small text-secondary font-monospace">
-                              INTERNSHIP
-                            </p>
-                            <h5 class="card-title mb-1 font-weight-bold">
-                              Application Developer Co-op
-                            </h5>
-                            <h6 class="mb-1">Nokia, Raleigh</h6>
-                            <p class="mb-0 small text-orange font-monospace">
-                              May 2022 - Aug 2022
-                            </p>
-                            <p class="card-text mt-2 card-font-small">
-                              <strong>Overview: </strong>Created the Application
-                              logic for Nokia's
-                              <span class="font-monospace text-orange">BST</span>
-                              solution in
-                              <span class="font-monospace text-orange"
-                                >ServiceNow</span
-                              >
-                              for collecting, managing, and reporting the Global
-                              Business Services; Redesigned the central data
-                              aggregation platform called ESB.
-                            </p>
-                            <p class="card-text mt-2 card-font-small">
-                              <strong>Technology Used: </strong> JavaScript,
-                              ServiceNow, Java, SQL.
-                            </p>
-                          </div>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body p-0 pt-2">
+                          <p class="mb-0 small text-secondary font-monospace">
+                            INTERNSHIP
+                          </p>
+                          <h5 class="card-title mb-1 font-weight-bold">
+                            Application Developer Co-op
+                          </h5>
+                          <h6 class="mb-1">Nokia, Raleigh</h6>
+                          <p class="mb-0 small text-orange font-monospace">
+                            May 2022 - Aug 2022
+                          </p>
+                          <p class="card-text mt-2 card-font-small">
+                            <strong>Overview: </strong>Created the Application
+                            logic for Nokia's
+                            <span class="font-monospace text-orange">BST</span>
+                            solution in
+                            <span class="font-monospace text-orange"
+                              >ServiceNow</span
+                            >
+                            for collecting, managing, and reporting the Global
+                            Business Services; Redesigned the central data
+                            aggregation platform called ESB.
+                          </p>
+                          <p class="card-text mt-2 card-font-small">
+                            <strong>Technology Used: </strong> JavaScript,
+                            ServiceNow, Java, SQL.
+                          </p>
                         </div>
                       </div>
                     </div>
-                    
                   </div>
                 </div>
                 <div class="carousel-item">
-                  <div class="cards-wrapper">
-                    <div class="card m-0">
-                      <div class="m-0 row">
-                        <div class="col-md-4 p-0">
-                          <img
-                            src="images/neu.png"
-                            class="card-img desktop"
-                            alt="..."
-                          />
-                          <img
-                            src="images/neu-mobile.png"
-                            class="card-img mobile"
-                            alt="..."
-                          />
-                        </div>
-                        <div class="col-md-8">
-                          <div class="card-body">
-                            <p class="mb-0 small text-secondary font-custom-monospace">
-                              PART TIME
-                            </p>
-                            <h5 class="card-title mb-1 font-weight-bold">
-                              Teaching Assistant
-                            </h5>
-                            <h6 class="mb-1">Northeastern University, Boston</h6>
-                            <p class="mb-0 small text-orange font-custom-monospace">
-                              Jan 2022 - May 2022
-                            </p>
-                            <p class="card-text mt-2 card-font-small">
-                              <strong>Overview: </strong>Worked as a Teaching
-                              Assistant in the
-                              <span class="font-custom-monospace text-orange"
-                                >Khoury College of Computer Sciences</span
-                              >
-                              for one of the core courses,
-                              <span class="font-custom-monospace text-orange"
-                                >Programming Design Paradigms</span
-                              >. This course focuses on effectively using various
-                              object-oriented design patterns, employing SOLID
-                              design principles and best practices, and following
-                              a test-driven development approach.
-                            </p>
-                            <p class="card-text mt-2 card-font-small">
-                              <strong>Technology Used: </strong> Java, Java Swing,
-                              JUnit, Object-oriented programming, Design patterns.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <div class="cards-wrapper">
-                    <div class="card m-0">
-                      <div class="m-0 row">
-                        <div class="col-md-4 p-0">
-                          <img
-                            src="images/adobe.png"
-                            class="card-img desktop"
-                            alt="..."
-                          />
-                          <img
-                          src="images/adobe-mobile.png"
-                          class="card-img mobile"
+                  <div class="card mb-3">
+                    <div class="h-100 m-0 row">
+                      <div class="col-md-4 p-0 h-100">
+                        <img
+                          src="images/neu.png"
+                          class="card-img h-100"
                           alt="..."
                         />
-                        </div>
-                        <div class="col-md-8">
-                          <div class="card-body">
-                            <p class="mb-0 small text-secondary font-monospace">
-                              FULL TIME
-                            </p>
-                            <h5 class="card-title mb-1 font-weight-bold">
-                              Associate Technical Consultant
-                            </h5>
-                            <h6 class="mb-1">Adobe, Bengaluru</h6>
-                            <p class="mb-0 small text-orange font-monospace">
-                              Nov 2018 - Aug 2021
-                            </p>
-                            <p class="card-text mt-2 card-font-small">
-                              <strong>Overview: </strong>Worked with multiple
-                              clients to advise technical strategies for providing
-                              their customers with a personalized experience on
-                              their website; Helped in implementing these
-                              solutions using
-                              <span class="font-monospace text-orange"
-                                >Adobe Target</span
-                              >.
-                            </p>
-                            <p class="card-text card-font-small">
-                              <strong>Technology Used: </strong> JavaScript, HTML,
-                              CSS, Bootstrap, ReactJS, Android Development, Adobe
-                              Experience Cloud.
-                            </p>
-                          </div>
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body p-0 pt-2">
+                          <p class="mb-0 small text-secondary font-monospace">
+                            PART TIME
+                          </p>
+                          <h5 class="card-title mb-1 font-weight-bold">
+                            Teaching Assistant
+                          </h5>
+                          <h6 class="mb-1">Northeastern University, Boston</h6>
+                          <p class="mb-0 small text-orange font-monospace">
+                            Jan 2022 - May 2022
+                          </p>
+                          <p class="card-text mt-2 card-font-small">
+                            <strong>Overview: </strong>Worked as a Teaching
+                            Assistant in the
+                            <span class="font-monospace text-orange"
+                              >Khoury College of Computer Sciences</span
+                            >
+                            for one of the core courses,
+                            <span class="font-monospace text-orange"
+                              >Programming Design Paradigms</span
+                            >. This course focuses on effectively using various
+                            object-oriented design patterns, employing SOLID
+                            design principles and best practices, and following
+                            a test-driven development approach.
+                          </p>
+                          <p class="card-text mt-2 card-font-small">
+                            <strong>Technology Used: </strong> Java, Java Swing,
+                            JUnit, Object-oriented programming, Design patterns.
+                          </p>
                         </div>
                       </div>
                     </div>
-                    
                   </div>
                 </div>
                 <div class="carousel-item">
-                  <div class="cards-wrapper">
-                    <div class="card m-0">
-                      <div class="m-0 row">
-                        <div class="col-md-4 p-0">
-                          <img
-                            src="images/infosys.jpg"
-                            class="card-img desktop"
-                            alt="..."
-                          />
-                          <img
-                            src="images/infosys-mobile.jpg"
-                            class="card-img mobile"
-                            alt="..."
-                          />
-                        </div>
-                        <div class="col-md-8">
-                          <div class="card-body">
-                            <p class="mb-0 small text-secondary font-monospace">
-                              FULL TIME
-                            </p>
-                            <h5 class="card-title mb-1 font-weight-bold">
-                              Systems Engineer Trainee
-                            </h5>
-                            <h6 class="mb-1">Infosys, Mysuru</h6>
-                            <p class="mb-0 small text-orange font-monospace">
-                              Jul 2018 - Sep 2018
-                            </p>
-                            <p class="card-text mt-2 card-font-small">
-                              <strong>Overview: </strong>Trained in Software
-                              Development basics and website development using
-                              <span class="font-monospace text-orange"
-                                >MERN Stack</span
-                              >; Built an aircraft booking website as the
-                              end-of-training project.
-                            </p>
-                            <p class="card-text mt-2 card-font-small">
-                              <strong>Technology Used: </strong> Python, ReactJS,
-                              NodeJS, Express, MongoDB.
-                            </p>
-                          </div>
+                  <div class="card mb-3">
+                    <div class="h-100 m-0 row">
+                      <div class="col-md-4 p-0 h-100">
+                        <img
+                          src="images/adobe.png"
+                          class="card-img h-100"
+                          alt="..."
+                        />
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body p-0 pt-2">
+                          <p class="mb-0 small text-secondary font-monospace">
+                            FULL TIME
+                          </p>
+                          <h5 class="card-title mb-1 font-weight-bold">
+                            Associate Technical Consultant
+                          </h5>
+                          <h6 class="mb-1">Adobe, Bengaluru</h6>
+                          <p class="mb-0 small text-orange font-monospace">
+                            Nov 2018 - Aug 2021
+                          </p>
+                          <p class="card-text mt-2 card-font-small">
+                            <strong>Overview: </strong>Worked with multiple
+                            clients to advise technical strategies for providing
+                            their customers with a personalized experience on
+                            their website; Helped in implementing these
+                            solutions using
+                            <span class="font-monospace text-orange"
+                              >Adobe Target</span
+                            >.
+                          </p>
+                          <p class="card-text card-font-small">
+                            <strong>Technology Used: </strong> JavaScript, HTML,
+                            CSS, Bootstrap, ReactJS, Android Development, Adobe
+                            Experience Cloud.
+                          </p>
                         </div>
                       </div>
                     </div>
-                    
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="card mb-3">
+                    <div class="h-100 m-0 row">
+                      <div class="col-md-4 p-0 h-100">
+                        <img
+                          src="images/infosys.jpg"
+                          class="card-img h-100"
+                          alt="..."
+                        />
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body p-0 pt-2">
+                          <p class="mb-0 small text-secondary font-monospace">
+                            FULL TIME
+                          </p>
+                          <h5 class="card-title mb-1 font-weight-bold">
+                            Systems Engineer Trainee
+                          </h5>
+                          <h6 class="mb-1">Infosys, Mysuru</h6>
+                          <p class="mb-0 small text-orange font-monospace">
+                            Jul 2018 - Sep 2018
+                          </p>
+                          <p class="card-text mt-2 card-font-small">
+                            <strong>Overview: </strong>Trained in Software
+                            Development basics and website development using
+                            <span class="font-monospace text-orange"
+                              >MERN Stack</span
+                            >; Built an aircraft booking website as the
+                            end-of-training project.
+                          </p>
+                          <p class="card-text mt-2 card-font-small">
+                            <strong>Technology Used: </strong> Python, ReactJS,
+                            NodeJS, Express, MongoDB.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <a
+                class="carousel-control-prev"
+                href="#carouselExampleIndicators"
+                role="button"
+                data-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
                 <span class="sr-only">Previous</span>
               </a>
-              <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <a
+                class="carousel-control-next"
+                href="#carouselExampleIndicators"
+                role="button"
+                data-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
                 <span class="sr-only">Next</span>
               </a>
             </div>
@@ -420,7 +473,7 @@
         </div>
       </div>
     </div>
-    <div id="projects" class="pt-5 pb-5">
+    <div id="projects" class="pt-5">
       <div class="container">
         <h1 class="sub-title">Academic Projects</h1>
         <div class="row mt-5">
@@ -439,8 +492,6 @@
                       aria-controls="collapseOne"
                     >
                       Bug Bash - An Automation Tool
-                      <span class="plus">+</span>
-                      <span class="minus">-</span>
                     </button>
                   </h2>
                 </div>
@@ -452,7 +503,7 @@
                   data-parent="#accordionExample"
                 >
                   <div class="card-body">
-                    <p class="font-custom-monospace text-orange mb-1">
+                    <p class="font-monospace text-orange mb-1">
                       Sep 2021 - Nov 2021
                     </p>
                     <h5 class="font-weight-bold">
@@ -461,7 +512,7 @@
                     <h6>Amazon, Seattle</h6>
                     <ul class="p-2">
                       <li>
-                        <span class="font-custom-monospace text-orange">Bug Bash</span>
+                        <span class="font-monospace text-orange">Bug Bash</span>
                         is a process followed in the Amazon's Choice team to
                         test the AC Badging functionality before deploying a new
                         change. This process is done manually taking up about 8+
@@ -469,46 +520,46 @@
                       </li>
                       <li>
                         This project aimed at
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >automating</span
                         >
                         this process by providing an interface for the AC
                         engineers to interact with, and
-                        <span class="font-custom-monospace text-orange">scraping</span>
+                        <span class="font-monospace text-orange">scraping</span>
                         the amazon.com website automatically to get the results.
                       </li>
                       <li>
                         The project started off with
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >Requirements gathering</span
                         >
                         phase, where I disucssed with multiple stakeholders and
                         worked on a requirements document. Following this was
                         the
-                        <span class="font-custom-monospace text-orange">design</span>
+                        <span class="font-monospace text-orange">design</span>
                         phase where I jotted down all the design choices.
                       </li>
                       <li>
                         The chosen design consisted of a front-end written in
-                        <span class="font-custom-monospace text-orange">ReactJS</span>
+                        <span class="font-monospace text-orange">ReactJS</span>
                         and hosted on Amazon's Harmony console. The back-end was
                         written in
-                        <span class="font-custom-monospace text-orange">NodeJS</span>
+                        <span class="font-monospace text-orange">NodeJS</span>
                         as an
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >AWS Lambda function</span
                         >. The backend system also used an
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >API Gateway</span
                         >
                         to communicate with React app and
-                        <span class="font-custom-monospace text-orange">AWS S3</span>
+                        <span class="font-monospace text-orange">AWS S3</span>
                         to fetch the input file.
                       </li>
                       <li>
                         The web scraping logic was written using the NodeJS
                         library,
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >Puppeteer</span
                         >
                         for headless browsing using Chrome.
@@ -516,12 +567,12 @@
                       <li>
                         Once the logic was developed, it was thoroughly tested
                         using
-                        <span class="font-custom-monospace text-orange">Jest</span>
+                        <span class="font-monospace text-orange">Jest</span>
                         Unit Tests and manual end-to-end tests.
                       </li>
                       <li>
                         The complete project was built and tested in the
-                        <span class="font-custom-monospace text-orange">12-week</span>
+                        <span class="font-monospace text-orange">12-week</span>
                         rigorous timeline
                       </li>
                     </ul>
@@ -532,7 +583,7 @@
                 <div class="card-header" id="headingTwo">
                   <h2 class="mb-0">
                     <button
-                      class="btn btn-link btn-block text-left font-weight-bold text-white collapsed"
+                      class="btn btn-link btn-block text-left font-weight-bold text-white"
                       type="button"
                       data-toggle="collapse"
                       data-target="#collapseTwo"
@@ -540,8 +591,6 @@
                       aria-controls="collapseTwo"
                     >
                       NEUStockTrade - A MERN Stack Website Application
-                      <span class="plus">+</span>
-                      <span class="minus">-</span>
                     </button>
                   </h2>
                 </div>
@@ -552,7 +601,7 @@
                   data-parent="#accordionExample"
                 >
                   <div class="card-body">
-                    <p class="font-custom-monospace text-orange mb-1">
+                    <p class="font-monospace text-orange mb-1">
                       Nov 2021 - Dec 2021
                     </p>
                     <h5 class="font-weight-bold">
@@ -561,7 +610,7 @@
                     <h6>Northeastern University, Boston</h6>
                     <ul class="p-2">
                       <li>
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >NEUStockTrade</span
                         >
                         is a stock trading website application built using MERN
@@ -575,15 +624,15 @@
                       </li>
                       <li>
                         The application's front-end is built using
-                        <span class="font-custom-monospace text-orange">ReactJS</span>.
+                        <span class="font-monospace text-orange">ReactJS</span>.
                         The back-end is built on
-                        <span class="font-custom-monospace text-orange">Express</span>
+                        <span class="font-monospace text-orange">Express</span>
                         using
-                        <span class="font-custom-monospace text-orange">NodeJS</span>.
+                        <span class="font-monospace text-orange">NodeJS</span>.
                         It also maintains a local database in
-                        <span class="font-custom-monospace text-orange">MongoDB</span>.
+                        <span class="font-monospace text-orange">MongoDB</span>.
                         Along with this, it also pulls data from
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >Remote APIs</span
                         >
                         using HTTP calls.
@@ -612,7 +661,7 @@
                 <div class="card-header" id="headingThree">
                   <h2 class="mb-0">
                     <button
-                      class="btn btn-link btn-block text-left font-weight-bold text-white collapsed"
+                      class="btn btn-link btn-block text-left font-weight-bold text-white"
                       type="button"
                       data-toggle="collapse"
                       data-target="#collapseThree"
@@ -620,8 +669,6 @@
                       aria-controls="collapseThree"
                     >
                       BeatBeat - An Android Application
-                      <span class="plus">+</span>
-                      <span class="minus">-</span>
                     </button>
                   </h2>
                 </div>
@@ -632,7 +679,7 @@
                   data-parent="#accordionExample"
                 >
                   <div class="card-body">
-                    <p class="font-custom-monospace text-orange mb-1">
+                    <p class="font-monospace text-orange mb-1">
                       Feb 2021 - Apr 2021
                     </p>
                     <h5 class="font-weight-bold">
@@ -641,7 +688,7 @@
                     <h6>Northeastern University, Boston</h6>
                     <ul class="p-2">
                       <li>
-                        <span class="font-custom-monospace text-orange">BeatBeat</span>
+                        <span class="font-monospace text-orange">BeatBeat</span>
                         is a music learning app that challenges the player to
                         mimic rhythms of increasing complexity. Each level
                         provides points that can be spent leveling up your own
@@ -655,7 +702,7 @@
                       </li>
                       <li>
                         The app also includes
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >daily challenges</span
                         >
                         to keep the user engaged over time, as well as to warm
@@ -663,8 +710,8 @@
                       </li>
                       <li>
                         The app was designed and built using
-                        <span class="font-custom-monospace text-orange">Java</span> in
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange">Java</span> in
+                        <span class="font-monospace text-orange"
                           >Android Studio</span
                         >
                         by a team of 4, and thoroughly tested using real end
@@ -686,7 +733,7 @@
                 <div class="card-header" id="headingFour">
                   <h2 class="mb-0">
                     <button
-                      class="btn btn-link btn-block text-left font-weight-bold text-white collapsed"
+                      class="btn btn-link btn-block text-left font-weight-bold text-white"
                       type="button"
                       data-toggle="collapse"
                       data-target="#collapseFour"
@@ -694,8 +741,6 @@
                       aria-controls="collapseFour"
                     >
                       The Dungeon Game - A Java Application
-                      <span class="plus">+</span>
-                      <span class="minus">-</span>
                     </button>
                   </h2>
                 </div>
@@ -706,7 +751,7 @@
                   data-parent="#accordionExample"
                 >
                   <div class="card-body">
-                    <p class="font-custom-monospace text-orange mb-1">
+                    <p class="font-monospace text-orange mb-1">
                       Oct 2021 - Dec 2021
                     </p>
                     <h5 class="font-weight-bold">
@@ -716,24 +761,24 @@
                     <ul class="p-2">
                       <li>
                         Designed and constructed an adventure game in
-                        <span class="font-custom-monospace text-orange">Java</span>
+                        <span class="font-monospace text-orange">Java</span>
                         following the
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >Object-Oriented</span
                         >
                         design principles,
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >MVC architecture</span
                         >, and
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >Design Patterns</span
                         >.
                       </li>
                       <li>
                         Developed a
-                        <span class="font-custom-monospace text-orange">GUI</span>
+                        <span class="font-monospace text-orange">GUI</span>
                         using
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >Java Swing</span
                         >
                         for improved gameplay experience with the added ability
@@ -743,7 +788,7 @@
                       <li>
                         Wrote exhaustive test plans for the application and
                         implemented it through
-                        <span class="font-custom-monospace text-orange"
+                        <span class="font-monospace text-orange"
                           >100+ JUnit</span
                         >
                         test cases.
@@ -758,16 +803,14 @@
         </div>
       </div>
     </div>
-    <div id="recommendations" class="p-3 pt-5 pb-5">
+    <div id="recommendations">
       <div class="container">
-
         <h1 class="sub-title">Recommendations</h1>
         <div class="row mt-5">
-          <div class="col-md-12">
-          
-                <div class="cards-wrapper row"> 
-                <div class="card col-md-3 mt-2 mb-2">
-                  <img
+          <div class="col-md-2"></div>
+          <div class="col-md-4">
+            <div class="card" style="height: 540px">
+              <img
                 src="images/amazon-light.png"
                 width="100px"
                 height="100px"
@@ -796,24 +839,32 @@
                   >More details</a
                 >
               </div>
-                </div>
-                <div class="card col-md-3 mt-2 mb-2">
-                  <img
-                src="images/amazon-light.png"
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card" style="height: 540px">
+              <img
+                src="images/adobe.png"
                 width="100px"
                 height="100px"
                 class="rounded-circle mt-3 align-self-center"
               />
               <div class="card-body">
                 <h5 class="card-title text-center font-weight-bold">
-                  Cahya Ong
+                  Tarence DSouza
                 </h5>
                 <h6 class="card-subtitle mb-2 text-muted text-center">
-                  SDE, Amazon
+                  Customer Success, Adobe
                 </h6>
                 <p class="card-text">
-                  I had the pleasure of working with Maanasa during her internship in Amazon. I was impressed by Maanasa's abilities for picking up a new domain knowledge relatively quickly, asking the right questions to the stakeholders to remove any ambiguity in the requirements, and more importantly delivering the results of her internship project (including couple stretch goals) within her 12-weeks stay with my team.
-                  Maanasa would be a great asset to any company, and any employee would be lucky to have Maanasa in their team!
+                  Maanasa started as a Fresher/Intern at Adobe and it was
+                  evident from the initial (interview) discussions, the clarity
+                  in her thoughts and that transalated well as words! <br />
+                  If you need an expressive, articulate, allrounder in your
+                  team, work alongside her and you will not regret. Totally
+                  vouch her as a cheerful and resourceful team member, working
+                  alongside whom you'd probably end up learning a thing or two.
+                  I Wish her all the best!
                 </p>
                 <a
                   href="https://www.linkedin.com/in/maanasa-narayan/details/recommendations/"
@@ -822,53 +873,18 @@
                   >More details</a
                 >
               </div>
-                </div>
-                <div class="card col-md-3 mt-2 mb-2">
-                  <img
-                    src="images/adobe.png"
-                    width="100px"
-                    height="100px"
-                    class="rounded-circle mt-3 align-self-center"
-                  />
-                  <div class="card-body">
-                    <h5 class="card-title text-center font-weight-bold">
-                      Tarence DSouza
-                    </h5>
-                    <h6 class="card-subtitle mb-2 text-muted text-center">
-                      Customer Success, Adobe
-                    </h6>
-                    <p class="card-text">
-                      Maanasa started as a Fresher/Intern at Adobe and it was
-                      evident from the initial (interview) discussions, the clarity
-                      in her thoughts and that transalated well as words! <br />
-                      If you need an expressive, articulate, allrounder in your
-                      team, work alongside her and you will not regret. Totally
-                      vouch her as a cheerful and resourceful team member, working
-                      alongside whom you'd probably end up learning a thing or two.
-                      I Wish her all the best!
-                    </p>
-                    <a
-                      href="https://www.linkedin.com/in/maanasa-narayan/details/recommendations/"
-                      class="card-link"
-                      target="_blank"
-                      >More details</a
-                    >
-                 
-              </div>
             </div>
-           
           </div>
-          </div>
-          
+          <div class="col-md-2"></div>
         </div>
       </div>
     </div>
-    <div id="contact" class="pt-5 pb-5">
+    <div id="contact" class="mb-5">
       <div class="container">
         <h1 class="sub-title">Contact Me</h1>
         <div class="row mt-5">
-          <div class="col-md-12 text-center">
-            <p style="font-size: 18px" class="text-center">
+          <div class="col-md-6">
+            <p style="font-size: 18px">
               <a href="mailto:narayan.ma@northeastern.edu" class="text-white">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -885,7 +901,7 @@
                 narayan.ma@northeastern.edu
               </a>
             </p>
-            <p style="font-size: 18px" class="text-center">
+            <p style="font-size: 18px">
               <a href="tel:774-777-8729" class="text-white">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -903,7 +919,7 @@
                 +1 (774) 777 - 8729
               </a>
             </p>
-            <p style="font-size: 18px" class="text-center">
+            <p style="font-size: 18px">
               <a
                 href="https://www.linkedin.com/in/maanasa-narayan/"
                 target="_blank"
@@ -922,7 +938,7 @@
                 >&nbsp; linkedin.com/in/maanasa-narayan</a
               >
             </p>
-            <p style="font-size: 18px" class="text-center">
+            <p style="font-size: 18px">
               <a
                 href="https://github.com/maanasanarayan"
                 target="_blank"
@@ -949,10 +965,9 @@
               >Download Resume</a
             >
           </div>
-          
+          <div class="col-md-6"></div>
         </div>
       </div>
-    </div>
     </div>
     <script>
       var tablinks = document.getElementsByClassName("tab-links");
@@ -977,15 +992,6 @@
           interval: false,
         });
       });
-
-      function myFunction() {
-        var x = document.getElementById("navbar");
-        if (x.className === "") {
-          x.className += "responsive";
-        } else {
-          x.className = "";
-        }
-      }
     </script>
   </body>
 </html>
