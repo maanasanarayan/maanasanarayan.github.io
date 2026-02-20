@@ -1,4 +1,3 @@
-import './App.css';
 import './index.css';
 import NavBar from './components/NavBar';
 import Hero from './components/Hero';
@@ -19,10 +18,15 @@ function App() {
         <Experience experiences={content.experiences} />
         <Projects projects={content.projects} />
         <Recommendations recommendations={content.recommendations} />
-        <Contact contact={content.contact} resumeUrl={content.profile.resumeUrl} />
+        <Contact
+          contact={content.contact}
+          resumeUrl={content.profile.resumeUrl}
+        />
       </main>
       <footer className="footer">
-        <div className="container">© {new Date().getFullYear()} {content.profile.name}</div>
+        <div className="container">
+          © {new Date().getFullYear()} {content.profile.name}
+        </div>
       </footer>
     </div>
   );
