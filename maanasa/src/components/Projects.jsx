@@ -1,50 +1,47 @@
 import React from 'react';
 
-const ProjectCard = ({ item }) => (
-  <div className="card">
-    <h4 className="card-title" style={{ marginBottom: 4 }}>
-      {item.title}
-    </h4>
-    <p className="card-meta">
-      {item.org} · {item.period}
-    </p>
-    <ul className="card-bullets">
-      {item.bullets.map((b, i) => (
-        <li key={i}>{b}</li>
-      ))}
-    </ul>
-    {item.links && item.links.length ? (
-      <div style={{ marginTop: 8, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-        {item.links.map((l) => (
-          <a
-            key={l.url}
-            href={l.url}
-            target="_blank"
-            rel="noreferrer"
-            className="nav-link"
-            style={{ padding: 0 }}
-          >
-            {l.label} ↗
-          </a>
-        ))}
-      </div>
-    ) : null}
-  </div>
-);
-
-const Projects = ({ projects }) => {
+function Projects({ projects }) {
   return (
-    <section id="projects" className="section">
-      <div className="container">
-        <h2 className="section-title">Projects</h2>
-        <div className="card-list">
-          {projects.map((p) => (
-            <ProjectCard key={p.title} item={p} />
-          ))}
-        </div>
+    <section className="bento-card">
+      <h2 className="section-title">Projects</h2>
+      <div className="projects-grid">
+        {projects.map((proj, idx) => (
+          <div key={idx} className="project-card">
+            <div className="project-header">
+              <h3 className="project-title">{proj.title}</h3>
+              <div className="project-meta">
+                <span>{proj.org}</span>
+                <span className="dot-separator">•</span>
+                <span className="project-period">{proj.period}</span>
+              </div>
+            </div>
+
+            <ul className="project-bullets">
+              {proj.bullets.map((bullet, i) => (
+                <li key={i}>{bullet}</li>
+              ))}
+            </ul>
+
+            {proj.links && proj.links.length > 0 && (
+              <div className="project-links mt-4 no-print">
+                {proj.links.map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="tag project-link"
+                  >
+                    {link.label} ↗
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </section>
   );
-};
+}
 
 export default Projects;

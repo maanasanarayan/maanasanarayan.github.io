@@ -1,37 +1,37 @@
 import React from 'react';
 
-const RecCard = ({ item }) => (
-  <div className="card">
-    <div className="card-header">
-      <img className="company-logo" src={item.logo} alt={item.role} />
-      <div>
-        <h4 className="card-title" style={{ marginBottom: 0 }}>
-          {item.name}
-        </h4>
-        <p className="card-meta">{item.role}</p>
-      </div>
-    </div>
-    <p className="quote">“{item.quote}”</p>
-  </div>
-);
+function Recommendations({ recommendations }) {
+  // Duplicate array to make the infinite scroll seamless
+  const duplicatedRecs = [...recommendations, ...recommendations];
 
-const Recommendations = ({ recommendations }) => {
   return (
-    <section
-      id="recommendations"
-      className="section"
-      style={{ background: 'var(--surface)' }}
-    >
-      <div className="container">
-        <h2 className="section-title">Recommendations</h2>
-        <div className="card-list">
-          {recommendations.map((r) => (
-            <RecCard key={r.name} item={r} />
+    <section className="dynamic-card recommendations-section">
+      <h2 className="section-title">Recommendations</h2>
+      <div className="recommendations-marquee">
+        <div className="marquee-track">
+          {duplicatedRecs.map((rec, idx) => (
+            <div key={idx} className="recommendation-item print-break">
+              <blockquote className="recommendation-quote">
+                &quot;{rec.quote}&quot;
+              </blockquote>
+              <div className="recommendation-author flex-row gap-3 mt-4">
+                <img
+                  src={rec.logo}
+                  alt={`${rec.name} company logo`}
+                  className="author-logo"
+                  loading="lazy"
+                />
+                <div>
+                  <div className="author-name">{rec.name}</div>
+                  <div className="author-role">{rec.role}</div>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
     </section>
   );
-};
+}
 
 export default Recommendations;

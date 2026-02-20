@@ -1,89 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const KeyValues = ({ data }) => (
-  <dl className="kv">
-    {Object.entries(data).map(([key, value]) => (
-      <div key={key}>
-        <dt>{key}</dt>
-        <dd>{value}</dd>
-      </div>
-    ))}
-  </dl>
-);
-
-const About = ({ about }) => {
-  const [activeTab, setActiveTab] = useState('skills');
-
-  const tabs = [
-    { id: 'skills', label: 'Skills', icon: '⚡' },
-    { id: 'education', label: 'Education', icon: '🎓' },
-    { id: 'accolades', label: 'Accolades', icon: '🏆' },
-  ];
-
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case 'skills':
-        return <KeyValues data={about.skills} />;
-      case 'education':
-        return (
-          <div className="education-list">
-            {about.education.map((edu) => (
-              <div key={edu.degree} className="education-item">
-                <div className="education-header">
-                  <h4>{edu.degree}</h4>
-                  <span className="education-period">{edu.period}</span>
-                </div>
-                <p>{edu.school}</p>
-                {edu.extra && <p className="education-extra">{edu.extra}</p>}
-              </div>
-            ))}
-          </div>
-        );
-      case 'accolades':
-        return (
-          <div className="accolades-list">
-            {about.accolades.map((a) => (
-              <div key={a.title} className="accolade-item">
-                <div className="accolade-header">
-                  <h4>{a.title}</h4>
-                  <span className="accolade-year">{a.year}</span>
-                </div>
-                <p>{a.org}</p>
-              </div>
-            ))}
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
+function About({ about }) {
+  const { skills, education, accolades } = about;
 
   return (
-    <section id="about" className="section">
-      <div className="container">
-        <h2 className="section-title">About</h2>
-        <div className="about-layout-simple">
-          <div className="about-tabs">
-            <div className="tab-nav">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  className={`tab-button ${activeTab === tab.id ? 'active' : ''}`}
-                  onClick={() => setActiveTab(tab.id)}
-                >
-                  <span className="tab-icon" style={{ marginRight: 8 }}>
-                    {tab.icon}
-                  </span>
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-            <div className="tab-content">{renderTabContent()}</div>
+    <section className="bento-card about-section">
+      <h2 className="section-title">About & Skills</h2>
+
+      <div className="skills-grid">
+        {Object.entries(skills).map(([category, items]) => (
+          <div key={category} className="skill-category">
+            <h3 className="skill-title">{category}</h3>
+            <p className="skill-items">{items}</p>
           </div>
+        ))}
+      </div>
+
+      <div className="education-section mt-5 print-break">
+        <h3 className="subsection-title">Education</h3>
+        <div className="education-list">
+          {education.map((edu, idx) => (
+            <div key={idx} className="education-item">
+              <div className="flex-row justify-between">
+                <h4 className="edu-degree">{edu.degree}</h4>
+                <span className="tag">{edu.period}</span>
+              </div>
+              <p className="edu-school">{edu.school}</p>
+              <p className="edu-extra">{edu.extra}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="accolades-section mt-5 print-break">
+        <h3 className="subsection-title">Accolades</h3>
+        <div className="accolades-list">
+          {accolades.map((acc, idx) => (
+            <div key={idx} className="accolades-item flex-row gap-3">
+              <span className="tag">{acc.year}</span>
+              <div>
+                <strong>{acc.title}</strong>
+                <p className="acc-org">{acc.org}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   );
-};
+}
 
 export default About;

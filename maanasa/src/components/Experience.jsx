@@ -1,41 +1,39 @@
 import React from 'react';
 
-const ExperienceCard = ({ item }) => (
-  <div className="card experience-card">
-    <div className="card-header">
-      <img className="company-logo" src={item.logo} alt={item.company} />
-      <div>
-        <h4 className="card-title">{item.role}</h4>
-        <p className="card-meta">
-          {item.company} · {item.location} · {item.period}
-        </p>
-      </div>
-    </div>
-    <ul className="card-bullets">
-      {item.bullets.map((b, i) => (
-        <li key={i}>{b}</li>
-      ))}
-    </ul>
-  </div>
-);
-
-const Experience = ({ experiences }) => {
+function Experience({ experiences }) {
   return (
-    <section
-      id="experience"
-      className="section"
-      style={{ background: 'var(--surface)' }}
-    >
-      <div className="container">
-        <h2 className="section-title">Experience</h2>
-        <div className="experience-grid">
-          {experiences.map((exp) => (
-            <ExperienceCard key={exp.company + exp.period} item={exp} />
-          ))}
-        </div>
+    <section className="bento-card">
+      <h2 className="section-title">Experience</h2>
+      <div className="experience-list">
+        {experiences.map((exp, idx) => (
+          <div key={idx} className="experience-item">
+            <div className="experience-header">
+              <div className="company-info flex-row gap-3">
+                <img
+                  src={exp.logo}
+                  alt={`${exp.company} logo`}
+                  className="company-logo"
+                  loading="lazy"
+                />
+                <div>
+                  <h3 className="experience-role">{exp.role}</h3>
+                  <div className="experience-meta">
+                    {exp.company} • {exp.location}
+                  </div>
+                </div>
+              </div>
+              <div className="experience-period tag">{exp.period}</div>
+            </div>
+            <ul className="experience-bullets">
+              {exp.bullets.map((bullet, i) => (
+                <li key={i}>{bullet}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </section>
   );
-};
+}
 
 export default Experience;
