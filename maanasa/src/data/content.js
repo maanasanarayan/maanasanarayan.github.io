@@ -34,11 +34,6 @@ const content = {
         extra: 'Aggregate: 85%',
       },
     ],
-    accolades: [
-      { year: '2020', title: 'Sales Achievement Award', org: 'Adobe' },
-      { year: '2019', title: 'Delight Driven Individual Award', org: 'Adobe' },
-      { year: '2018', title: '10th Rank and Award of Merit', org: 'VTU' },
-    ],
   },
   experiences: [
     {

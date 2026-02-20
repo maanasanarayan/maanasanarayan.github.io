@@ -1,7 +1,7 @@
 import React from 'react';
 
 function About({ about }) {
-  const { skills, education, accolades } = about;
+  const { skills, education } = about;
 
   return (
     <section className="bento-card about-section">
@@ -27,21 +27,6 @@ function About({ about }) {
               </div>
               <p className="edu-school">{edu.school}</p>
               <p className="edu-extra">{edu.extra}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="accolades-section mt-5 print-break">
-        <h3 className="subsection-title">Accolades</h3>
-        <div className="accolades-list">
-          {accolades.map((acc, idx) => (
-            <div key={idx} className="accolades-item flex-row gap-3">
-              <span className="tag">{acc.year}</span>
-              <div>
-                <strong>{acc.title}</strong>
-                <p className="acc-org">{acc.org}</p>
-              </div>
             </div>
           ))}
         </div>
