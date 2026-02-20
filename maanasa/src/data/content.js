@@ -5,7 +5,7 @@ const content = {
     avatar: '/images/Me.jpeg',
     resumeUrl: '/documents/MaanasaNarayan.pdf',
     summary:
-      'Passionate Software Engineer with experience building scalable web applications and cloud solutions at Kayak, Amazon, Nokia, and Adobe. I love solving complex problems and creating seamless user experiences.',
+      'Software Engineer focused on building scalable web applications and backend cloud systems. I leverage engineering experience from Kayak, Amazon, Nokia, and Adobe to ship reliable, high-impact products.',
   },
   about: {
     skills: {
