@@ -54,11 +54,6 @@ function Experience({ experiences }) {
                   <h3 className="font-display uppercase text-xl sm:text-2xl tracking-tight">
                     {exp.role}
                   </h3>
-                  {exp.team && (
-                    <p className="mt-0.5 text-xs sm:text-sm font-bold uppercase tracking-widest opacity-80">
-                      {exp.team}
-                    </p>
-                  )}
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm font-bold uppercase tracking-widest">
                     <span className="inline-flex items-center gap-1.5">
                       <Briefcase className="h-3.5 w-3.5 stroke-[3px]" />
