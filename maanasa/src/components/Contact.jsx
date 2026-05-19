@@ -107,7 +107,7 @@ function ContactTile({ as: Tag = 'a', tone, icon, label, value, ...rest }) {
         >
           {label}
         </span>
-        <span className="block font-display uppercase tracking-tight text-base sm:text-lg break-all">
+        <span className="block font-display uppercase tracking-tight text-base sm:text-lg whitespace-nowrap overflow-hidden text-ellipsis">
           {value}
         </span>
       </span>
@@ -150,8 +150,8 @@ function Contact({ contact }) {
         <div className="relative grid grid-cols-1 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)] gap-8 lg:gap-12 items-center">
           <div>
             <p className="text-base sm:text-lg leading-snug font-medium max-w-md">
-              I&apos;m always interested in discussing technical challenges, new
-              projects, or potential collaborations. Feel free to reach out!
+              Let&apos;s talk &mdash; projects, technical challenges, or just a
+              hello.
             </p>
           </div>
 
