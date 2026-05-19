@@ -1,6 +1,7 @@
 {
-  "short_name": "Maanasa Narayan",
-  "name": "Maanasa Narayan - Software Engineer Portfolio",
+  "short_name": "Maanasa",
+  "name": "Maanasa Narayan — Software Engineer Portfolio",
+  "description": "Portfolio of Maanasa Narayan, Software Engineer in Boston, MA. Experience at Kayak, Amazon, Nokia, and Adobe.",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,11 +11,16 @@
     {
       "src": "favicon.svg",
       "type": "image/svg+xml",
-      "sizes": "any"
+      "sizes": "any",
+      "purpose": "any"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "theme_color": "#ff385c",
-  "background_color": "#ffffff"
+  "orientation": "portrait-primary",
+  "theme_color": "#FFFDF5",
+  "background_color": "#FFFDF5",
+  "lang": "en-US",
+  "categories": ["portfolio", "developer", "personal"]
 }
