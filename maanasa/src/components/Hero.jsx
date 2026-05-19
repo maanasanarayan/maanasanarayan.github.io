@@ -25,7 +25,7 @@ function Hero({ profile }) {
 
           <h1 className="mt-5 sm:mt-6 font-display uppercase leading-[0.9] tracking-tight text-4xl sm:text-6xl md:text-7xl lg:text-8xl">
             <span className="block">{profile.name.split(' ')[0]}</span>
-            <span className="block text-stroke">
+            <span className="block text-white [-webkit-text-stroke:2px_#000]">
               {profile.name.split(' ').slice(1).join(' ')}
             </span>
           </h1>
