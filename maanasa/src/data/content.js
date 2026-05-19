@@ -41,7 +41,6 @@ const content = {
       company: 'Google',
       logo: '/images/google.png',
       role: 'Software Engineer',
-      team: 'AI Mode Feedback · Google Search',
       location: 'Mountain View, CA',
       period: 'Jun 2026 – Present',
       bullets: [
