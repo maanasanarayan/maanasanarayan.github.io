@@ -1,1 +1,15 @@
-bunx lint-staged
+# Block obvious secret patterns in staged files (cheap regex pre-check).
+if git diff --cached --name-only -z |
+  xargs -0 grep -InE \
+    -e 'AKIA[0-9A-Z]{16}' \
+    -e 'ghp_[A-Za-z0-9]{36}' \
+    -e 'sk-[A-Za-z0-9]{32,}' \
+    -e 'BEGIN [A-Z ]*PRIVATE KEY' \
+    -e 'xox[baprs]-[A-Za-z0-9-]{10,}' \
+    -- 2>/dev/null; then
+  echo "✖  Possible secret detected in staged changes. Aborting commit."
+  exit 1
+fi
+
+# Lint + format staged files (eslint --fix, prettier --write, markdownlint).
+bunx --no-install lint-staged
