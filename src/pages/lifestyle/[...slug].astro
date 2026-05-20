@@ -1,0 +1,326 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Calendar,
+  Palette,
+  Ruler,
+  Sparkles,
+} from 'lucide-react';
+
+export async function getStaticPaths() {
+  const pieces = (
+    await getCollection('gallery', ({ data }) => !data.draft)
+  ).sort((a, b) => a.data.order - b.data.order);
+
+  return pieces.map((piece, i) => ({
+    params: { slug: piece.id },
+    props: {
+      piece,
+      allPieces: pieces,
+      prevPiece: pieces[i - 1] ?? null,
+      nextPiece: pieces[i + 1] ?? null,
+    },
+  }));
+}
+
+const { piece, allPieces, prevPiece, nextPiece } = Astro.props;
+const { Content } = await render(piece);
+
+const related = allPieces
+  .filter((p) => p.id !== piece.id && p.data.category === piece.data.category)
+  .slice(0, 3);
+
+const categoryLabel: Record<string, string> = {
+  ceramics: 'Ceramics',
+  textiles: 'Textiles',
+  prints: 'Prints',
+  paper: 'Paper',
+  'mixed-media': 'Mixed media',
+  'home-decor': 'Home decor',
+};
+---
+
+<BaseLayout
+  title={`${piece.data.title} — Lifestyle — Maanasa Narayan`}
+  description={piece.data.description}
+  image={piece.data.image}
+  type="article"
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'VisualArtwork',
+      name: piece.data.title,
+      description: piece.data.description,
+      artMedium: piece.data.medium,
+      artform: piece.data.category,
+      ...(piece.data.dimensions && { width: piece.data.dimensions }),
+      dateCreated: String(piece.data.year),
+      image: new URL(piece.data.image, Astro.site).toString(),
+      url: new URL(`/lifestyle/${piece.id}/`, Astro.site).toString(),
+      creator: {
+        '@type': 'Person',
+        name: 'Maanasa Narayan',
+        url: 'https://maanasa.dev/',
+      },
+    })}
+  />
+
+  <main
+    class="mx-auto max-w-6xl px-4 pt-24 pb-20 sm:px-6 sm:pt-32 sm:pb-24 lg:px-10"
+  >
+    <a
+      href="/lifestyle"
+      class="hover:bg-neo-secondary mb-8 inline-flex items-center gap-2 border-4 border-black bg-white px-4 py-2 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+    >
+      <ArrowLeft className="h-4 w-4 stroke-[3px]" />
+      Back to gallery
+    </a>
+
+    <article class="grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+      <!-- Image plate -->
+      <figure class="relative">
+        <span
+          class="bg-neo-secondary absolute -top-5 -left-3 z-10 inline-flex -rotate-2 items-center gap-1 border-4 border-black px-3 py-1 text-[11px] font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000]"
+        >
+          {categoryLabel[piece.data.category] ?? piece.data.category}
+        </span>
+        <div
+          class="border-4 border-black bg-white p-3 shadow-[12px_12px_0_0_#000]"
+        >
+          <img
+            src={piece.data.image}
+            alt={piece.data.imageAlt}
+            width="800"
+            height="1000"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            class="block h-auto w-full border-2 border-black"
+          />
+        </div>
+      </figure>
+
+      <!-- Metadata + body -->
+      <div>
+        <h1
+          class="font-display text-4xl leading-[0.95] tracking-tight uppercase sm:text-5xl lg:text-6xl"
+        >
+          {piece.data.title}
+        </h1>
+        <p class="mt-4 text-lg leading-snug font-medium sm:text-xl">
+          {piece.data.description}
+        </p>
+
+        <dl
+          class="bg-neo-bg mt-6 grid grid-cols-1 gap-4 border-4 border-black p-5 shadow-[6px_6px_0_0_#000] sm:grid-cols-2"
+        >
+          <div class="flex items-start gap-3">
+            <Sparkles className="mt-0.5 h-4 w-4 shrink-0 stroke-[3px]" />
+            <div>
+              <dt
+                class="text-[10px] font-bold tracking-widest uppercase opacity-70"
+              >
+                Medium
+              </dt>
+              <dd class="font-display text-base tracking-tight uppercase">
+                {piece.data.medium}
+              </dd>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <Calendar className="mt-0.5 h-4 w-4 shrink-0 stroke-[3px]" />
+            <div>
+              <dt
+                class="text-[10px] font-bold tracking-widest uppercase opacity-70"
+              >
+                Year
+              </dt>
+              <dd class="font-display text-base tracking-tight uppercase">
+                {piece.data.year}
+              </dd>
+            </div>
+          </div>
+          {
+            piece.data.dimensions && (
+              <div class="flex items-start gap-3">
+                <Ruler className="h-4 w-4 mt-0.5 stroke-[3px] shrink-0" />
+                <div>
+                  <dt class="text-[10px] font-bold tracking-widest uppercase opacity-70">
+                    Dimensions
+                  </dt>
+                  <dd class="font-display text-base tracking-tight uppercase">
+                    {piece.data.dimensions}
+                  </dd>
+                </div>
+              </div>
+            )
+          }
+          {
+            piece.data.palette.length > 0 && (
+              <div class="flex items-start gap-3">
+                <Palette className="h-4 w-4 mt-0.5 stroke-[3px] shrink-0" />
+                <div>
+                  <dt class="text-[10px] font-bold tracking-widest uppercase opacity-70">
+                    Palette
+                  </dt>
+                  <dd class="mt-1 flex flex-wrap items-center gap-1.5">
+                    {piece.data.palette.map((c) => (
+                      <span class="inline-flex items-center gap-1.5 border-2 border-black bg-white px-1.5 py-0.5 text-[10px] font-bold tracking-widest uppercase">
+                        <span
+                          class="block h-3 w-3 border border-black"
+                          style={`background:${c}`}
+                          aria-hidden
+                        />
+                        {c}
+                      </span>
+                    ))}
+                  </dd>
+                </div>
+              </div>
+            )
+          }
+        </dl>
+
+        <!-- Inspiration block -->
+        <section
+          class="bg-neo-muted relative mt-8 border-4 border-black p-6 shadow-[8px_8px_0_0_#000]"
+        >
+          <span
+            class="text-neo-bg absolute -top-4 left-4 inline-flex items-center gap-1 border-4 border-black bg-black px-3 py-1 text-[10px] font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#FFD93D]"
+          >
+            <Sparkles className="h-3 w-3 stroke-[3px]" />
+            Inspiration
+          </span>
+          <p
+            class="mt-2 text-base leading-relaxed font-medium whitespace-pre-line sm:text-lg"
+          >
+            {piece.data.inspiration}
+          </p>
+        </section>
+
+        <!-- Long-form notes (markdown body) -->
+        <div
+          class="mt-8 border-4 border-black bg-white p-5 shadow-[6px_6px_0_0_#000] sm:p-6"
+        >
+          <h2 class="font-display text-sm tracking-widest uppercase opacity-70">
+            Notes on making
+          </h2>
+          <div class="neo-prose mt-3 text-base">
+            <Content />
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Prev / next pager -->
+    <nav
+      aria-label="Piece navigation"
+      class="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2"
+    >
+      {
+        prevPiece ? (
+          <a
+            href={`/lifestyle/${prevPiece.id}/`}
+            rel="prev"
+            class="group hover:bg-neo-mint flex items-center gap-4 border-4 border-black bg-white p-4 shadow-[6px_6px_0_0_#000] transition-all duration-200 hover:-translate-y-1 hover:shadow-[10px_10px_0_0_#000]"
+          >
+            <ArrowLeft className="h-6 w-6 stroke-[3px] shrink-0" />
+            <span class="min-w-0 flex-1">
+              <span class="block text-[10px] font-bold tracking-widest uppercase opacity-70">
+                Previous piece
+              </span>
+              <span class="font-display block truncate text-lg leading-tight tracking-tight uppercase">
+                {prevPiece.data.title}
+              </span>
+            </span>
+            <img
+              src={prevPiece.data.image}
+              alt=""
+              aria-hidden
+              loading="lazy"
+              class="hidden h-14 w-14 border-2 border-black object-cover sm:block"
+            />
+          </a>
+        ) : (
+          <span aria-hidden class="hidden sm:block" />
+        )
+      }
+      {
+        nextPiece ? (
+          <a
+            href={`/lifestyle/${nextPiece.id}/`}
+            rel="next"
+            class="group hover:bg-neo-secondary flex items-center justify-end gap-4 border-4 border-black bg-white p-4 text-right shadow-[6px_6px_0_0_#000] transition-all duration-200 hover:-translate-y-1 hover:shadow-[10px_10px_0_0_#000]"
+          >
+            <img
+              src={nextPiece.data.image}
+              alt=""
+              aria-hidden
+              loading="lazy"
+              class="hidden h-14 w-14 border-2 border-black object-cover sm:block"
+            />
+            <span class="min-w-0 flex-1">
+              <span class="block text-[10px] font-bold tracking-widest uppercase opacity-70">
+                Next piece
+              </span>
+              <span class="font-display block truncate text-lg leading-tight tracking-tight uppercase">
+                {nextPiece.data.title}
+              </span>
+            </span>
+            <ArrowRight className="h-6 w-6 stroke-[3px] shrink-0" />
+          </a>
+        ) : (
+          <span aria-hidden class="hidden sm:block" />
+        )
+      }
+    </nav>
+
+    {
+      related.length > 0 && (
+        <aside class="mt-16">
+          <h2 class="font-display text-2xl tracking-tight uppercase sm:text-3xl">
+            More{' '}
+            {categoryLabel[piece.data.category]?.toLowerCase() ??
+              piece.data.category}
+          </h2>
+          <ul class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {related.map((r, idx) => (
+              <li>
+                <a
+                  href={`/lifestyle/${r.id}/`}
+                  class={[
+                    'group block border-4 border-black bg-white shadow-[6px_6px_0_0_#000] transition-all duration-200',
+                    'hover:-translate-y-1 hover:shadow-[10px_10px_0_0_#000]',
+                    idx % 2 === 0 ? 'rotate-[-0.4deg]' : 'rotate-[0.4deg]',
+                  ].join(' ')}
+                >
+                  <img
+                    src={r.data.image}
+                    alt={r.data.imageAlt}
+                    loading="lazy"
+                    decoding="async"
+                    class="aspect-[4/5] w-full border-b-4 border-black object-cover"
+                  />
+                  <div class="p-4">
+                    <h3 class="font-display text-base leading-tight tracking-tight uppercase">
+                      {r.data.title}
+                    </h3>
+                    <p class="mt-1 text-[11px] font-bold tracking-widest uppercase opacity-70">
+                      {r.data.medium} · {r.data.year}
+                    </p>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    }
+  </main>
+</BaseLayout>

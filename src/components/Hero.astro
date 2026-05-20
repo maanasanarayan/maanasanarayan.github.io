@@ -1,0 +1,122 @@
+---
+import { Download, ArrowDown, Star, MapPin } from 'lucide-react';
+
+interface Profile {
+  name: string;
+  title: string;
+  location?: string;
+  avatar: string;
+  resumeUrl: string;
+  summary: string;
+}
+const { profile } = Astro.props as { profile: Profile };
+const [first, ...rest] = profile.name.split(' ');
+const last = rest.join(' ');
+---
+
+<div class="relative">
+  <div
+    aria-hidden
+    class="bg-neo-mint absolute -top-6 right-8 z-10 hidden h-16 w-16 rotate-12 border-4 border-black shadow-[6px_6px_0_0_#000] sm:block"
+  >
+  </div>
+  <div
+    aria-hidden
+    class="animate-wiggle bg-neo-accent absolute top-24 -left-4 z-10 hidden h-10 w-10 rounded-full border-4 border-black shadow-[4px_4px_0_0_#000] sm:block"
+  >
+  </div>
+
+  <div
+    class="grid grid-cols-1 border-4 border-black bg-white shadow-[8px_8px_0_0_#000] sm:shadow-[12px_12px_0_0_#000] lg:grid-cols-[1.4fr_1fr]"
+  >
+    <div class="grid-bg relative p-6 sm:p-10 lg:p-16">
+      {
+        profile.location && (
+          <span class="bg-neo-secondary inline-flex -rotate-2 items-center gap-2 border-4 border-black px-3 py-1.5 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000]">
+            <MapPin className="h-4 w-4 stroke-[3px]" />
+            {profile.location}
+          </span>
+        )
+      }
+
+      <h1
+        class="font-display mt-5 text-4xl leading-[0.9] tracking-tight uppercase sm:mt-6 sm:text-6xl md:text-7xl lg:text-8xl"
+      >
+        <span class="block">{first}</span>
+        <span class="block text-white [-webkit-text-stroke:2px_#000]"
+          >{last}</span
+        >
+      </h1>
+
+      <div
+        class="bg-neo-accent mt-5 inline-block rotate-[-1deg] border-4 border-black px-3 py-1.5 shadow-[4px_4px_0_0_#000] sm:mt-6 sm:px-4 sm:py-2 sm:shadow-[6px_6px_0_0_#000]"
+      >
+        <h2
+          class="font-display text-xl tracking-tight text-white uppercase sm:text-2xl lg:text-3xl"
+        >
+          {profile.title}
+        </h2>
+      </div>
+
+      <p
+        class="mt-6 max-w-2xl text-base leading-snug font-medium sm:mt-8 sm:text-lg lg:text-xl"
+      >
+        {profile.summary}
+      </p>
+
+      <div
+        class="no-print mt-8 flex flex-col items-stretch gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
+      >
+        <a
+          href={profile.resumeUrl}
+          download="MaanasaNarayan_Resume.pdf"
+          aria-label="Download Resume as PDF"
+          class="bg-neo-accent inline-flex h-12 items-center justify-center gap-2 border-4 border-black px-5 text-xs font-bold tracking-widest text-white uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_0_#000] active:translate-x-1.5 active:translate-y-1.5 active:shadow-none sm:h-14 sm:px-6 sm:text-sm sm:shadow-[6px_6px_0_0_#000]"
+        >
+          <Download className="h-5 w-5 stroke-[3px]" />
+          Download Resume
+        </a>
+        <a
+          href="#contact"
+          class="hover:bg-neo-secondary inline-flex h-12 items-center justify-center gap-2 border-4 border-black bg-white px-5 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 active:translate-x-1.5 active:translate-y-1.5 active:shadow-none sm:h-14 sm:px-6 sm:text-sm sm:shadow-[6px_6px_0_0_#000]"
+        >
+          Say hello
+          <ArrowDown className="h-5 w-5 stroke-[3px]" />
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="halftone-bg bg-neo-muted relative grid min-h-[300px] place-items-center border-t-4 border-black p-8 sm:min-h-[360px] sm:p-10 lg:border-t-0 lg:border-l-4 lg:p-12"
+    >
+      <Star
+        aria-hidden
+        className="animate-spin-slow absolute top-4 right-4 h-10 w-10 fill-black text-black sm:top-6 sm:right-6 sm:h-12 sm:w-12"
+        strokeWidth={2}
+      />
+      <div
+        class="bg-neo-secondary absolute -bottom-3 -left-3 rotate-3 border-4 border-black px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] sm:text-xs"
+      >
+        Hi! I&rsquo;m Maanasa 👋
+      </div>
+
+      <div class="relative">
+        <div
+          class="absolute inset-0 translate-x-3 translate-y-3 bg-black"
+          aria-hidden
+        >
+        </div>
+        <img
+          src={profile.avatar}
+          alt={`Portrait of ${profile.name}, Software Engineer`}
+          width="288"
+          height="288"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="relative h-48 w-48 border-4 border-black bg-white object-cover sm:h-64 sm:w-64 lg:h-72 lg:w-72"
+        />
+      </div>
+    </div>
+  </div>
+</div>

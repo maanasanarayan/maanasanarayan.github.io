@@ -1,0 +1,350 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Calendar,
+  Tag,
+  Clock,
+  List,
+} from 'lucide-react';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      allPosts: posts,
+      // Reverse-chronological order: index 0 = newest.
+      // "Next" = the post that came AFTER this one in time (newer) → posts[i-1]
+      // "Prev" = the post that came BEFORE this one in time (older) → posts[i+1]
+      newerPost: posts[i - 1] ?? null,
+      olderPost: posts[i + 1] ?? null,
+    },
+  }));
+}
+
+const { post, allPosts, newerPost, olderPost } = Astro.props;
+const { Content, headings, remarkPluginFrontmatter } = await render(post);
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+
+// Related posts: most shared tags, excluding current. Fall back to most recent
+// posts so the section is never empty.
+const sharedTagCount = (p: (typeof allPosts)[number]) =>
+  p.data.tags.filter((t) => post.data.tags.includes(t)).length;
+
+const tagged = allPosts.filter(
+  (p) => p.id !== post.id && sharedTagCount(p) > 0,
+);
+tagged.sort(
+  (a, b) =>
+    sharedTagCount(b) - sharedTagCount(a) ||
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const fillers = allPosts
+  .filter((p) => p.id !== post.id && !tagged.some((t) => t.id === p.id))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const related = [...tagged, ...fillers].slice(0, 3);
+
+const minutesRead: string | undefined = remarkPluginFrontmatter.minutesRead;
+const wordCount: number | undefined = remarkPluginFrontmatter.wordCount;
+
+const tocHeadings = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+const hasMath = /\$\$|\\\(|\\\[/.test(post.body ?? '');
+---
+
+<BaseLayout
+  title={`${post.data.title} — Maanasa Narayan`}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate}
+>
+  <Fragment slot="head">
+    {
+      hasMath && (
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"
+          integrity="sha384-wcIxkf4k558AjM3Yz3BBFQUbk/zgIYC2R0QpeeYb+TwlBVMrlgLqwRjRtGZiK7ww"
+          crossorigin="anonymous"
+        />
+      )
+    }
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.data.title,
+        description: post.data.description,
+        datePublished: post.data.pubDate.toISOString(),
+        ...(post.data.updatedDate && {
+          dateModified: post.data.updatedDate.toISOString(),
+        }),
+        keywords: post.data.tags.join(', '),
+        author: {
+          '@type': 'Person',
+          name: 'Maanasa Narayan',
+          url: 'https://maanasa.dev/',
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': new URL(`/blog/${post.id}/`, Astro.site).toString(),
+        },
+        ...(wordCount && { wordCount }),
+      })}
+    />
+  </Fragment>
+
+  <main
+    class="mx-auto max-w-3xl px-4 pt-24 pb-20 sm:px-6 sm:pt-32 sm:pb-24 lg:px-0"
+  >
+    <a
+      href="/blog"
+      class="hover:bg-neo-secondary mb-8 inline-flex items-center gap-2 border-4 border-black bg-white px-4 py-2 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000] active:translate-x-1 active:translate-y-1 active:shadow-none"
+    >
+      <ArrowLeft className="h-4 w-4 stroke-[3px]" />
+      All posts
+    </a>
+
+    <article>
+      <header
+        class="bg-neo-secondary relative border-4 border-black p-6 shadow-[10px_10px_0_0_#000] sm:p-8"
+      >
+        {
+          post.data.heroEmoji && (
+            <span
+              aria-hidden
+              class="absolute -top-6 -right-4 grid h-14 w-14 rotate-12 place-items-center border-4 border-black bg-white text-3xl shadow-[3px_3px_0_0_#000] sm:-right-6"
+            >
+              {post.data.heroEmoji}
+            </span>
+          )
+        }
+        <div
+          class="flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-bold tracking-widest uppercase"
+        >
+          <span class="inline-flex items-center gap-1.5">
+            <Calendar className="h-3.5 w-3.5 stroke-[3px]" />
+            <time datetime={post.data.pubDate.toISOString()}>
+              {fmtDate(post.data.pubDate)}
+            </time>
+          </span>
+          {
+            minutesRead && (
+              <span class="inline-flex items-center gap-1.5">
+                <Clock className="h-3.5 w-3.5 stroke-[3px]" />
+                {minutesRead}
+              </span>
+            )
+          }
+          {
+            wordCount && (
+              <span class="opacity-70">
+                · {wordCount.toLocaleString()} words
+              </span>
+            )
+          }
+          {
+            post.data.updatedDate && (
+              <span class="opacity-70">
+                · updated {fmtDate(post.data.updatedDate)}
+              </span>
+            )
+          }
+        </div>
+        <h1
+          class="font-display mt-4 pr-12 text-4xl leading-[0.95] tracking-tight uppercase sm:text-5xl lg:text-6xl"
+        >
+          {post.data.title}
+        </h1>
+        <p class="mt-4 max-w-2xl text-base leading-snug font-medium sm:text-lg">
+          {post.data.description}
+        </p>
+
+        {
+          post.data.tags.length > 0 && (
+            <div class="mt-6 flex flex-wrap items-center gap-2">
+              {post.data.tags.map((tag) => (
+                <a
+                  href={`/blog/tags/${tag}/`}
+                  class="hover:bg-neo-mint inline-flex items-center gap-1 border-2 border-black bg-white px-2 py-1 text-[10px] font-bold tracking-widest uppercase transition-all duration-100 hover:-translate-y-0.5"
+                >
+                  <Tag className="h-3 w-3 stroke-[3px]" />
+                  {tag}
+                </a>
+              ))}
+            </div>
+          )
+        }
+      </header>
+
+      {
+        tocHeadings.length > 1 && (
+          <nav
+            aria-label="Table of contents"
+            class="bg-neo-muted mt-8 border-4 border-black p-5 shadow-[6px_6px_0_0_#000]"
+          >
+            <h2 class="font-display flex items-center gap-2 text-sm tracking-widest uppercase">
+              <List className="h-4 w-4 stroke-[3px]" />
+              Contents
+            </h2>
+            <ol class="mt-3 space-y-1.5 text-sm font-bold">
+              {tocHeadings.map((h) => (
+                <li class={h.depth === 3 ? 'pl-5' : ''}>
+                  <a
+                    href={`#${h.slug}`}
+                    class="hover:bg-neo-secondary inline-block border-b-2 border-transparent px-1 hover:border-black"
+                  >
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )
+      }
+
+      <div
+        class="mt-10 border-4 border-black bg-white p-6 shadow-[10px_10px_0_0_#000] sm:p-10"
+      >
+        <div class="neo-prose">
+          <Content />
+        </div>
+      </div>
+    </article>
+
+    {
+      related.length > 0 && (
+        <aside class="mt-16">
+          <h2 class="font-display text-2xl tracking-tight uppercase sm:text-3xl">
+            Related posts
+          </h2>
+          <ul class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {related.map((r, idx) => (
+              <li>
+                <a
+                  href={`/blog/${r.id}/`}
+                  class={[
+                    'block border-4 border-black bg-white p-5 shadow-[6px_6px_0_0_#000] transition-all duration-200',
+                    'hover:-translate-y-1 hover:shadow-[10px_10px_0_0_#000]',
+                    idx % 2 === 0 ? 'rotate-[-0.3deg]' : 'rotate-[0.3deg]',
+                  ].join(' ')}
+                >
+                  {r.data.heroEmoji && (
+                    <span class="text-2xl" aria-hidden>
+                      {r.data.heroEmoji}
+                    </span>
+                  )}
+                  <h3 class="font-display mt-2 text-lg leading-tight tracking-tight uppercase">
+                    {r.data.title}
+                  </h3>
+                  <p class="mt-2 text-sm font-medium opacity-80">
+                    {r.data.description}
+                  </p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )
+    }
+
+    <nav
+      aria-label="Post navigation"
+      class="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2"
+    >
+      {
+        olderPost ? (
+          <a
+            href={`/blog/${olderPost.id}/`}
+            rel="prev"
+            class="group hover:bg-neo-mint flex flex-col gap-2 border-4 border-black bg-white p-5 shadow-[6px_6px_0_0_#000] transition-all duration-200 hover:-translate-y-1 hover:shadow-[10px_10px_0_0_#000]"
+          >
+            <span class="inline-flex items-center gap-1 text-[10px] font-bold tracking-widest uppercase opacity-70">
+              <ArrowLeft className="h-3.5 w-3.5 stroke-[3px]" />
+              Older post
+            </span>
+            <span class="font-display text-lg leading-tight tracking-tight uppercase">
+              {olderPost.data.title}
+            </span>
+          </a>
+        ) : (
+          <span aria-hidden class="hidden sm:block" />
+        )
+      }
+      {
+        newerPost ? (
+          <a
+            href={`/blog/${newerPost.id}/`}
+            rel="next"
+            class="group hover:bg-neo-secondary flex flex-col items-end gap-2 border-4 border-black bg-white p-5 text-right shadow-[6px_6px_0_0_#000] transition-all duration-200 hover:-translate-y-1 hover:shadow-[10px_10px_0_0_#000]"
+          >
+            <span class="inline-flex items-center gap-1 text-[10px] font-bold tracking-widest uppercase opacity-70">
+              Newer post
+              <ArrowRight className="h-3.5 w-3.5 stroke-[3px]" />
+            </span>
+            <span class="font-display text-lg leading-tight tracking-tight uppercase">
+              {newerPost.data.title}
+            </span>
+          </a>
+        ) : (
+          <span aria-hidden class="hidden sm:block" />
+        )
+      }
+    </nav>
+
+    <div class="mt-10 flex flex-wrap justify-between gap-4">
+      <a
+        href="/blog"
+        class="hover:bg-neo-secondary inline-flex items-center gap-2 border-4 border-black bg-white px-4 py-2 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+      >
+        <ArrowLeft className="h-4 w-4 stroke-[3px]" />
+        More posts
+      </a>
+      <a
+        href="/#contact"
+        class="bg-neo-accent inline-flex items-center gap-2 border-4 border-black px-4 py-2 text-xs font-bold tracking-widest text-white uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000]"
+      >
+        Say hi
+      </a>
+    </div>
+  </main>
+
+  <script>
+    // Render mermaid diagrams (pre-mermaid strategy) client-side.
+    if (document.querySelector('pre.mermaid')) {
+      const mermaidUrl =
+        'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      const m = await import(/* @vite-ignore */ mermaidUrl);
+      m.default.initialize({
+        startOnLoad: true,
+        theme: 'base',
+        themeVariables: {
+          fontFamily: 'Space Grotesk, system-ui, sans-serif',
+          primaryColor: '#FFD93D',
+          primaryTextColor: '#000000',
+          primaryBorderColor: '#000000',
+          lineColor: '#000000',
+          secondaryColor: '#C4B5FD',
+          tertiaryColor: '#A7F3D0',
+          mainBkg: '#FFD93D',
+        },
+      });
+      await m.default.run();
+    }
+  </script>
+</BaseLayout>

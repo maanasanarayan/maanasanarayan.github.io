@@ -1,0 +1,97 @@
+---
+import { ArrowUpRight, Hammer } from 'lucide-react';
+import SectionHeader from './SectionHeader.astro';
+
+interface ProjLink {
+  label: string;
+  url: string;
+}
+interface Project {
+  title: string;
+  org: string;
+  period: string;
+  bullets: string[];
+  links?: ProjLink[];
+}
+const { projects } = Astro.props as { projects: Project[] };
+const PROJECT_BG = [
+  'bg-neo-mint',
+  'bg-neo-sky',
+  'bg-neo-secondary',
+  'bg-neo-muted',
+];
+---
+
+<div>
+  <SectionHeader kicker="03 · Things I’ve built" title="Featured Projects." />
+
+  <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+    {
+      projects.map((proj, idx) => {
+        const tilt =
+          idx % 2 === 0 ? 'md:rotate-[-0.4deg]' : 'md:rotate-[0.4deg]';
+        return (
+          <article
+            class={[
+              'group relative border-4 border-black bg-white shadow-[10px_10px_0_0_#000]',
+              'transition-all duration-200 hover:-translate-y-1.5 hover:shadow-[14px_14px_0_0_#000]',
+              tilt,
+            ].join(' ')}
+          >
+            <div
+              class={`relative border-b-4 border-black ${PROJECT_BG[idx % PROJECT_BG.length]} px-5 py-4`}
+            >
+              <span
+                aria-hidden
+                class="font-display text-neo-bg absolute -top-4 -right-4 grid h-10 w-10 rotate-12 place-items-center border-4 border-black bg-black text-base shadow-[3px_3px_0_0_#FFD93D]"
+              >
+                {String(idx + 1).padStart(2, '0')}
+              </span>
+              <div class="flex items-start gap-3 pr-10">
+                <Hammer className="mt-1 h-5 w-5 shrink-0 stroke-[3px]" />
+                <div>
+                  <h3 class="font-display text-xl leading-tight tracking-tight uppercase sm:text-2xl">
+                    {proj.title}
+                  </h3>
+                  <div class="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-bold tracking-widest uppercase sm:text-xs">
+                    <span>{proj.org}</span>
+                    <span aria-hidden>•</span>
+                    <span>{proj.period}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ul class="space-y-3 p-5">
+              {proj.bullets.map((bullet) => (
+                <li class="flex gap-3 leading-snug">
+                  <span
+                    aria-hidden
+                    class="bg-neo-accent mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full border-2 border-black"
+                  />
+                  <span class="text-base font-medium">{bullet}</span>
+                </li>
+              ))}
+            </ul>
+
+            {proj.links && proj.links.length > 0 && (
+              <div class="no-print flex flex-wrap gap-2 px-5 pb-5">
+                {proj.links.map((link) => (
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="hover:bg-neo-secondary inline-flex items-center gap-1.5 border-[3px] border-black bg-white px-3 py-1.5 text-[11px] font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] transition-all duration-100 hover:shadow-[5px_5px_0_0_#000] active:translate-x-1 active:translate-y-1 active:shadow-none"
+                  >
+                    {link.label}
+                    <ArrowUpRight className="h-3.5 w-3.5 stroke-[3px]" />
+                  </a>
+                ))}
+              </div>
+            )}
+          </article>
+        );
+      })
+    }
+  </div>
+</div>

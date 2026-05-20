@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Experience from '../components/Experience.astro';
+import Projects from '../components/Projects.astro';
+import Recommendations from '../components/Recommendations.astro';
+import Contact from '../components/Contact.astro';
+import content from '../data/content.js';
+---
+
+<BaseLayout isHome>
+  <main
+    class="mx-auto max-w-7xl space-y-16 px-4 pt-24 pb-20 sm:space-y-24 sm:px-6 sm:pt-32 sm:pb-24 lg:space-y-28 lg:px-10"
+  >
+    <section id="hero" class="scroll-mt-24 sm:scroll-mt-28">
+      <Hero profile={content.profile} />
+    </section>
+    <section id="about" class="scroll-mt-24 sm:scroll-mt-28">
+      <About about={content.about} />
+    </section>
+    <section id="experience" class="scroll-mt-24 sm:scroll-mt-28">
+      <Experience experiences={content.experiences} />
+    </section>
+    <section id="projects" class="scroll-mt-24 sm:scroll-mt-28">
+      <Projects projects={content.projects} />
+    </section>
+    <section id="recommendations" class="scroll-mt-24 sm:scroll-mt-28">
+      <Recommendations recommendations={content.recommendations} />
+    </section>
+    <section id="contact" class="scroll-mt-24 sm:scroll-mt-28">
+      <Contact contact={content.contact} />
+    </section>
+  </main>
+</BaseLayout>

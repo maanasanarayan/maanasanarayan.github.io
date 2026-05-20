@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" width="800" height="900" role="img" aria-label="Hand embroidery placeholder">
+  <rect width="800" height="900" fill="#000"/>
+  <g>
+    <circle cx="400" cy="450" r="320" fill="#FFFDF5" stroke="#FFD93D" stroke-width="14"/>
+    <circle cx="400" cy="450" r="320" fill="none" stroke="#000" stroke-width="20"/>
+    <g stroke="#FF6B6B" stroke-width="6" stroke-linecap="round" fill="none">
+      <path d="M260 330 q140 -80 280 0"/>
+      <path d="M260 380 q140 -80 280 0"/>
+      <path d="M260 430 q140 -80 280 0"/>
+    </g>
+    <g stroke="#C4B5FD" stroke-width="6" stroke-linecap="round" fill="none">
+      <path d="M260 510 q140 80 280 0"/>
+      <path d="M260 560 q140 80 280 0"/>
+      <path d="M260 610 q140 80 280 0"/>
+    </g>
+    <g fill="#FFD93D" stroke="#000" stroke-width="4">
+      <circle cx="320" cy="460" r="10"/>
+      <circle cx="400" cy="460" r="10"/>
+      <circle cx="480" cy="460" r="10"/>
+    </g>
+  </g>
+  <rect x="60" y="60" width="140" height="40" fill="#FFD93D"/>
+  <text x="130" y="90" text-anchor="middle" fill="#000" font-family="Helvetica, sans-serif" font-size="22" font-weight="900" letter-spacing="2">№ 07</text>
+</svg>
