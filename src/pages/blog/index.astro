@@ -179,14 +179,15 @@ function fmtDate(d: Date) {
   </main>
 
   <script is:inline src="/pagefind/pagefind-ui.js" defer></script>
-  <script is:inline>
-    (function () {
+  <script is:inline data-astro-rerun>
+    function initBlogIndex() {
       const list = document.querySelector('[data-blog-list]');
       const cards = Array.from(document.querySelectorAll('.blog-card'));
       const empty = document.getElementById('blog-empty');
       const buttons = Array.from(
         document.querySelectorAll('[data-tag-filter]'),
       );
+      if (!buttons.length) return;
 
       function applyTag(active) {
         let visible = 0;
@@ -219,31 +220,36 @@ function fmtDate(d: Date) {
       }
 
       const initialTag = new URLSearchParams(window.location.search).get('tag');
-      if (initialTag) selectTag(initialTag);
+      selectTag(initialTag || '*');
 
-      window.addEventListener('DOMContentLoaded', () => {
-        if (typeof window.PagefindUI !== 'function') return;
+      if (typeof window.PagefindUI === 'function') {
         const shell = document.querySelector('[data-search-shell]');
-        if (shell) shell.hidden = false;
-        new window.PagefindUI({
-          element: '#search',
-          showImages: false,
-          showEmptyFilters: false,
-          resetStyles: false,
-          processTerm: (term) => {
-            if (list) list.style.display = term ? 'none' : '';
-            return term;
-          },
-        });
-        document.querySelector('#search')?.addEventListener('click', (e) => {
-          if (
-            e.target.classList.contains('pagefind-ui__search-clear') &&
-            list
-          ) {
-            list.style.display = '';
-          }
-        });
-      });
-    })();
+        if (shell && !shell.dataset.pagefindReady) {
+          shell.dataset.pagefindReady = '1';
+          shell.hidden = false;
+          new window.PagefindUI({
+            element: '#search',
+            showImages: false,
+            showEmptyFilters: false,
+            resetStyles: false,
+            processTerm: (term) => {
+              if (list) list.style.display = term ? 'none' : '';
+              return term;
+            },
+          });
+          document.querySelector('#search')?.addEventListener('click', (e) => {
+            if (
+              e.target.classList.contains('pagefind-ui__search-clear') &&
+              list
+            ) {
+              list.style.display = '';
+            }
+          });
+        }
+      }
+    }
+
+    initBlogIndex();
+    document.addEventListener('astro:page-load', initBlogIndex);
   </script>
 </BaseLayout>
