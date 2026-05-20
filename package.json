@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build && pagefind --site dist",
+    "build": "astro build && pagefind --site dist/client",
     "preview": "bun run build && wrangler dev",
     "astro": "astro",
     "check": "astro check",
