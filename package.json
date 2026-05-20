@@ -20,7 +20,8 @@
     "format:check": "prettier --check .",
     "prepare": "husky",
     "generate-types": "wrangler types",
-    "deploy": "bun run build && wrangler deploy"
+    "deploy": "bun run build && wrangler deploy",
+    "import:instagram": "node scripts/import-instagram.mjs"
   },
   "lint-staged": {
     "*.{js,jsx,mjs,astro}": [
