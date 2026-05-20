@@ -3,7 +3,6 @@ const content = {
     name: 'Maanasa Narayan',
     title: 'Software Engineer',
     location: 'Bay Area, CA',
-    avatar: '/images/maanasan.jpg',
     resumeUrl: '/documents/MaanasaNarayan.pdf',
     summary:
       'Software Engineer based in the Bay Area, focused on building scalable web applications and backend cloud systems. Joining Google in June 2026 after engineering roles at Kayak, Amazon, Nokia, and Adobe.',

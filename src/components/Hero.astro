@@ -1,11 +1,12 @@
 ---
 import { Download, ArrowDown, Star, MapPin } from 'lucide-react';
+import { Image } from 'astro:assets';
+import avatarSrc from '../assets/maanasan.jpg';
 
 interface Profile {
   name: string;
   title: string;
   location?: string;
-  avatar: string;
   resumeUrl: string;
   summary: string;
 }
@@ -106,14 +107,17 @@ const last = rest.join(' ');
           aria-hidden
         >
         </div>
-        <img
-          src={profile.avatar}
+        <Image
+          src={avatarSrc}
           alt={`Portrait of ${profile.name}, Software Engineer`}
-          width="288"
-          height="288"
+          widths={[192, 256, 288, 384, 576]}
+          sizes="(min-width: 1024px) 288px, (min-width: 640px) 256px, 192px"
+          format="webp"
+          quality={75}
           loading="eager"
           fetchpriority="high"
           decoding="async"
+          transition:name="profile-avatar"
           class="relative h-48 w-48 border-4 border-black bg-white object-cover sm:h-64 sm:w-64 lg:h-72 lg:w-72"
         />
       </div>

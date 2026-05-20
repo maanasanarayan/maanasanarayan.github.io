@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
 import NavBar from '../components/react/NavBar.jsx';
 import Footer from '../components/Footer.astro';
 import content from '../data/content.js';
@@ -95,13 +97,9 @@ const ogImage = new URL(image, Astro.site).toString();
       content="Portrait of Maanasa Narayan, Software Engineer"
     />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Archivo+Black&family=JetBrains+Mono:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
+    <Font cssVariable="--font-space-grotesk" preload />
+    <Font cssVariable="--font-archivo-black" preload />
+    <Font cssVariable="--font-jetbrains-mono" />
 
     <!-- Structured Data: Person -->
     <script
@@ -163,6 +161,7 @@ const ogImage = new URL(image, Astro.site).toString();
       })}
     />
     <slot name="head" />
+    <ClientRouter />
   </head>
 
   <body>
