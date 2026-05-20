@@ -13,6 +13,8 @@ import { remarkReadingTime } from './src/lib/remark-reading-time.mjs';
 import { remarkMermaid } from './src/lib/remark-mermaid.mjs';
 import draftToolbar from './src/integrations/draft-toolbar.mjs';
 
+import cloudflare from '@astrojs/cloudflare';
+
 const SITE = 'https://maanasa.dev';
 
 // Build a path -> ISO date map from blog frontmatter at config-load time so
@@ -37,6 +39,7 @@ try {
 
 export default defineConfig({
   site: SITE,
+
   integrations: [
     react(),
     mdx(),
@@ -63,9 +66,11 @@ export default defineConfig({
     }),
     draftToolbar(),
   ],
+
   vite: {
     plugins: [tailwindcss()],
   },
+
   fonts: [
     {
       provider: fontProviders.google(),
@@ -92,6 +97,7 @@ export default defineConfig({
       fallbacks: ['ui-monospace', 'SFMono-Regular', 'monospace'],
     },
   ],
+
   markdown: {
     shikiConfig: {
       theme: 'github-light',
@@ -100,4 +106,6 @@ export default defineConfig({
     remarkPlugins: [remarkReadingTime, remarkMermaid, remarkMath],
     rehypePlugins: [rehypeKatex],
   },
+
+  adapter: cloudflare()
 });
