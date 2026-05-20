@@ -1,0 +1,252 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import { ArrowUpRight, Calendar, Tag, Search, X } from 'lucide-react';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const CARD_BG = [
+  'bg-neo-secondary',
+  'bg-neo-muted',
+  'bg-neo-mint',
+  'bg-neo-sky',
+  'bg-neo-accent',
+];
+
+const tagCounts = new Map<string, number>();
+for (const p of posts) {
+  for (const t of p.data.tags) {
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  }
+}
+const sortedTags = Array.from(tagCounts.entries()).sort(
+  (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+);
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+---
+
+<BaseLayout
+  title="Blog — Maanasa Narayan"
+  description="Notes on software engineering, design, and shipping things — from Maanasa Narayan."
+>
+  <main
+    class="mx-auto max-w-7xl px-4 pt-24 pb-20 sm:px-6 sm:pt-32 sm:pb-24 lg:px-10"
+  >
+    <SectionHeader kicker="Notes from the field" title="Blog." as="h1" />
+
+    <p
+      class="mb-8 max-w-2xl text-lg leading-snug font-medium sm:text-xl lg:text-2xl"
+    >
+      Short posts on shipping software, frontend design, and the occasional
+      postmortem. Subscribe via <a
+        href="/rss.xml"
+        class="bg-neo-mint hover:bg-neo-secondary inline-block border-b-4 border-black px-1 font-bold"
+        >RSS</a
+      >.
+    </p>
+
+    <!-- Search -->
+    <div
+      class="mb-6 grid gap-4 border-4 border-black bg-white p-5 shadow-[8px_8px_0_0_#000] md:grid-cols-[1fr_auto]"
+    >
+      <label class="flex items-center gap-3">
+        <Search className="h-5 w-5 shrink-0 stroke-[3px]" />
+        <input
+          type="search"
+          id="blog-search"
+          placeholder="Search posts by title, description, or tag…"
+          aria-label="Search posts"
+          autocomplete="off"
+          class="bg-neo-bg focus:bg-neo-secondary h-12 w-full border-4 border-black px-4 text-base font-bold tracking-tight uppercase outline-none focus:outline-none"
+        />
+        <button
+          type="button"
+          id="blog-search-clear"
+          aria-label="Clear search"
+          class="hidden h-12 w-12 shrink-0 items-center justify-center border-4 border-black bg-white shadow-[3px_3px_0_0_#000] hover:-translate-y-0.5 hover:shadow-[5px_5px_0_0_#000]"
+        >
+          <X className="h-5 w-5 stroke-[3px]" />
+        </button>
+      </label>
+      <a
+        href="/blog/tags/"
+        class="hover:bg-neo-mint inline-flex items-center justify-center gap-2 self-stretch border-4 border-black bg-white px-4 text-xs font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+      >
+        <Tag className="h-4 w-4 stroke-[3px]" />
+        Browse tags ({sortedTags.length})
+      </a>
+    </div>
+
+    <!-- Tag chips -->
+    {
+      sortedTags.length > 0 && (
+        <div class="mb-10 flex flex-wrap gap-2">
+          <button
+            type="button"
+            data-tag-filter="*"
+            class="bg-neo-accent inline-flex items-center gap-1 border-2 border-black px-2.5 py-1 text-[10px] font-bold tracking-widest text-white uppercase shadow-[3px_3px_0_0_#000] data-[active=true]:bg-black data-[active=true]:text-white"
+            data-active="true"
+          >
+            All ({posts.length})
+          </button>
+          {sortedTags.map(([tag, count]) => (
+            <button
+              type="button"
+              data-tag-filter={tag}
+              class="hover:bg-neo-mint inline-flex items-center gap-1 border-2 border-black bg-white px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] data-[active=true]:bg-black data-[active=true]:text-white"
+            >
+              <Tag className="h-3 w-3 stroke-[3px]" />
+              {tag} ({count})
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    <p
+      id="blog-empty"
+      class="mb-8 hidden border-4 border-black bg-white p-6 text-base font-bold shadow-[6px_6px_0_0_#000]"
+    >
+      No posts match that search. Try a different term or clear the filter.
+    </p>
+
+    <ul id="blog-list" class="grid grid-cols-1 gap-8 md:grid-cols-2">
+      {
+        posts.map((post, idx) => {
+          const tilt =
+            idx % 2 === 0 ? 'md:rotate-[-0.4deg]' : 'md:rotate-[0.4deg]';
+          return (
+            <li
+              class={[
+                'group blog-card relative',
+                'transition-all duration-200 hover:-translate-y-1.5',
+                tilt,
+              ].join(' ')}
+              data-title={post.data.title.toLowerCase()}
+              data-description={post.data.description.toLowerCase()}
+              data-tags={post.data.tags.join(' ').toLowerCase()}
+            >
+              <a
+                href={`/blog/${post.id}/`}
+                class="block border-4 border-black bg-white shadow-[10px_10px_0_0_#000] transition-all duration-200 group-hover:shadow-[14px_14px_0_0_#000]"
+              >
+                <div
+                  class={`relative border-b-4 border-black ${CARD_BG[idx % CARD_BG.length]} px-5 py-4`}
+                >
+                  {post.data.heroEmoji && (
+                    <span
+                      aria-hidden
+                      class="absolute -top-5 -right-4 grid h-12 w-12 rotate-12 place-items-center border-4 border-black bg-white text-2xl shadow-[3px_3px_0_0_#000]"
+                    >
+                      {post.data.heroEmoji}
+                    </span>
+                  )}
+                  <div class="flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase">
+                    <Calendar className="h-3.5 w-3.5 stroke-[3px]" />
+                    <time datetime={post.data.pubDate.toISOString()}>
+                      {fmtDate(post.data.pubDate)}
+                    </time>
+                  </div>
+                  <h2 class="font-display mt-2 pr-12 text-2xl leading-tight tracking-tight uppercase sm:text-3xl">
+                    {post.data.title}
+                  </h2>
+                </div>
+
+                <div class="p-5">
+                  <p class="text-base leading-snug font-medium">
+                    {post.data.description}
+                  </p>
+                  <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+                    <div class="flex flex-wrap items-center gap-2">
+                      {post.data.tags.slice(0, 3).map((tag) => (
+                        <span class="bg-neo-bg inline-flex items-center gap-1 border-2 border-black px-2 py-0.5 text-[10px] font-bold tracking-widest uppercase">
+                          <Tag className="h-3 w-3 stroke-[3px]" />
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <span class="inline-flex items-center gap-1 text-xs font-bold tracking-widest uppercase">
+                      Read
+                      <ArrowUpRight className="h-4 w-4 stroke-[3px] transition-transform duration-200 group-hover:rotate-12" />
+                    </span>
+                  </div>
+                </div>
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </main>
+
+  <script is:inline>
+    (function () {
+      const search = document.getElementById('blog-search');
+      const clearBtn = document.getElementById('blog-search-clear');
+      const emptyMsg = document.getElementById('blog-empty');
+      const cards = Array.from(
+        document.querySelectorAll('#blog-list .blog-card'),
+      );
+      const tagButtons = Array.from(
+        document.querySelectorAll('[data-tag-filter]'),
+      );
+
+      let activeTag = '*';
+      let query = '';
+
+      function apply() {
+        const q = query.trim().toLowerCase();
+        let visible = 0;
+        for (const c of cards) {
+          const title = c.getAttribute('data-title') || '';
+          const desc = c.getAttribute('data-description') || '';
+          const tags = (c.getAttribute('data-tags') || '').split(/\s+/);
+          const matchesQ =
+            !q ||
+            title.includes(q) ||
+            desc.includes(q) ||
+            tags.some((t) => t.includes(q));
+          const matchesTag = activeTag === '*' || tags.includes(activeTag);
+          const show = matchesQ && matchesTag;
+          c.style.display = show ? '' : 'none';
+          if (show) visible++;
+        }
+        if (emptyMsg) emptyMsg.classList.toggle('hidden', visible !== 0);
+        if (clearBtn) clearBtn.classList.toggle('hidden', q.length === 0);
+      }
+
+      if (search) {
+        search.addEventListener('input', (e) => {
+          query = e.target.value;
+          apply();
+        });
+      }
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          if (search) search.value = '';
+          query = '';
+          apply();
+        });
+      }
+      for (const b of tagButtons) {
+        b.addEventListener('click', () => {
+          activeTag = b.getAttribute('data-tag-filter') || '*';
+          for (const x of tagButtons) {
+            x.setAttribute('data-active', x === b ? 'true' : 'false');
+          }
+          apply();
+        });
+      }
+    })();
+  </script>
+</BaseLayout>

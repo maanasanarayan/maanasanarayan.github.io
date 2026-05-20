@@ -1,0 +1,23 @@
+---
+interface Props {
+  kicker: string;
+  title: string;
+  /** Which heading level to render. Use `h1` on routes whose primary heading
+   *  this is (blog/lifestyle index pages); default `h2` for sub-sections. */
+  as?: 'h1' | 'h2';
+}
+const { kicker, title, as: Tag = 'h2' } = Astro.props;
+---
+
+<div class="mb-10">
+  <span
+    class="text-neo-bg inline-block border-4 border-black bg-black px-3 py-1 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#FFD93D]"
+  >
+    {kicker}
+  </span>
+  <Tag
+    class="font-display mt-4 text-4xl leading-none tracking-tight uppercase sm:text-5xl md:text-6xl lg:text-7xl"
+  >
+    {title}
+  </Tag>
+</div>

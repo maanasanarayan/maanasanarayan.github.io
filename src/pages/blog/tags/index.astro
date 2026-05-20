@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SectionHeader from '../../../components/SectionHeader.astro';
+import { Tag, ArrowLeft } from 'lucide-react';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+// Build tag -> count map
+const tagMap = new Map<string, number>();
+for (const p of posts) {
+  for (const t of p.data.tags) {
+    tagMap.set(t, (tagMap.get(t) ?? 0) + 1);
+  }
+}
+const tags = Array.from(tagMap.entries()).sort(
+  (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+);
+
+const CARD_BG = [
+  'bg-neo-secondary',
+  'bg-neo-muted',
+  'bg-neo-mint',
+  'bg-neo-sky',
+  'bg-neo-accent',
+];
+---
+
+<BaseLayout
+  title="Tags — Maanasa Narayan"
+  description="Browse blog posts by topic."
+>
+  <main
+    class="mx-auto max-w-7xl px-4 pt-24 pb-20 sm:px-6 sm:pt-32 sm:pb-24 lg:px-10"
+  >
+    <a
+      href="/blog"
+      class="hover:bg-neo-secondary mb-8 inline-flex items-center gap-2 border-4 border-black bg-white px-4 py-2 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+    >
+      <ArrowLeft className="h-4 w-4 stroke-[3px]" />
+      All posts
+    </a>
+
+    <SectionHeader kicker="Browse by topic" title="Tags." as="h1" />
+
+    {
+      tags.length === 0 ? (
+        <p class="border-4 border-black bg-white p-8 text-lg font-bold shadow-[8px_8px_0_0_#000]">
+          No tags yet.
+        </p>
+      ) : (
+        <ul class="flex flex-wrap gap-4">
+          {tags.map(([tag, count], idx) => (
+            <li>
+              <a
+                href={`/blog/tags/${tag}/`}
+                class={[
+                  'inline-flex items-center gap-2 border-4 border-black px-4 py-2 font-bold tracking-widest uppercase shadow-[5px_5px_0_0_#000]',
+                  'transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[7px_7px_0_0_#000]',
+                  CARD_BG[idx % CARD_BG.length],
+                  idx % 2 === 0 ? 'rotate-[-0.7deg]' : 'rotate-[0.7deg]',
+                ].join(' ')}
+              >
+                <Tag className="h-4 w-4 stroke-[3px]" />
+                <span>{tag}</span>
+                <span class="ml-1 inline-grid h-6 w-6 place-items-center border-2 border-black bg-white text-xs">
+                  {count}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </main>
+</BaseLayout>

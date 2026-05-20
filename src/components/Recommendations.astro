@@ -1,0 +1,129 @@
+---
+import { Quote, Star } from 'lucide-react';
+import SectionHeader from './SectionHeader.astro';
+
+interface Rec {
+  name: string;
+  role: string;
+  logo: string;
+  quote: string;
+}
+const { recommendations } = Astro.props as { recommendations: Rec[] };
+const CARD_BG = [
+  'bg-neo-secondary',
+  'bg-neo-muted',
+  'bg-neo-mint',
+  'bg-neo-sky',
+  'bg-neo-accent',
+];
+const doubled = [...recommendations, ...recommendations];
+---
+
+<div>
+  <SectionHeader kicker="04 · Kind words" title="Recommendations." />
+
+  <div class="hidden grid-cols-1 gap-4 print:grid">
+    {
+      recommendations.map((rec, i) => {
+        const cls = [
+          'border-4 border-black shadow-[8px_8px_0_0_#000]',
+          CARD_BG[i % CARD_BG.length],
+        ].join(' ');
+        return (
+          <div class={cls}>
+            <blockquote class="px-5 pt-5 pb-4 text-lg leading-snug font-medium">
+              “{rec.quote}”
+            </blockquote>
+            <div class="flex items-center gap-3 px-5 pb-5">
+              <img
+                src={rec.logo}
+                alt={`${rec.name} company logo`}
+                width="28"
+                height="28"
+                class="h-7 w-7 object-contain"
+              />
+              <div>
+                <div class="font-display text-base tracking-tight uppercase">
+                  {rec.name}
+                </div>
+                <div class="text-[11px] font-bold tracking-widest uppercase">
+                  {rec.role}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <div
+    class="no-print relative overflow-hidden border-4 border-black bg-white shadow-[10px_10px_0_0_#000]"
+  >
+    <div
+      class="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white to-transparent"
+      aria-hidden
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white to-transparent"
+      aria-hidden
+    >
+    </div>
+
+    <div
+      class="animate-marquee flex w-max gap-6 px-6 py-8"
+      style="animation-duration: 40s"
+    >
+      {
+        doubled.map((rec, i) => {
+          const tilt = i % 2 === 0 ? 'rotate-[-0.6deg]' : 'rotate-[0.6deg]';
+          const cls = [
+            'flex w-[320px] shrink-0 flex-col border-4 border-black shadow-[8px_8px_0_0_#000] sm:w-[380px]',
+            CARD_BG[i % CARD_BG.length],
+            tilt,
+          ].join(' ');
+          return (
+            <div class={cls}>
+              <div class="flex items-center gap-2 border-b-4 border-black bg-white px-5 py-3">
+                <Quote className="h-5 w-5 stroke-[3px]" />
+                <div class="ml-auto flex items-center gap-0.5" aria-hidden>
+                  {[...Array(5)].map(() => (
+                    <Star
+                      className="h-4 w-4 fill-black text-black"
+                      strokeWidth={0}
+                    />
+                  ))}
+                </div>
+              </div>
+              <blockquote class="flex-1 px-5 pt-5 pb-4 text-lg leading-snug font-medium">
+                “{rec.quote}”
+              </blockquote>
+              <div class="flex items-center gap-3 px-5 pb-5">
+                <span class="grid h-11 w-11 shrink-0 place-items-center border-2 border-black bg-white">
+                  <img
+                    src={rec.logo}
+                    alt={`${rec.name} company logo`}
+                    width="28"
+                    height="28"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-7 w-7 object-contain"
+                  />
+                </span>
+                <div>
+                  <div class="font-display text-base tracking-tight uppercase">
+                    {rec.name}
+                  </div>
+                  <div class="text-[11px] font-bold tracking-widest uppercase">
+                    {rec.role}
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>
