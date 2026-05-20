@@ -22,7 +22,7 @@ Joining Google in Mountain View, CA as a Software Engineer starting June 2026. P
 - Kayak — Software Engineer, Boston, MA (Jul 2023 – May 2026)
 - Amazon — Software Engineering Intern, Seattle, WA (Sep 2022 – Dec 2022)
 - Nokia — Application Developer Co-op, Raleigh, NC (May 2022 – Aug 2022)
-- Adobe — Software Engineer (Associate Technical Consultant), Bengaluru, India (Nov 2018 – Aug 2021)
+- Adobe — Software Engineer, Bengaluru, India (Nov 2018 – Aug 2021)
 - Infosys — Systems Engineer Trainee, Mysuru, India (Jul 2018 – Sep 2018)
 
 ## Selected Projects

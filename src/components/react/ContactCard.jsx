@@ -139,7 +139,6 @@ function maskPhone(p) {
 export default function ContactCard({ contact }) {
   const [msg, setMsg] = useState('');
   const [open, setOpen] = useState(false);
-  const [phoneRevealed, setPhoneRevealed] = useState(false);
 
   const handleCopy = async () => {
     try {
@@ -153,23 +152,19 @@ export default function ContactCard({ contact }) {
   };
 
   const handlePhoneCopy = async (e) => {
-    // Allow tapping the tel: link to dial on phones, but on desktop —
-    // where tel: is mostly useless — copy the number and reveal it.
     const isCoarse =
       typeof window !== 'undefined' &&
       window.matchMedia('(pointer: coarse)').matches;
-    if (!isCoarse) {
-      e.preventDefault();
-      try {
-        await navigator.clipboard.writeText(contact.phone);
-        setMsg('Phone copied!');
-      } catch {
-        setMsg('Failed to copy phone');
-      }
-      setOpen(true);
-      setTimeout(() => setOpen(false), 2500);
+    if (isCoarse) return;
+    e.preventDefault();
+    try {
+      await navigator.clipboard.writeText(contact.phone);
+      setMsg('Phone copied!');
+    } catch {
+      setMsg('Failed to copy phone');
     }
-    setPhoneRevealed(true);
+    setOpen(true);
+    setTimeout(() => setOpen(false), 2500);
   };
 
   return (
@@ -228,8 +223,8 @@ export default function ContactCard({ contact }) {
               onClick={handlePhoneCopy}
               tone="mint"
               icon={<Phone className="h-5 w-5 stroke-[3px]" />}
-              label={phoneRevealed ? 'Phone' : 'Phone · tap to reveal'}
-              value={phoneRevealed ? contact.phone : maskPhone(contact.phone)}
+              label="Phone · click to copy"
+              value={maskPhone(contact.phone)}
             />
           </div>
         </div>

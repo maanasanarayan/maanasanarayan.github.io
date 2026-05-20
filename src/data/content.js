@@ -87,7 +87,7 @@ const content = {
     {
       company: 'Adobe',
       logo: '/images/adobe.png',
-      role: 'Software Engineer (Associate Technical Consultant)',
+      role: 'Software Engineer',
       location: 'Bengaluru, India',
       period: 'Nov 2018 – Aug 2021',
       bullets: [
