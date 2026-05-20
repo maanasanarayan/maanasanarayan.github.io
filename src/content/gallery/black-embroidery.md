@@ -1,22 +1,22 @@
 ---
-title: 'Hoop No. 7 — black & marigold'
-description: 'Hand embroidery on cream linen, stretched in a 30 cm hoop.'
+title: 'Hoop study, ink not thread'
+description: 'A doodle of an embroidery hoop, drawn in the same rhythm as the stitches it imagines.'
 inspiration: |
-  My mother taught me a chain stitch when I was eight and I forgot it for
-  twenty years. Picking it back up during a long pandemic weekend was the
-  closest I have felt to **muscle memory** as an actual emotion — my
-  hands knew before I did. This hoop is from the first session that
-  reminded me.
-medium: 'Cotton floss on linen'
+  My mother taught me a chain stitch when I was eight. I forgot it for
+  twenty years and rediscovered it during a long pandemic weekend. The
+  thing that came back wasn't the pattern — it was the **rhythm** of
+  the wrist. This piece is a drawing of a hoop I never actually
+  finished stitching, done in the same wrist-rhythm.
+medium: 'Brush pen and gel pen on cream paper'
 year: 2024
-dimensions: '30 cm diameter'
+dimensions: '21 cm × 30 cm'
 palette: ['#FFFDF5', '#FF6B6B', '#C4B5FD', '#FFD93D']
-category: 'textiles'
+category: 'paper'
 image: '/images/lifestyle/black-embroidery.svg'
-imageAlt: 'Embroidery hoop with curved red and violet stitches on cream linen'
+imageAlt: 'Embroidery hoop doodle with curved red and violet strokes on cream'
 aspect: 'portrait'
 order: 7
 ---
 
-Six rows of chain stitch, three above and three below the central
-running stitch. Marigold French knots punctuate the centre line.
+Six rows of arc strokes above and below a centre line. The yellow dots
+along the spine are gel-pen tap marks — a small bit of muscle memory.
