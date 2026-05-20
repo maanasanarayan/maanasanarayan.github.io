@@ -42,6 +42,7 @@ const gallery = defineCollection({
     /** Display order in the gallery (lower comes first). */
     order: z.number().default(0),
     draft: z.boolean().default(false),
+    permalink: z.string().url().optional(),
   }),
 });
 
