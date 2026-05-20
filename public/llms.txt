@@ -38,7 +38,6 @@ Short posts on software engineering, design, and shipping things. RSS feed avail
 
 - Blog index: https://maanasa.dev/blog/
 - RSS: https://maanasa.dev/rss.xml
-- Tags: https://maanasa.dev/blog/tags/
 
 ## Lifestyle (gallery)
 
