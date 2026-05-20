@@ -180,7 +180,7 @@ const hasMath = /\$\$|\\\(|\\\[/.test(post.body ?? '');
             <div class="mt-6 flex flex-wrap items-center gap-2">
               {post.data.tags.map((tag) => (
                 <a
-                  href={`/blog/tags/${tag}/`}
+                  href={`/blog/?tag=${encodeURIComponent(tag)}`}
                   class="hover:bg-neo-mint inline-flex items-center gap-1 border-2 border-black bg-white px-2 py-1 text-[10px] font-bold tracking-widest uppercase transition-all duration-100 hover:-translate-y-0.5"
                 >
                   <Tag className="h-3 w-3 stroke-[3px]" />

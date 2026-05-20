@@ -16,7 +16,15 @@ const CARD_BG = [
   'bg-neo-accent',
 ];
 
-const tagCount = new Set(posts.flatMap((p) => p.data.tags)).size;
+const tagCounts = new Map<string, number>();
+for (const p of posts) {
+  for (const t of p.data.tags) {
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  }
+}
+const tags = Array.from(tagCounts.entries()).sort(
+  (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+);
 
 function fmtDate(d: Date) {
   return d.toLocaleDateString('en-US', {
@@ -56,18 +64,52 @@ function fmtDate(d: Date) {
         href="/rss.xml"
         class="bg-neo-mint hover:bg-neo-secondary inline-block border-b-4 border-black px-1 font-bold"
         >RSS</a
-      >, or <a
-        href="/blog/tags/"
-        class="bg-neo-secondary hover:bg-neo-mint inline-block border-b-4 border-black px-1 font-bold"
-        >browse {tagCount} tags</a
       >.
     </p>
 
+    {
+      tags.length > 0 && (
+        <div class="mb-8 flex flex-wrap items-center gap-2">
+          <span class="text-neo-bg inline-flex items-center gap-2 border-4 border-black bg-black px-3 py-1 text-[10px] font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#FFD93D]">
+            <Tag className="h-3.5 w-3.5 stroke-[3px]" />
+            Filter
+          </span>
+          <button
+            type="button"
+            data-tag-filter="*"
+            data-active="true"
+            class="hover:bg-neo-mint inline-flex items-center gap-1 border-2 border-black bg-white px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] data-[active=true]:bg-black data-[active=true]:text-white"
+          >
+            All ({posts.length})
+          </button>
+          {tags.map(([tag, count]) => (
+            <button
+              type="button"
+              data-tag-filter={tag}
+              class="hover:bg-neo-mint inline-flex items-center gap-1 border-2 border-black bg-white px-2.5 py-1 text-[10px] font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] data-[active=true]:bg-black data-[active=true]:text-white"
+            >
+              {tag} ({count})
+            </button>
+          ))}
+        </div>
+      )
+    }
+
     <div
       id="search"
+      data-search-shell
+      hidden
       class="mb-10 border-4 border-black bg-white p-5 shadow-[8px_8px_0_0_#000]"
     >
     </div>
+
+    <p
+      id="blog-empty"
+      hidden
+      class="mb-8 border-4 border-black bg-white p-6 text-base font-bold shadow-[6px_6px_0_0_#000]"
+    >
+      No posts in this tag.
+    </p>
 
     <ul class="grid grid-cols-1 gap-8 md:grid-cols-2" data-blog-list>
       {
@@ -77,10 +119,11 @@ function fmtDate(d: Date) {
           return (
             <li
               class={[
-                'group relative',
+                'group blog-card relative',
                 'transition-all duration-200 hover:-translate-y-1.5',
                 tilt,
               ].join(' ')}
+              data-tags={post.data.tags.join(' ').toLowerCase()}
             >
               <a
                 href={`/blog/${post.id}/`}
@@ -137,24 +180,70 @@ function fmtDate(d: Date) {
 
   <script is:inline src="/pagefind/pagefind-ui.js" defer></script>
   <script is:inline>
-    window.addEventListener('DOMContentLoaded', () => {
-      if (typeof window.PagefindUI !== 'function') return;
+    (function () {
       const list = document.querySelector('[data-blog-list]');
-      new window.PagefindUI({
-        element: '#search',
-        showImages: false,
-        showEmptyFilters: false,
-        resetStyles: false,
-        processTerm: (term) => {
-          if (list) list.style.display = term ? 'none' : '';
-          return term;
-        },
-      });
-      document.querySelector('#search')?.addEventListener('click', (e) => {
-        if (e.target.classList.contains('pagefind-ui__search-clear') && list) {
-          list.style.display = '';
+      const cards = Array.from(document.querySelectorAll('.blog-card'));
+      const empty = document.getElementById('blog-empty');
+      const buttons = Array.from(
+        document.querySelectorAll('[data-tag-filter]'),
+      );
+
+      function applyTag(active) {
+        let visible = 0;
+        for (const c of cards) {
+          const tags = (c.getAttribute('data-tags') || '').split(/\s+/);
+          const show = active === '*' || tags.includes(active);
+          c.style.display = show ? '' : 'none';
+          if (show) visible++;
         }
+        if (empty) empty.hidden = visible !== 0;
+      }
+
+      function selectTag(tag) {
+        for (const b of buttons) {
+          const isMatch = (b.getAttribute('data-tag-filter') || '*') === tag;
+          b.setAttribute('data-active', isMatch ? 'true' : 'false');
+        }
+        applyTag(tag);
+      }
+
+      for (const b of buttons) {
+        b.addEventListener('click', () => {
+          const v = b.getAttribute('data-tag-filter') || '*';
+          selectTag(v);
+          const url = new URL(window.location.href);
+          if (v === '*') url.searchParams.delete('tag');
+          else url.searchParams.set('tag', v);
+          history.replaceState(null, '', url);
+        });
+      }
+
+      const initialTag = new URLSearchParams(window.location.search).get('tag');
+      if (initialTag) selectTag(initialTag);
+
+      window.addEventListener('DOMContentLoaded', () => {
+        if (typeof window.PagefindUI !== 'function') return;
+        const shell = document.querySelector('[data-search-shell]');
+        if (shell) shell.hidden = false;
+        new window.PagefindUI({
+          element: '#search',
+          showImages: false,
+          showEmptyFilters: false,
+          resetStyles: false,
+          processTerm: (term) => {
+            if (list) list.style.display = term ? 'none' : '';
+            return term;
+          },
+        });
+        document.querySelector('#search')?.addEventListener('click', (e) => {
+          if (
+            e.target.classList.contains('pagefind-ui__search-clear') &&
+            list
+          ) {
+            list.style.display = '';
+          }
+        });
       });
-    });
+    })();
   </script>
 </BaseLayout>
