@@ -50,6 +50,7 @@
     "@commitlint/cli": "^21.0.1",
     "@commitlint/config-conventional": "^21.0.1",
     "@eslint/js": "^9",
+    "@pagefind/default-ui": "^1.5.2",
     "@typescript-eslint/parser": "^8.59.4",
     "eslint": "^9",
     "eslint-plugin-astro": "^1.7.0",

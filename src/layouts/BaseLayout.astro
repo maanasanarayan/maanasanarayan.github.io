@@ -165,7 +165,12 @@ const ogImage = new URL(image, Astro.site).toString();
   </head>
 
   <body>
-    <NavBar name={content.profile.name} isHome={isHome} client:load />
+    <NavBar
+      name={content.profile.name}
+      isHome={isHome}
+      currentPath={Astro.url.pathname}
+      client:load
+    />
 
     <slot />
 
