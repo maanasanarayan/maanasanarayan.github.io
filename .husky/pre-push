@@ -1,0 +1,8 @@
+# Heavier checks before code leaves the machine.
+# Keep pre-commit fast (lint-staged); put expensive work here.
+
+echo "▶ astro check (TypeScript + content collections)"
+bun run check || exit 1
+
+echo "▶ astro build"
+bun run build || exit 1
