@@ -8,14 +8,16 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build && pagefind --site dist",
-    "preview": "astro preview",
+    "preview": "bun run build && wrangler dev",
     "astro": "astro",
     "check": "astro check",
     "lint": "eslint . && markdownlint-cli2 \"**/*.{md,mdx}\" \"#node_modules\" \"#dist\" \"#.astro\"",
     "lint:fix": "eslint . --fix && markdownlint-cli2 --fix \"**/*.{md,mdx}\" \"#node_modules\" \"#dist\" \"#.astro\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "generate-types": "wrangler types",
+    "deploy": "bun run build && wrangler deploy"
   },
   "lint-staged": {
     "*.{js,jsx,mjs,astro}": [
@@ -31,6 +33,7 @@
     ]
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^13.5.3",
     "@astrojs/markdoc": "^1.0.5",
     "@astrojs/mdx": "^5.0.6",
     "@astrojs/partytown": "^2.1.7",
@@ -69,6 +72,10 @@
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.59.4"
+    "typescript-eslint": "^8.59.4",
+    "wrangler": "^4.93.0"
+  },
+  "overrides": {
+    "vite": "^7"
   }
 }
