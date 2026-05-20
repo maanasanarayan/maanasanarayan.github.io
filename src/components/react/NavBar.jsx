@@ -20,7 +20,7 @@ const SECTION_IDS = [
   'contact',
 ];
 
-function NavBar({ name, isHome = false }) {
+function NavBar({ name, isHome = false, currentPath = '/' }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -70,10 +70,8 @@ function NavBar({ name, isHome = false }) {
   };
 
   const isLinkActive = (link) => {
-    if (typeof window === 'undefined') return false;
-    const path = window.location.pathname;
-    if (link.href === '/blog') return path.startsWith('/blog');
-    if (link.href === '/lifestyle') return path.startsWith('/lifestyle');
+    if (link.href === '/blog') return currentPath.startsWith('/blog');
+    if (link.href === '/lifestyle') return currentPath.startsWith('/lifestyle');
     if (isHome && link.href.startsWith('/#')) {
       return activeSection === link.id;
     }
