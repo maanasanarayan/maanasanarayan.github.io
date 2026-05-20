@@ -107,5 +107,7 @@ export default defineConfig({
     rehypePlugins: [rehypeKatex],
   },
 
-  adapter: cloudflare()
+  adapter: cloudflare({
+    imageService: 'compile',
+  }),
 });
