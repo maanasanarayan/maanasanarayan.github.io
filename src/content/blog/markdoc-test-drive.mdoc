@@ -1,0 +1,62 @@
+---
+title: 'Test-driving Markdoc with custom callouts'
+description: 'Adding a second authoring format alongside MDX: typed Markdoc tags for callouts, highlights, and embeds.'
+pubDate: 2026-05-18
+tags: ['astro', 'markdoc', 'authoring']
+heroEmoji: '🧪'
+---
+
+I added [Markdoc](https://markdoc.dev) as a second content format on this
+blog. Markdown gets you 90% of the way; Markdoc gets you the last 10%
+without inviting JSX into your prose.
+
+## Why Markdoc next to MDX
+
+MDX lets me drop React components into a markdown file, which is great
+when I genuinely need a component. But for the kinds of things I reach
+for most — callouts, highlights, embeds — MDX gives me _too much rope_.
+Markdoc fixes the vocabulary up-front in `markdoc.config.mjs`:
+
+{% callout type="tip" title="The point" %}
+A blog with a fixed Markdoc tag set is easier to read in plain text,
+easier to migrate, and impossible to break with bad component imports.
+{% /callout %}
+
+## What's wired
+
+Three tags so far:
+
+1. `{% callout %}` — tinted box with an icon, four `type`s
+   (`note`, `tip`, `warn`, `inspiration`).
+2. `{% hl %}highlight{% /hl %}` — inline marker effect using
+   {% hl %}the neo-brutalist palette{% /hl %}.
+3. `{% youtube %}` — a privacy-preserving `youtube-nocookie` embed
+   without dragging in YouTube's player JS until the iframe loads.
+
+{% callout type="warn" title="Drift" %}
+The Markdoc config lives next to `astro.config.mjs`, not inside it.
+Adding new tags requires touching two files — the config and the
+component — and that's a deliberate friction.
+{% /callout %}
+
+## Code blocks still work
+
+```ts
+// src/components/markdoc/Callout.astro
+const tones = {
+  note: { bg: 'bg-neo-sky', icon: Info },
+  warn: { bg: 'bg-neo-accent', icon: AlertTriangle },
+  tip: { bg: 'bg-neo-mint', icon: Lightbulb },
+  inspiration: { bg: 'bg-neo-muted', icon: Sparkles },
+};
+```
+
+Shiki still highlights them because the fence node is rendered through
+a thin Astro wrapper that delegates to the built-in `<Code>` component.
+
+{% callout type="inspiration" %}
+The whole point of having both MDX and Markdoc available is to use the
+right one each time. Most posts: plain markdown. Posts with three or
+four UI flourishes: Markdoc. Posts that need a live, stateful React
+component: MDX. The same blog reads them all.
+{% /callout %}

@@ -1,0 +1,35 @@
+---
+import { Info, AlertTriangle, Sparkles, Lightbulb } from 'lucide-react';
+
+interface Props {
+  type?: 'note' | 'warn' | 'tip' | 'inspiration';
+  title?: string;
+}
+const { type = 'note', title } = Astro.props;
+
+const tones = {
+  note: { bg: 'bg-neo-sky', icon: Info, defaultTitle: 'Note' },
+  warn: { bg: 'bg-neo-accent', icon: AlertTriangle, defaultTitle: 'Watch out' },
+  tip: { bg: 'bg-neo-mint', icon: Lightbulb, defaultTitle: 'Tip' },
+  inspiration: {
+    bg: 'bg-neo-muted',
+    icon: Sparkles,
+    defaultTitle: 'Inspiration',
+  },
+};
+const t = tones[type];
+const Icon = t.icon;
+const heading = title ?? t.defaultTitle;
+---
+
+<aside
+  class={`my-6 border-4 border-black ${t.bg} p-5 shadow-[6px_6px_0_0_#000]`}
+>
+  <div class="mb-2 flex items-center gap-2">
+    <Icon className="h-4 w-4 stroke-[3px]" />
+    <span class="text-xs font-bold tracking-widest uppercase">{heading}</span>
+  </div>
+  <div class="text-base leading-snug font-medium">
+    <slot />
+  </div>
+</aside>
