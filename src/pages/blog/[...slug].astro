@@ -326,26 +326,40 @@ const hasMath = /\$\$|\\\(|\\\[/.test(post.body ?? '');
   </main>
 
   <script>
-    // Render mermaid diagrams (pre-mermaid strategy) client-side.
-    if (document.querySelector('pre.mermaid')) {
-      const mermaidUrl =
-        'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-      const m = await import(/* @vite-ignore */ mermaidUrl);
-      m.default.initialize({
-        startOnLoad: true,
-        theme: 'base',
-        themeVariables: {
-          fontFamily: 'Space Grotesk, system-ui, sans-serif',
-          primaryColor: '#FFD93D',
-          primaryTextColor: '#000000',
-          primaryBorderColor: '#000000',
-          lineColor: '#000000',
-          secondaryColor: '#C4B5FD',
-          tertiaryColor: '#A7F3D0',
-          mainBkg: '#FFD93D',
-        },
-      });
-      await m.default.run();
+    let mermaidPromise: Promise<typeof import('mermaid').default> | null = null;
+
+    async function renderMermaid() {
+      const blocks = document.querySelectorAll<HTMLElement>(
+        'pre.mermaid:not([data-rendered])',
+      );
+      if (!blocks.length) return;
+      if (!mermaidPromise) {
+        const url =
+          'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaidPromise = import(/* @vite-ignore */ url).then((m) => {
+          m.default.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            themeVariables: {
+              fontFamily: 'Space Grotesk, system-ui, sans-serif',
+              primaryColor: '#FFD93D',
+              primaryTextColor: '#000000',
+              primaryBorderColor: '#000000',
+              lineColor: '#000000',
+              secondaryColor: '#C4B5FD',
+              tertiaryColor: '#A7F3D0',
+              mainBkg: '#FFD93D',
+            },
+          });
+          return m.default;
+        });
+      }
+      const mermaid = await mermaidPromise;
+      blocks.forEach((b) => b.setAttribute('data-rendered', ''));
+      await mermaid.run({ nodes: blocks });
     }
+
+    renderMermaid();
+    document.addEventListener('astro:page-load', renderMermaid);
   </script>
 </BaseLayout>

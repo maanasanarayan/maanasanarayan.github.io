@@ -174,12 +174,13 @@ const categoryLabel: Record<string, string> = {
     </p>
   </main>
 
-  <script is:inline>
-    (function () {
+  <script is:inline data-astro-rerun>
+    function initGallery() {
       const cards = Array.from(document.querySelectorAll('.gallery-card'));
       const buttons = Array.from(
         document.querySelectorAll('[data-cat-filter]'),
       );
+      if (!buttons.length) return;
       const empty = document.getElementById('gallery-empty');
 
       function apply(active) {
@@ -202,6 +203,9 @@ const categoryLabel: Record<string, string> = {
           apply(v);
         });
       }
-    })();
+    }
+
+    initGallery();
+    document.addEventListener('astro:page-load', initGallery);
   </script>
 </BaseLayout>
