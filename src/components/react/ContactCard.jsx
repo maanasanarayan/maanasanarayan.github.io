@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Mail, Phone, Copy, CheckCircle2 } from 'lucide-react';
 
@@ -39,7 +39,14 @@ function Github({ className }) {
 }
 
 function Toast({ message, isVisible }) {
-  if (typeof window === 'undefined') return null;
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    // Canonical one-shot mount flag so SSR and the first client render
+    // both return null, then the portal mounts after hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+  if (!mounted) return null;
   return createPortal(
     <div
       role="status"
