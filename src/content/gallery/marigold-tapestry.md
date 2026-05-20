@@ -1,24 +1,22 @@
 ---
-title: 'Marigold tapestry, 12 × 4 grid'
-description: 'A hand-loomed cotton tapestry built around a strict marigold grid.'
+title: 'Marigold grid — marker practice'
+description: 'A 12-by-4 grid of marigold doodles, done in one sitting with two markers.'
 inspiration: |
   Driving across Karnataka during the **monsoon**, you pass entire fields
   staged for temple festivals — marigold heads spread on tarps to dry,
-  arranged in grids by the women sorting them. I never forgot how much
-  the order amplified the chroma; a single marigold is bright, a thousand
-  marigolds in a grid are deafening. This tapestry is my attempt to keep
-  some of that volume on a wall.
-medium: 'Cotton warp, wool weft'
+  arranged in grids by the women sorting them. One marigold is bright;
+  a thousand marigolds in a grid are deafening. I tried to keep some of
+  that volume on a single spread of sketchbook paper.
+medium: 'Posca markers on watercolor paper'
 year: 2024
-dimensions: '60 cm × 90 cm'
+dimensions: '21 cm × 30 cm'
 palette: ['#FF6B6B', '#FFD93D', '#A7F3D0', '#000000']
-category: 'textiles'
+category: 'paper'
 image: '/images/lifestyle/marigold-tapestry.svg'
-imageAlt: 'Tapestry of yellow circles and mint squares on a cream ground'
+imageAlt: 'Grid of yellow circle marigolds with mint squares behind them'
 aspect: 'portrait'
 order: 2
 ---
 
-Plain weave on a 16-shaft floor loom. The yellow circles are tufted by
-hand after weaving; the green squares are inlaid weft floats. Twelve
-hours of weaving plus another seven to tuft.
+Two Posca markers — `PC-5M` yellow and the broad-tip black. Circles
+first, squares second, outlines never reworked.

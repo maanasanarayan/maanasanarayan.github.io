@@ -1,26 +1,22 @@
 ---
-title: 'Ochre vase, throat slightly off-axis'
-description: 'A wheel-thrown stoneware vase glazed in two coats of ochre.'
+title: 'Marigold-yellow vase, drawn on the bus'
+description: 'A wonky pen-and-ink doodle of an ochre vase, sketched in twenty minutes between two stops.'
 inspiration: |
-  I started this piece thinking about the **terracotta water pots** my
-  grandmother kept on the back veranda in Bengaluru. They were never quite
-  symmetrical — the lip pulled a little to one side from being lifted in
-  and out a thousand times — and that asymmetry was the thing that made
-  them feel like hers. I wanted that small wrongness to be present in this
-  vase too, on purpose. The throat leans about three degrees off vertical;
-  it changes the whole feel.
-medium: 'Stoneware, ochre glaze'
+  My grandmother kept a row of **ochre stoneware pots** on the back
+  veranda in Bengaluru. They were never symmetrical — the lip pulled a
+  little to one side from being lifted in and out a thousand times — and
+  that wrongness was the thing that made them feel like hers. This is a
+  bus-ride attempt at remembering one of them on the back of a receipt.
+medium: 'Brush pen on cartridge paper'
 year: 2025
-dimensions: '24 cm × 18 cm'
+dimensions: '14 cm × 21 cm sketchbook page'
 palette: ['#FFD93D', '#C4B5FD', '#000000']
-category: 'ceramics'
+category: 'paper'
 image: '/images/lifestyle/ochre-vase.svg'
-imageAlt: 'Ochre stoneware vase with a slightly off-axis throat'
+imageAlt: 'Hand-drawn ochre vase, slightly off-axis, on a halftone background'
 aspect: 'portrait'
 order: 1
 ---
 
-The clay was a high-fire stoneware that vitrifies just under 1280°C. Two
-coats of an ochre glaze with a tiny percentage of iron oxide for warmth.
-The black at the lip is what happens when the iron migrates during the
-final reduction — I leaned into it.
+Twenty minutes start to finish, one brush pen, no eraser. The lip leans
+about three degrees off vertical — I left it.

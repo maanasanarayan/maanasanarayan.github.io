@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import {
   ArrowLeft,
   ArrowRight,
+  ArrowUpRight,
   Calendar,
   Palette,
   Ruler,
@@ -203,6 +204,20 @@ const categoryLabel: Record<string, string> = {
             {piece.data.inspiration}
           </p>
         </section>
+
+        {
+          piece.data.permalink && (
+            <a
+              href={piece.data.permalink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:bg-neo-mint mt-6 inline-flex items-center gap-2 border-4 border-black bg-white px-4 py-2 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+            >
+              View on Instagram
+              <ArrowUpRight className="h-4 w-4 stroke-[3px]" />
+            </a>
+          )
+        }
 
         <!-- Long-form notes (markdown body) -->
         <div
