@@ -1,12 +1,12 @@
 # Maanasa Narayan
 
-> Software Engineer based in the Bay Area, CA. Joining Google (Mountain View) in June 2026. Builds scalable web applications and backend cloud systems. Prior engineering experience at Kayak, Amazon, Nokia, and Adobe.
+> Software Engineer based in the Bay Area, CA. Builds scalable web applications and backend cloud systems. Engineering experience across Kayak, Amazon, Nokia, and Adobe.
 
 ## About
 
 Maanasa Narayan is a software engineer with experience across full-stack web development and cloud backend systems. Holds an M.S. in Computer Science from Northeastern University (GPA 3.9/4.0) and a B.E. in Computer Science from KSIT, VTU.
 
-Joining Google in Mountain View, CA as a Software Engineer starting June 2026. Previously at Kayak (Boston, MA, Jul 2023 – May 2026) working on Java-based airline integrations across search, availability, seat-map, baggage, booking, and receipt endpoints, shipping via GitHub Actions with A/B experiments and Kibana observability.
+Currently at Kayak working on Java-based airline integrations across search, availability, seat-map, baggage, booking, and receipt endpoints, shipping via GitHub Actions with A/B experiments and Kibana observability.
 
 ## Skills
 
@@ -18,8 +18,7 @@ Joining Google in Mountain View, CA as a Software Engineer starting June 2026. P
 
 ## Experience
 
-- Google — Software Engineer, Mountain View, CA (Jun 2026 – Present)
-- Kayak — Software Engineer, Boston, MA (Jul 2023 – May 2026)
+- Kayak — Software Engineer, Boston, MA (Jul 2023 – Present)
 - Amazon — Software Engineering Intern, Seattle, WA (Sep 2022 – Dec 2022)
 - Nokia — Application Developer Co-op, Raleigh, NC (May 2022 – Aug 2022)
 - Adobe — Software Engineer, Bengaluru, India (Nov 2018 – Aug 2021)
@@ -31,20 +30,6 @@ Joining Google in Mountain View, CA as a Software Engineer starting June 2026. P
 - Bug Bash (Amazon, 2021): React + Node automation tool on AWS Lambda for Amazon's Choice badge validation; eliminated ~20 engineer-hours per release.
 - Interactive Adventure Game (Java, Northeastern, 2021): OO/MVC Swing GUI game with 100+ JUnit tests.
 - BeatBeat (Android, Northeastern, 2021): Music learning game built in Java.
-
-## Blog
-
-Short posts on software engineering, design, and shipping things. RSS feed available.
-
-- Blog index: https://maanasa.dev/blog/
-- RSS: https://maanasa.dev/rss.xml
-
-## Lifestyle (gallery)
-
-A working catalogue of handmade ceramics, textiles, prints, and home-decor pieces.
-Each piece has a written note on the inspiration behind it.
-
-- Gallery: https://maanasa.dev/lifestyle/
 
 ## Links
 

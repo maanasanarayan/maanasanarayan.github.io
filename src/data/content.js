@@ -5,7 +5,7 @@ const content = {
     location: 'Bay Area, CA',
     resumeUrl: '/documents/MaanasaNarayan.pdf',
     summary:
-      'Software Engineer based in the Bay Area, focused on building scalable web applications and backend cloud systems. Joining Google in June 2026 after engineering roles at Kayak, Amazon, Nokia, and Adobe.',
+      'Software Engineer based in the Bay Area, focused on building scalable web applications and backend cloud systems. Engineering experience across Kayak, Amazon, Nokia, and Adobe.',
   },
   about: {
     skills: {
@@ -37,22 +37,11 @@ const content = {
   },
   experiences: [
     {
-      company: 'Google',
-      logo: '/images/google.png',
-      role: 'Software Engineer',
-      location: 'Mountain View, CA',
-      period: 'Jun 2026 – Present',
-      bullets: [
-        'Joining the AI Mode Feedback team in Google Search to help shape how users teach and refine Google’s generative search experience.',
-        'Working on feedback signals, evaluation loops, and quality tooling for AI Mode in Google Search.',
-      ],
-    },
-    {
       company: 'Kayak',
       logo: '/images/kayak-logo.png',
       role: 'Software Engineer',
       location: 'Boston, MA',
-      period: 'Jul 2023 – May 2026',
+      period: 'Jul 2023 – Present',
       bullets: [
         'Built a Java-based API integration layer for new airline providers across 6 critical endpoints (search, availability, seat-map, baggage, booking, receipt) with comprehensive JUnit tests.',
         'Shipped integrations via GitHub Actions with staged A/B experiments and real-time Kibana log monitoring for safe rollouts.',

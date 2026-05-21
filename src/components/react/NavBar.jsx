@@ -7,8 +7,6 @@ const HOME_LINKS = [
   { id: 'projects', label: 'Projects', href: '/#projects' },
   { id: 'recommendations', label: 'Recs', href: '/#recommendations' },
   { id: 'contact', label: 'Contact', href: '/#contact' },
-  { id: 'blog', label: 'Blog', href: '/blog' },
-  { id: 'lifestyle', label: 'Lifestyle', href: '/lifestyle' },
 ];
 
 const SECTION_IDS = [
