@@ -2,10 +2,10 @@ const content = {
   profile: {
     name: 'Maanasa Narayan',
     title: 'Software Engineer',
-    location: 'Bay Area, CA',
+    location: 'Greater Boston Area',
     resumeUrl: '/documents/MaanasaNarayan.pdf',
     summary:
-      'Software Engineer based in the Bay Area, focused on building scalable web applications and backend cloud systems. Engineering experience across Kayak, Amazon, Nokia, and Adobe.',
+      'Software Engineer based in the Greater Boston Area, focused on building scalable web applications and backend cloud systems. Engineering experience across Kayak, Amazon, Nokia, and Adobe.',
   },
   about: {
     skills: {
