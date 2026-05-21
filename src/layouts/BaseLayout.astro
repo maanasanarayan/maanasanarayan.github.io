@@ -18,7 +18,7 @@ interface Props {
 
 const {
   title = 'Maanasa Narayan — Software Engineer Portfolio',
-  description = 'Maanasa Narayan is a software engineer in the Bay Area, CA building scalable web applications and backend cloud systems. Joining Google in June 2026 after Kayak, Amazon, Nokia, and Adobe.',
+  description = 'Maanasa Narayan is a software engineer in the Bay Area, CA building scalable web applications and backend cloud systems. Engineering experience across Kayak, Amazon, Nokia, and Adobe.',
   image = '/images/maanasan.jpg',
   type = 'website',
   publishedTime,
@@ -40,7 +40,7 @@ const ogImage = new URL(image, Astro.site).toString();
     <meta name="author" content="Maanasa Narayan" />
     <meta
       name="keywords"
-      content="Maanasa Narayan, software engineer, full stack developer, Bay Area, React, Java, AWS, portfolio, Google, Kayak, Amazon, Adobe, Nokia"
+      content="Maanasa Narayan, software engineer, full stack developer, Bay Area, React, Java, AWS, portfolio, Kayak, Amazon, Adobe, Nokia"
     />
     <meta
       name="robots"
@@ -49,12 +49,6 @@ const ogImage = new URL(image, Astro.site).toString();
 
     <link rel="canonical" href={canonicalURL} />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="Maanasa Narayan — Blog"
-      href={new URL('/rss.xml', Astro.site).toString()}
-    />
 
     <!-- Icons -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -135,14 +129,8 @@ const ogImage = new URL(image, Astro.site).toString();
         ],
         worksFor: {
           '@type': 'Organization',
-          name: 'Google',
-          sameAs: 'https://www.google.com/',
-          address: {
-            '@type': 'PostalAddress',
-            addressLocality: 'Mountain View',
-            addressRegion: 'CA',
-            addressCountry: 'US',
-          },
+          name: 'Kayak',
+          sameAs: 'https://www.kayak.com/',
         },
         knowsAbout: [
           'Software Engineering',
