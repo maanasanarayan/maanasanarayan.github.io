@@ -18,7 +18,7 @@ Previously at Kayak (Boston, MA, Jul 2023 – May 2026) working on Java-based ai
 
 ## Experience
 
-- Google — Software Engineer, Search team (AI Mode), Mountain View, CA (May 2026 – Present)
+- Google — Software Engineer, Search team (AI Mode), Mountain View, CA (Jun 2026 – Present)
 - Kayak — Software Engineer, Boston, MA (Jul 2023 – May 2026)
 - Amazon — Software Engineering Intern, Seattle, WA (Sep 2022 – Dec 2022)
 - Nokia — Application Developer Co-op, Raleigh, NC (May 2022 – Aug 2022)

@@ -41,7 +41,7 @@ const content = {
       logo: '/images/google.png',
       role: 'Software Engineer',
       location: 'Mountain View, CA',
-      period: 'May 2026 – Present',
+      period: 'Jun 2026 – Present',
       bullets: [
         'Software Engineer on the Google Search team, working on AI Mode.',
       ],
