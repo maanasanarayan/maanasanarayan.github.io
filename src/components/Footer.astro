@@ -1,9 +1,12 @@
 ---
+import content from '../data/content.js';
+
 interface Props {
   name: string;
 }
 const { name } = Astro.props;
 const year = new Date().getFullYear();
+const { email, linkedin, github } = content.contact;
 ---
 
 <footer class="no-print bg-neo-secondary border-t-4 border-black">
@@ -14,8 +17,29 @@ const year = new Date().getFullYear();
       © {year}
       {name}. All rights reserved.
     </p>
-    <p class="text-xs font-bold tracking-widest uppercase">
-      Built with Astro · Hand-stamped pixels
-    </p>
+    <nav
+      aria-label="Author links"
+      class="flex flex-wrap items-center gap-2 text-xs font-bold tracking-widest uppercase"
+    >
+      <a
+        href={`mailto:${email}`}
+        class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+        >Email</a
+      >
+      <a
+        href={linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+        >LinkedIn</a
+      >
+      <a
+        href={github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+        >GitHub</a
+      >
+    </nav>
   </div>
 </footer>

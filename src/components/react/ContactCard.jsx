@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Mail, Phone, Copy, CheckCircle2 } from 'lucide-react';
+import { Mail, Copy, CheckCircle2 } from 'lucide-react';
 
 function Linkedin({ className }) {
   return (
@@ -133,16 +133,6 @@ function Tile({ as: Tag = 'a', tone, icon, label, value, copyHint, ...rest }) {
   );
 }
 
-function maskPhone(p) {
-  // Keep country code and the last 4 digits visible; mask the rest with •.
-  // Example: "REDACTED" -> "+1 (•••) •••-8729"
-  return p.replace(/\d/g, (d, i, s) => {
-    const total = (s.match(/\d/g) || []).length;
-    const seenSoFar = s.slice(0, i).match(/\d/g)?.length ?? 0;
-    return seenSoFar < 1 || seenSoFar >= total - 4 ? d : '•';
-  });
-}
-
 export default function ContactCard({ contact }) {
   const [msg, setMsg] = useState('');
   const [open, setOpen] = useState(false);
@@ -153,22 +143,6 @@ export default function ContactCard({ contact }) {
       setMsg('Email copied!');
     } catch {
       setMsg('Failed to copy email');
-    }
-    setOpen(true);
-    setTimeout(() => setOpen(false), 2500);
-  };
-
-  const handlePhoneCopy = async (e) => {
-    const isCoarse =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(pointer: coarse)').matches;
-    if (isCoarse) return;
-    e.preventDefault();
-    try {
-      await navigator.clipboard.writeText(contact.phone);
-      setMsg('Phone copied!');
-    } catch {
-      setMsg('Failed to copy phone');
     }
     setOpen(true);
     setTimeout(() => setOpen(false), 2500);
@@ -194,7 +168,7 @@ export default function ContactCard({ contact }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
             <Tile
               as="button"
               type="button"
@@ -224,14 +198,6 @@ export default function ContactCard({ contact }) {
               icon={<Github className="h-5 w-5 stroke-[3px]" />}
               label="Code"
               value="GitHub"
-            />
-            <Tile
-              href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}
-              onClick={handlePhoneCopy}
-              tone="mint"
-              icon={<Phone className="h-5 w-5 stroke-[3px]" />}
-              label="Phone · click to copy"
-              value={maskPhone(contact.phone)}
             />
           </div>
         </div>

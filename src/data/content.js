@@ -186,7 +186,6 @@ const content = {
   ],
   contact: {
     email: 'mnsnryn@gmail.com',
-    phone: 'REDACTED',
     linkedin: 'https://www.linkedin.com/in/maanasa-narayan/',
     github: 'https://github.com/maanasanarayan',
   },
