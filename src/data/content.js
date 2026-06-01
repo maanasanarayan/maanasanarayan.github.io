@@ -2,10 +2,10 @@ const content = {
   profile: {
     name: 'Maanasa Narayan',
     title: 'Software Engineer',
-    location: 'Greater Boston Area',
+    location: 'Bay Area, CA',
     resumeUrl: '/documents/MaanasaNarayan.pdf',
     summary:
-      'Software Engineer based in the Greater Boston Area, focused on building scalable web applications and backend cloud systems. Engineering experience across Kayak, Amazon, Nokia, and Adobe.',
+      'Software Engineer at Google, based in the Bay Area, CA. Focused on building scalable web applications and backend cloud systems. Prior engineering experience at Kayak, Amazon, Nokia, and Adobe.',
   },
   about: {
     skills: {
@@ -37,11 +37,19 @@ const content = {
   },
   experiences: [
     {
+      company: 'Google',
+      logo: '/images/google.png',
+      role: 'Software Engineer',
+      location: 'Mountain View, CA',
+      period: 'May 2026 – Present',
+      bullets: ['Software Engineer at Google, working on Search.'],
+    },
+    {
       company: 'Kayak',
       logo: '/images/kayak-logo.png',
       role: 'Software Engineer',
       location: 'Boston, MA',
-      period: 'Jul 2023 – Present',
+      period: 'Jul 2023 – May 2026',
       bullets: [
         'Built a Java-based API integration layer for new airline providers across 6 critical endpoints (search, availability, seat-map, baggage, booking, receipt) with comprehensive JUnit tests.',
         'Shipped integrations via GitHub Actions with staged A/B experiments and real-time Kibana log monitoring for safe rollouts.',

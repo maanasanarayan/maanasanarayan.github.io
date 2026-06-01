@@ -1,12 +1,12 @@
 # Maanasa Narayan
 
-> Software Engineer based in the Greater Boston Area. Builds scalable web applications and backend cloud systems. Engineering experience across Kayak, Amazon, Nokia, and Adobe.
+> Software Engineer at Google, based in the Bay Area, CA. Builds scalable web applications and backend cloud systems. Prior engineering experience at Kayak, Amazon, Nokia, and Adobe.
 
 ## About
 
-Maanasa Narayan is a software engineer with experience across full-stack web development and cloud backend systems. Holds an M.S. in Computer Science from Northeastern University (GPA 3.9/4.0) and a B.E. in Computer Science from KSIT, VTU.
+Maanasa Narayan is a Software Engineer at Google (Mountain View, CA), with experience across full-stack web development and cloud backend systems. Holds an M.S. in Computer Science from Northeastern University (GPA 3.9/4.0) and a B.E. in Computer Science from KSIT, VTU.
 
-Currently at Kayak working on Java-based airline integrations across search, availability, seat-map, baggage, booking, and receipt endpoints, shipping via GitHub Actions with A/B experiments and Kibana observability.
+Previously at Kayak (Boston, MA, Jul 2023 – May 2026) working on Java-based airline integrations across search, availability, seat-map, baggage, booking, and receipt endpoints, shipping via GitHub Actions with A/B experiments and Kibana observability.
 
 ## Skills
 
@@ -18,7 +18,8 @@ Currently at Kayak working on Java-based airline integrations across search, ava
 
 ## Experience
 
-- Kayak — Software Engineer, Boston, MA (Jul 2023 – Present)
+- Google — Software Engineer, Mountain View, CA (May 2026 – Present)
+- Kayak — Software Engineer, Boston, MA (Jul 2023 – May 2026)
 - Amazon — Software Engineering Intern, Seattle, WA (Sep 2022 – Dec 2022)
 - Nokia — Application Developer Co-op, Raleigh, NC (May 2022 – Aug 2022)
 - Adobe — Software Engineer, Bengaluru, India (Nov 2018 – Aug 2021)

@@ -18,7 +18,7 @@ interface Props {
 
 const {
   title = 'Maanasa Narayan — Software Engineer Portfolio',
-  description = 'Maanasa Narayan is a software engineer in the Greater Boston Area building scalable web applications and backend cloud systems. Engineering experience across Kayak, Amazon, Nokia, and Adobe.',
+  description = 'Maanasa Narayan is a software engineer at Google, based in the Bay Area, CA. Builds scalable web applications and backend cloud systems. Prior engineering experience at Kayak, Amazon, Nokia, and Adobe.',
   image = '/images/maanasan.jpg',
   type = 'website',
   publishedTime,
@@ -40,7 +40,7 @@ const ogImage = new URL(image, Astro.site).toString();
     <meta name="author" content="Maanasa Narayan" />
     <meta
       name="keywords"
-      content="Maanasa Narayan, software engineer, full stack developer, Boston, Greater Boston, React, Java, AWS, portfolio, Kayak, Amazon, Adobe, Nokia"
+      content="Maanasa Narayan, software engineer, Google, full stack developer, Bay Area, Mountain View, React, Java, AWS, portfolio, Kayak, Amazon, Adobe, Nokia"
     />
     <meta
       name="robots"
@@ -111,8 +111,8 @@ const ogImage = new URL(image, Astro.site).toString();
         telephone: '+1-774-777-8729',
         address: {
           '@type': 'PostalAddress',
-          addressLocality: 'Boston',
-          addressRegion: 'MA',
+          addressLocality: 'Bay Area',
+          addressRegion: 'CA',
           addressCountry: 'US',
         },
         sameAs: [
@@ -129,8 +129,14 @@ const ogImage = new URL(image, Astro.site).toString();
         ],
         worksFor: {
           '@type': 'Organization',
-          name: 'Kayak',
-          sameAs: 'https://www.kayak.com/',
+          name: 'Google',
+          sameAs: 'https://www.google.com/',
+          address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Mountain View',
+            addressRegion: 'CA',
+            addressCountry: 'US',
+          },
         },
         knowsAbout: [
           'Software Engineering',
