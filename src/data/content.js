@@ -42,7 +42,9 @@ const content = {
       role: 'Software Engineer',
       location: 'Mountain View, CA',
       period: 'May 2026 – Present',
-      bullets: ['Software Engineer at Google, working on Search.'],
+      bullets: [
+        'Software Engineer on the Google Search team, working on AI Mode.',
+      ],
     },
     {
       company: 'Kayak',
