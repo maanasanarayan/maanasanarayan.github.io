@@ -38,6 +38,19 @@ function Github({ className }) {
   );
 }
 
+function XLogo({ className }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
 function Toast({ message, isVisible }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -168,7 +181,7 @@ export default function ContactCard({ contact }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
             <Tile
               as="button"
               type="button"
@@ -198,6 +211,15 @@ export default function ContactCard({ contact }) {
               icon={<Github className="h-5 w-5 stroke-[3px]" />}
               label="Code"
               value="GitHub"
+            />
+            <Tile
+              href={contact.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              tone="mint"
+              icon={<XLogo className="h-5 w-5" />}
+              label="Posts"
+              value={contact.twitterHandle}
             />
           </div>
         </div>

@@ -188,6 +188,8 @@ const content = {
     email: 'mnsnryn@gmail.com',
     linkedin: 'https://www.linkedin.com/in/maanasa-narayan/',
     github: 'https://github.com/maanasanarayan',
+    twitter: 'https://x.com/maanasa_narayan',
+    twitterHandle: '@maanasa_narayan',
   },
 };
 
