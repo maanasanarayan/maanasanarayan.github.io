@@ -18,7 +18,7 @@ interface Props {
 
 const {
   title = 'Maanasa Narayan — Software Engineer Portfolio',
-  description = 'Maanasa Narayan is a software engineer at Google, based in the Bay Area, CA. Builds scalable web applications and backend cloud systems. Prior engineering experience at Kayak, Amazon, Nokia, and Adobe.',
+  description = 'Software Engineer at Google in the Bay Area, CA, working on Search. Previously: Kayak, Amazon, Nokia, Adobe.',
   image = '/images/maanasan.jpg',
   type = 'website',
   publishedTime,
@@ -49,6 +49,10 @@ const ogImage = new URL(image, Astro.site).toString();
 
     <link rel="canonical" href={canonicalURL} />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="me" href="https://www.linkedin.com/in/maanasa-narayan/" />
+    <link rel="me" href="https://github.com/maanasanarayan" />
+    <link rel="me" href="https://x.com/maanasa_narayan" />
+    <link rel="author" href="https://maanasa.dev/" />
 
     <!-- Icons -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -83,6 +87,8 @@ const ogImage = new URL(image, Astro.site).toString();
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@maanasa_narayan" />
+    <meta name="twitter:creator" content="@maanasa_narayan" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
