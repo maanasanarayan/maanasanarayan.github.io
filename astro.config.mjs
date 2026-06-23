@@ -1,4 +1,4 @@
-import { defineConfig, fontProviders, memoryCache } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
@@ -38,16 +38,10 @@ try {
   /* fine to skip if dir missing */
 }
 
+const isDevCommand = process.argv.includes('dev');
+
 export default defineConfig({
   site: SITE,
-  cache: {
-    provider: memoryCache(),
-  },
-  routeRules: {
-    '/': { maxAge: 3600, swr: 86400 },
-    '/blog/[...slug]': { maxAge: 3600, swr: 86400 },
-    '/lifestyle/[...slug]': { maxAge: 3600, swr: 86400 },
-  },
 
   integrations: [
     react(),
@@ -118,7 +112,9 @@ export default defineConfig({
     },
   },
 
-  adapter: cloudflare({
-    imageService: 'compile',
-  }),
+  adapter: isDevCommand
+    ? undefined
+    : cloudflare({
+        imageService: 'compile',
+      }),
 });

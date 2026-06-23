@@ -1,5 +1,5 @@
 ---
-import { Download, ArrowDown, Star, MapPin } from 'lucide-react';
+import { Download, ArrowDown, Star, MapPin } from 'lucide-astro';
 import { Image } from 'astro:assets';
 import avatarSrc from '../assets/maanasan.jpg';
 
@@ -34,7 +34,7 @@ const last = rest.join(' ');
       {
         profile.location && (
           <span class="bg-neo-secondary inline-flex -rotate-2 items-center gap-2 border-4 border-black px-3 py-1.5 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000]">
-            <MapPin className="h-4 w-4 stroke-[3px]" />
+            <MapPin class="h-4 w-4 stroke-[3px]" />
             {profile.location}
           </span>
         )
@@ -76,7 +76,7 @@ const last = rest.join(' ');
           aria-label="Download Resume as PDF"
           class="bg-neo-accent inline-flex h-12 items-center justify-center gap-2 border-4 border-black px-5 text-xs font-bold tracking-widest text-white uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_0_#000] active:translate-x-1.5 active:translate-y-1.5 active:shadow-none sm:h-14 sm:px-6 sm:text-sm sm:shadow-[6px_6px_0_0_#000]"
         >
-          <Download className="h-5 w-5 stroke-[3px]" />
+          <Download class="h-5 w-5 stroke-[3px]" />
           Download Resume
         </a>
         <a
@@ -84,7 +84,7 @@ const last = rest.join(' ');
           class="hover:bg-neo-secondary inline-flex h-12 items-center justify-center gap-2 border-4 border-black bg-white px-5 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 active:translate-x-1.5 active:translate-y-1.5 active:shadow-none sm:h-14 sm:px-6 sm:text-sm sm:shadow-[6px_6px_0_0_#000]"
         >
           Say hello
-          <ArrowDown className="h-5 w-5 stroke-[3px]" />
+          <ArrowDown class="h-5 w-5 stroke-[3px]" />
         </a>
       </div>
     </div>
@@ -94,8 +94,8 @@ const last = rest.join(' ');
     >
       <Star
         aria-hidden
-        className="animate-spin-slow absolute top-4 right-4 h-10 w-10 fill-black text-black sm:top-6 sm:right-6 sm:h-12 sm:w-12"
-        strokeWidth={2}
+        class="animate-spin-slow absolute top-4 right-4 h-10 w-10 fill-black text-black sm:top-6 sm:right-6 sm:h-12 sm:w-12"
+        stroke-width={2}
       />
       <div
         class="bg-neo-secondary absolute -bottom-3 -left-3 rotate-3 border-4 border-black px-3 py-1.5 text-[10px] font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] sm:text-xs"

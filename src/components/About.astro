@@ -1,5 +1,5 @@
 ---
-import { GraduationCap, Wrench } from 'lucide-react';
+import { GraduationCap, Wrench } from 'lucide-astro';
 import SectionHeader from './SectionHeader.astro';
 
 interface Education {
@@ -47,7 +47,7 @@ const CARD_COLORS = [
           >
             <div class="mb-3 flex items-center gap-3">
               <span class="grid h-9 w-9 place-items-center border-2 border-black bg-white">
-                <Wrench className="h-4 w-4 stroke-[3px]" />
+                <Wrench class="h-4 w-4 stroke-[3px]" />
               </span>
               <h3 class="font-display text-xl tracking-tight uppercase">
                 {category}
@@ -65,7 +65,7 @@ const CARD_COLORS = [
       <span
         class="bg-neo-accent grid h-12 w-12 place-items-center border-4 border-black shadow-[4px_4px_0_0_#000]"
       >
-        <GraduationCap className="h-6 w-6 stroke-[3px] text-white" />
+        <GraduationCap class="h-6 w-6 stroke-[3px] text-white" />
       </span>
       <h3 class="font-display text-3xl tracking-tight uppercase sm:text-4xl">
         Education

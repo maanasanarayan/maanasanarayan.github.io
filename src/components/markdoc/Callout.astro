@@ -1,5 +1,5 @@
 ---
-import { Info, AlertTriangle, Sparkles, Lightbulb } from 'lucide-react';
+import { Info, AlertTriangle, Sparkles, Lightbulb } from 'lucide-astro';
 
 interface Props {
   type?: 'note' | 'warn' | 'tip' | 'inspiration';
@@ -26,7 +26,7 @@ const heading = title ?? t.defaultTitle;
   class={`my-6 border-4 border-black ${t.bg} p-5 shadow-[6px_6px_0_0_#000]`}
 >
   <div class="mb-2 flex items-center gap-2">
-    <Icon className="h-4 w-4 stroke-[3px]" />
+    <Icon class="h-4 w-4 stroke-[3px]" />
     <span class="text-xs font-bold tracking-widest uppercase">{heading}</span>
   </div>
   <div class="text-base leading-snug font-medium">

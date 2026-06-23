@@ -1,5 +1,5 @@
 ---
-import { Quote, Star } from 'lucide-react';
+import { Quote, Star } from 'lucide-astro';
 import SectionHeader from './SectionHeader.astro';
 
 interface Rec {
@@ -86,12 +86,12 @@ const doubled = [...recommendations, ...recommendations];
           return (
             <div class={cls}>
               <div class="flex items-center gap-2 border-b-4 border-black bg-white px-5 py-3">
-                <Quote className="h-5 w-5 stroke-[3px]" />
+                <Quote class="h-5 w-5 stroke-[3px]" />
                 <div class="ml-auto flex items-center gap-0.5" aria-hidden>
                   {[...Array(5)].map(() => (
                     <Star
-                      className="h-4 w-4 fill-black text-black"
-                      strokeWidth={0}
+                      class="h-4 w-4 fill-black text-black"
+                      stroke-width={0}
                     />
                   ))}
                 </div>

@@ -1,5 +1,5 @@
 ---
-import { ArrowUpRight, Hammer } from 'lucide-react';
+import { ArrowUpRight, Hammer } from 'lucide-astro';
 import SectionHeader from './SectionHeader.astro';
 
 interface ProjLink {
@@ -48,7 +48,7 @@ const PROJECT_BG = [
                 {String(idx + 1).padStart(2, '0')}
               </span>
               <div class="flex items-start gap-3 pr-10">
-                <Hammer className="mt-1 h-5 w-5 shrink-0 stroke-[3px]" />
+                <Hammer class="mt-1 h-5 w-5 shrink-0 stroke-[3px]" />
                 <div>
                   <h3 class="font-display text-xl leading-tight tracking-tight uppercase sm:text-2xl">
                     {proj.title}
@@ -84,7 +84,7 @@ const PROJECT_BG = [
                     class="hover:bg-neo-secondary inline-flex items-center gap-1.5 border-[3px] border-black bg-white px-3 py-1.5 text-[11px] font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] transition-all duration-100 hover:shadow-[5px_5px_0_0_#000] active:translate-x-1 active:translate-y-1 active:shadow-none"
                   >
                     {link.label}
-                    <ArrowUpRight className="h-3.5 w-3.5 stroke-[3px]" />
+                    <ArrowUpRight class="h-3.5 w-3.5 stroke-[3px]" />
                   </a>
                 ))}
               </div>
