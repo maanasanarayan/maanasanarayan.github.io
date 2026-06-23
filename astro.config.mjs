@@ -1,4 +1,5 @@
-import { defineConfig, fontProviders } from 'astro/config';
+import { defineConfig, fontProviders, memoryCache } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import markdoc from '@astrojs/markdoc';
@@ -39,6 +40,14 @@ try {
 
 export default defineConfig({
   site: SITE,
+  cache: {
+    provider: memoryCache(),
+  },
+  routeRules: {
+    '/': { maxAge: 3600, swr: 86400 },
+    '/blog/[...slug]': { maxAge: 3600, swr: 86400 },
+    '/lifestyle/[...slug]': { maxAge: 3600, swr: 86400 },
+  },
 
   integrations: [
     react(),
@@ -99,12 +108,14 @@ export default defineConfig({
   ],
 
   markdown: {
+    processor: unified({
+      remarkPlugins: [remarkReadingTime, remarkMermaid, remarkMath],
+      rehypePlugins: [rehypeKatex],
+    }),
     shikiConfig: {
       theme: 'github-light',
       wrap: true,
     },
-    remarkPlugins: [remarkReadingTime, remarkMermaid, remarkMath],
-    rehypePlugins: [rehypeKatex],
   },
 
   adapter: cloudflare({

@@ -1,12 +1,13 @@
 ---
-interface Props {
+const {
+  kicker,
+  title,
+  as: Tag = 'h2',
+} = Astro.props as {
   kicker: string;
   title: string;
-  /** Which heading level to render. Use `h1` on routes whose primary heading
-   *  this is (blog/lifestyle index pages); default `h2` for sub-sections. */
   as?: 'h1' | 'h2';
-}
-const { kicker, title, as: Tag = 'h2' } = Astro.props;
+};
 ---
 
 <div class="mb-10">

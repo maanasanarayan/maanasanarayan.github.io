@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const blog = defineCollection({
   loader: glob({
@@ -42,7 +43,7 @@ const gallery = defineCollection({
     /** Display order in the gallery (lower comes first). */
     order: z.number().default(0),
     draft: z.boolean().default(false),
-    permalink: z.string().url().optional(),
+    permalink: z.url().optional(),
   }),
 });
 

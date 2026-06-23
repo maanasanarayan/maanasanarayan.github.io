@@ -103,6 +103,7 @@ const ogImage = new URL(image, Astro.site).toString();
 
     <!-- Structured Data: Person -->
     <script
+      is:inline
       type="application/ld+json"
       set:html={JSON.stringify({
         '@context': 'https://schema.org',
@@ -169,10 +170,13 @@ const ogImage = new URL(image, Astro.site).toString();
       name={content.profile.name}
       isHome={isHome}
       currentPath={Astro.url.pathname}
+      transition:persist
       client:load
     />
 
-    <slot />
+    <main transition:animate="slide">
+      <slot />
+    </main>
 
     <Footer name={content.profile.name} />
   </body>
