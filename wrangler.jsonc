@@ -6,18 +6,18 @@
   "routes": [
     {
       "pattern": "maanasa.dev",
-      "custom_domain": true
+      "custom_domain": true,
     },
     {
       "pattern": "www.maanasa.dev",
-      "custom_domain": true
-    }
+      "custom_domain": true,
+    },
   ],
   "assets": {
     "directory": "./dist/client",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
   },
   "observability": {
-    "enabled": true
-  }
+    "enabled": true,
+  },
 }
