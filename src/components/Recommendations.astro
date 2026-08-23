@@ -44,11 +44,11 @@ const doubled = [...recommendations, ...recommendations];
               />
               <div>
                 <h3 class="font-display text-base tracking-tight uppercase">
-                  {rec.name}
+                  {rec.name}{' '}
+                  <span class="text-[11px] font-bold tracking-widest lowercase opacity-80">
+                    ({rec.role})
+                  </span>
                 </h3>
-                <div class="text-[11px] font-bold tracking-widest uppercase">
-                  {rec.role}
-                </div>
               </div>
             </div>
           </div>
@@ -112,9 +112,9 @@ const doubled = [...recommendations, ...recommendations];
                   />
                 </span>
                 <div>
-                  <h3 class="font-display text-base tracking-tight uppercase">
+                  <div class="font-display text-base tracking-tight uppercase">
                     {rec.name}
-                  </h3>
+                  </div>
                   <div class="text-[11px] font-bold tracking-widest uppercase">
                     {rec.role}
                   </div>

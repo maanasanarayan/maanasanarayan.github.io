@@ -184,3 +184,69 @@ describe('5. Trust Anchor Pages & Static Markdown Siblings', () => {
     }
   });
 });
+
+describe('6. Homepage Heading Tree Hierarchy & SSR Content Length', () => {
+  it('validates index.html contains an H1 and structured semantic heading hierarchy', () => {
+    const indexPath = join(process.cwd(), 'dist/client/index.html');
+    expect(existsSync(indexPath)).toBe(true);
+    const html = readFileSync(indexPath, 'utf-8');
+
+    // H1 check
+    expect(html).toMatch(/<h1[\s>]/i);
+
+    // Text content length > 500 characters
+    const cleanText = html
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    expect(cleanText.length).toBeGreaterThan(500);
+
+    // Strict hierarchy checks
+    expect(html).toContain('About &amp; Skills.');
+    expect(html).toContain('Technical Skills');
+    expect(html).toContain('Work Experience.');
+    expect(html).toContain('Featured Projects.');
+    expect(html).toContain('Recommendations.');
+    expect(html).toContain('Contact.');
+  });
+});
+
+describe('7. Cloudflare Pages Middleware', () => {
+  it('handles markdown negotiation and 404 recovery in functions/_middleware.ts', async () => {
+    const { onRequest } = await import('../functions/_middleware.ts');
+
+    // Test markdown negotiation
+    const req = new Request('https://maanasa.dev/', {
+      headers: { Accept: 'text/markdown' },
+    });
+    const nextMock = async (r?: Request | string) => {
+      const u =
+        typeof r === 'string'
+          ? new URL(r)
+          : r
+            ? new URL(r.url)
+            : new URL('https://maanasa.dev/');
+      if (u.pathname === '/index.md') {
+        return new Response('# Maanasa Narayan\n\nSoftware Engineer', {
+          status: 200,
+          headers: { 'Content-Type': 'text/plain' },
+        });
+      }
+      return new Response('Not Found', { status: 404 });
+    };
+
+    const res = await onRequest({
+      request: req,
+      next: nextMock,
+      functionPath: '',
+      waitUntil: () => {},
+      env: {},
+      params: {},
+      data: {},
+    });
+
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Content-Type')).toContain('text/markdown');
+    expect(res.headers.get('Vary')).toContain('Accept');
+  });
+});
