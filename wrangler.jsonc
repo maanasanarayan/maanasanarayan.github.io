@@ -1,13 +1,23 @@
 {
-  "compatibility_date": "2026-05-20",
-  "compatibility_flags": ["global_fetch_strictly_public"],
   "name": "maanasa-portfolio",
   "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-05-20",
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  "routes": [
+    {
+      "pattern": "maanasa.dev",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.maanasa.dev",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": "./dist/client",
-    "binding": "ASSETS",
+    "binding": "ASSETS"
   },
   "observability": {
-    "enabled": true,
-  },
+    "enabled": true
+  }
 }
