@@ -113,7 +113,7 @@ export function markdownPath(pathname: string): string {
 }
 
 const STATIC_EXT =
-  /\.(?:css|js|mjs|map|png|jpe?g|webp|gif|svg|avif|ico|woff2?|ttf|otf|eot|xml|txt|json|pdf|mp4|webm|mp3|wav|ogg|zip)$/i;
+  /\.(?:css|js|mjs|map|png|jpe?g|webp|gif|svg|avif|ico|woff2?|ttf|otf|eot|xml|txt|json|pdf|mp4|webm|mp3|wav|ogg|zip|md|html)$/i;
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -121,7 +121,9 @@ export default {
 
     // Direct static asset bypass
     if (STATIC_EXT.test(url.pathname) || url.pathname.startsWith('/api/')) {
-      return env.ASSETS.fetch(request);
+      return env.ASSETS
+        ? env.ASSETS.fetch(request)
+        : new Response('Not Found', { status: 404 });
     }
 
     const acceptHeader = request.headers.get('accept');
@@ -146,7 +148,9 @@ export default {
     if (chosen === 'text/markdown' && env.ASSETS) {
       const mdUrl = new URL(url);
       mdUrl.pathname = markdownPath(url.pathname);
-      const mdReq = new Request(mdUrl.toString(), request);
+      const mdReq = new Request(mdUrl.toString(), {
+        headers: { Accept: '*/*' },
+      });
       const mdRes = await env.ASSETS.fetch(mdReq);
 
       if (mdRes.status === 200) {
@@ -169,7 +173,9 @@ export default {
       altMdUrl.pathname = `${url.pathname.replace(/\/$/, '')}.md`;
       if (altMdUrl.pathname !== mdUrl.pathname) {
         const altMdRes = await env.ASSETS.fetch(
-          new Request(altMdUrl.toString(), request),
+          new Request(altMdUrl.toString(), {
+            headers: { Accept: '*/*' },
+          }),
         );
         if (altMdRes.status === 200) {
           const body = await altMdRes.text();
@@ -189,7 +195,9 @@ export default {
 
       // Serve 404 Markdown recovery
       const notFoundMdRes = await env.ASSETS.fetch(
-        new Request(new URL('/404.md', url).toString(), request),
+        new Request(new URL('/404.md', url).toString(), {
+          headers: { Accept: '*/*' },
+        }),
       );
       if (notFoundMdRes.status === 200) {
         const body = await notFoundMdRes.text();

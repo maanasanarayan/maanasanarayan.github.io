@@ -1,2 +1,38 @@
+/
+  Link: </index.md>; rel="alternate"; type="text/markdown"
+  Vary: Accept, Accept-Encoding
+
+/about
+  Link: </about/index.md>; rel="alternate"; type="text/markdown"
+  Vary: Accept, Accept-Encoding
+
+/about/
+  Link: </about/index.md>; rel="alternate"; type="text/markdown"
+  Vary: Accept, Accept-Encoding
+
+/contact
+  Link: </contact/index.md>; rel="alternate"; type="text/markdown"
+  Vary: Accept, Accept-Encoding
+
+/contact/
+  Link: </contact/index.md>; rel="alternate"; type="text/markdown"
+  Vary: Accept, Accept-Encoding
+
+/privacy
+  Link: </privacy/index.md>; rel="alternate"; type="text/markdown"
+  Vary: Accept, Accept-Encoding
+
+/privacy/
+  Link: </privacy/index.md>; rel="alternate"; type="text/markdown"
+  Vary: Accept, Accept-Encoding
+
+/404
+  Link: </404.md>; rel="alternate"; type="text/markdown"
+  Vary: Accept, Accept-Encoding
+
+/404.html
+  Link: </404.md>; rel="alternate"; type="text/markdown"
+  Vary: Accept, Accept-Encoding
+
 /*
   Vary: Accept, Accept-Encoding

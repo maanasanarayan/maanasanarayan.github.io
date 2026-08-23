@@ -125,7 +125,7 @@ export function markdownPath(pathname: string): string {
 }
 
 const STATIC_EXT =
-  /\.(?:css|js|mjs|map|png|jpe?g|webp|gif|svg|avif|ico|woff2?|ttf|otf|eot|xml|txt|json|pdf|mp4|webm|mp3|wav|ogg|zip)$/i;
+  /\.(?:css|js|mjs|map|png|jpe?g|webp|gif|svg|avif|ico|woff2?|ttf|otf|eot|xml|txt|json|pdf|mp4|webm|mp3|wav|ogg|zip|md|html)$/i;
 
 export const onRequest: PagesFunction = async (context) => {
   const { request, next } = context;
@@ -158,7 +158,11 @@ export const onRequest: PagesFunction = async (context) => {
   if (chosen === 'text/markdown') {
     const mdUrl = new URL(url);
     mdUrl.pathname = markdownPath(url.pathname);
-    const mdRes = await next(new Request(mdUrl.toString(), request));
+    const mdRes = await next(
+      new Request(mdUrl.toString(), {
+        headers: { Accept: '*/*' },
+      }),
+    );
 
     if (mdRes.status === 200) {
       const body = await mdRes.text();
@@ -179,7 +183,11 @@ export const onRequest: PagesFunction = async (context) => {
     const altMdUrl = new URL(url);
     altMdUrl.pathname = `${url.pathname.replace(/\/$/, '')}.md`;
     if (altMdUrl.pathname !== mdUrl.pathname) {
-      const altMdRes = await next(new Request(altMdUrl.toString(), request));
+      const altMdRes = await next(
+        new Request(altMdUrl.toString(), {
+          headers: { Accept: '*/*' },
+        }),
+      );
       if (altMdRes.status === 200) {
         const body = await altMdRes.text();
         const res = new Response(body, {
@@ -198,7 +206,9 @@ export const onRequest: PagesFunction = async (context) => {
 
     // 404 Markdown recovery
     const notFoundMdRes = await next(
-      new Request(new URL('/404.md', url).toString(), request),
+      new Request(new URL('/404.md', url).toString(), {
+        headers: { Accept: '*/*' },
+      }),
     );
     if (notFoundMdRes.status === 200) {
       const body = await notFoundMdRes.text();
