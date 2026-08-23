@@ -43,12 +43,12 @@ const doubled = [...recommendations, ...recommendations];
                 class="h-7 w-7 object-contain"
               />
               <div>
-                <h3 class="font-display text-base tracking-tight uppercase">
+                <p class="font-display text-base tracking-tight uppercase">
                   {rec.name}{' '}
                   <span class="text-[11px] font-bold tracking-widest lowercase opacity-80">
                     ({rec.role})
                   </span>
-                </h3>
+                </p>
               </div>
             </div>
           </div>
@@ -83,6 +83,7 @@ const doubled = [...recommendations, ...recommendations];
             CARD_BG[i % CARD_BG.length],
             tilt,
           ].join(' ');
+          const isFirstSet = i < recommendations.length;
           return (
             <div class={cls}>
               <div class="flex items-center gap-2 border-b-4 border-black bg-white px-5 py-3">
@@ -112,9 +113,15 @@ const doubled = [...recommendations, ...recommendations];
                   />
                 </span>
                 <div>
-                  <div class="font-display text-base tracking-tight uppercase">
-                    {rec.name}
-                  </div>
+                  {isFirstSet ? (
+                    <h3 class="font-display text-base tracking-tight uppercase">
+                      {rec.name}
+                    </h3>
+                  ) : (
+                    <div class="font-display text-base tracking-tight uppercase">
+                      {rec.name}
+                    </div>
+                  )}
                   <div class="text-[11px] font-bold tracking-widest uppercase">
                     {rec.role}
                   </div>
