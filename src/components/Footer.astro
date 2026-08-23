@@ -18,9 +18,29 @@ const { email, linkedin, github, twitter } = content.contact;
       {name}. All rights reserved.
     </p>
     <nav
-      aria-label="Author links"
+      aria-label="Site links"
       class="flex flex-wrap items-center gap-2 text-xs font-bold tracking-widest uppercase"
     >
+      <a
+        href="/about"
+        class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+        >About</a
+      >
+      <a
+        href="/contact"
+        class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+        >Contact</a
+      >
+      <a
+        href="/privacy"
+        class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+        >Privacy</a
+      >
+      <a
+        href="/llms.txt"
+        class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+        >LLMs.txt</a
+      >
       <a
         href={`mailto:${email}`}
         class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"

@@ -48,7 +48,10 @@ export default defineConfig({
     mdx(),
     markdoc(),
     sitemap({
-      filter: (page) => !page.endsWith('/blog/tags/'),
+      filter: (page) =>
+        !page.endsWith('/blog/tags/') &&
+        !page.endsWith('/404.html') &&
+        !page.endsWith('/404/'),
       changefreq: 'monthly',
       priority: 0.7,
       serialize(item) {
@@ -56,6 +59,15 @@ export default defineConfig({
         const lastmod = blogLastmod.get(url.pathname);
         if (lastmod) item.lastmod = lastmod;
         if (url.pathname === '/') item.priority = 1.0;
+        else if (
+          url.pathname === '/about/' ||
+          url.pathname === '/contact/' ||
+          url.pathname === '/privacy/' ||
+          url.pathname === '/about' ||
+          url.pathname === '/contact' ||
+          url.pathname === '/privacy'
+        )
+          item.priority = 0.8;
         else if (url.pathname.startsWith('/blog/') && url.pathname !== '/blog/')
           item.priority = 0.8;
         else if (url.pathname.startsWith('/lifestyle/')) item.priority = 0.8;
@@ -72,6 +84,15 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      rollupOptions: {
+        output: {
+          sanitizeFileName(name) {
+            return name.replace(/^\.+/, '');
+          },
+        },
+      },
+    },
   },
 
   fonts: [

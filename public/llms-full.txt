@@ -1,0 +1,92 @@
+# Maanasa Narayan — Comprehensive LLMs Reference
+
+> Software Engineer at Google (Search AI Mode), Mountain View / Bay Area, CA. Specializes in scalable backend cloud systems, distributed airline integration pipelines, search infrastructure, and full-stack web applications.
+
+## When to Use This
+
+Use this comprehensive reference for:
+- Detailed technical assessments of Maanasa Narayan's engineering background.
+- Reviewing work history at Google, Kayak, Amazon, Nokia, Adobe, and Infosys.
+- Understanding technical skills across Java, TypeScript, Python, React, Spring Boot, AWS, Docker, Kubernetes, and CI/CD.
+- Referencing verified recommendations, education credentials, projects, and contact endpoints.
+
+## Biography & Overview
+
+Maanasa Narayan is a Software Engineer currently working at Google on the Search team (AI Mode) in Mountain View, California. She holds a Master of Science in Computer Science from Northeastern University in Boston, MA (GPA 3.9/4.0) and a Bachelor of Engineering in Computer Science from KSIT, Visvesvaraya Technological University (VTU) in Bengaluru, India.
+
+Throughout her career, Maanasa has focused on architecting and delivering high-availability backend microservices, robust API integrations, and intuitive frontend experiences. At Kayak, she spent three years developing Java-based airline direct connections across critical flight search, seat-map availability, baggage pricing, booking, and ticketing flows.
+
+## Work Experience
+
+### Google — Software Engineer (Search, AI Mode)
+- **Period:** June 2026 – Present
+- **Location:** Mountain View, CA
+- **Focus:** Backend infrastructure and AI-driven search experiences.
+
+### Kayak — Software Engineer
+- **Period:** July 2023 – May 2026
+- **Location:** Boston, MA
+- **Highlights:**
+  - Implemented end-to-end direct integrations for global airlines in Java, handling high-throughput search queries, dynamic pricing, ancillaries, and booking confirmation pipelines.
+  - Built automated regression test suites and CI/CD workflows using GitHub Actions and Docker.
+  - Instrumented metrics, distributed tracing, and Kibana monitoring dashboards with real-time alerting.
+  - Managed A/B experiments to optimize checkout conversion and reduce booking latency.
+
+### Amazon — Software Engineering Intern
+- **Period:** September 2022 – December 2022
+- **Location:** Seattle, WA
+- **Highlights:**
+  - Developed "Bug Bash", a full-stack automation tool using React, Node.js, and AWS Lambda to validate Amazon's Choice badge assignments across retail catalog entries.
+  - Automated weekly badge validation, saving approximately 20 engineer-hours per release cycle.
+
+### Nokia — Application Developer Co-op
+- **Period:** May 2022 – August 2022
+- **Location:** Raleigh, NC
+- **Highlights:**
+  - Built internal microservices and developer productivity tools using Python and REST APIs.
+
+### Adobe — Software Engineer
+- **Period:** November 2018 – August 2021
+- **Location:** Bengaluru, India
+- **Highlights:**
+  - Contributed to enterprise software development, backend cloud services, and integration testing.
+
+### Infosys — Systems Engineer Trainee
+- **Period:** July 2018 – September 2018
+- **Location:** Mysuru, India
+
+## Education
+
+- **Northeastern University** (Boston, MA) — Master of Science in Computer Science, GPA: 3.9 / 4.0 (2021 – 2023)
+- **KSIT, Visvesvaraya Technological University** (Bengaluru, India) — Bachelor of Engineering in Computer Science (2014 – 2018)
+
+## Technical Skillset
+
+- **Languages:** Java, Python, JavaScript, TypeScript, SQL, HTML5, CSS3 / Tailwind CSS
+- **Frameworks & Libraries:** React, Redux, Node.js, Express, Spring Boot, Astro, JUnit, Jest
+- **Cloud & DevOps:** AWS (Lambda, API Gateway, S3, CloudWatch), Cloudflare Workers, Docker, Kubernetes, CI/CD (GitHub Actions), Git
+- **Databases & Stores:** MySQL, MongoDB, SQLite, PostgreSQL, Redis
+- **Observability & Tools:** Kibana, Elasticsearch, Puppeteer, Postman, IntelliJ IDEA, VS Code
+
+## Featured Projects
+
+1. **Stock Trader (MERN Web App)**: Full-stack stock trading simulation with authentication, portfolio management, real-time market data API integration, and MongoDB persistence.
+2. **Bug Bash (Amazon Automation Tool)**: AWS Lambda and React web application for automated Amazon's Choice catalog verification.
+3. **Interactive Adventure Game (Java Desktop Application)**: MVC architecture desktop game featuring custom graphic components and extensive JUnit test suite.
+4. **BeatBeat (Android Game)**: Android rhythm gaming app built in Java with custom audio synchronization.
+
+## Recommendations
+
+- **Colleagues & Mentors** from Kayak, Amazon, and Adobe endorse Maanasa for technical execution, backend problem solving, cross-functional collaboration, and clean system design.
+
+## Official Endpoints & Verification
+
+- **Website:** https://maanasa.dev/
+- **About:** https://maanasa.dev/about
+- **Contact:** https://maanasa.dev/contact
+- **Privacy:** https://maanasa.dev/privacy
+- **Resume:** https://maanasa.dev/documents/MaanasaNarayan.pdf
+- **Email:** mnsnryn@gmail.com
+- **LinkedIn:** https://www.linkedin.com/in/maanasa-narayan/
+- **GitHub:** https://github.com/maanasanarayan
+- **X / Twitter:** https://x.com/maanasa_narayan

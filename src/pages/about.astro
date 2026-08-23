@@ -1,0 +1,193 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { Download, GraduationCap, Code2, ArrowLeft } from 'lucide-astro';
+import content from '../data/content.js';
+---
+
+<SiteLayout
+  title="About Maanasa Narayan — Software Engineer"
+  description="Learn more about Maanasa Narayan, Software Engineer at Google, former Kayak and Amazon engineer. Education, skills, and engineering experience."
+>
+  <div
+    class="mx-auto max-w-5xl px-4 pt-28 pb-20 sm:px-6 sm:pt-36 sm:pb-24 lg:px-8"
+  >
+    <div class="mb-8">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 border-2 border-black bg-white px-3 py-1.5 text-xs font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+      >
+        <ArrowLeft class="h-4 w-4 stroke-[3px]" />
+        Back to Home
+      </a>
+    </div>
+
+    <article
+      class="border-4 border-black bg-white p-6 shadow-[8px_8px_0_0_#000] sm:p-10 sm:shadow-[12px_12px_0_0_#000] lg:p-12"
+    >
+      <span
+        class="bg-neo-secondary inline-block border-4 border-black px-3 py-1 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000]"
+      >
+        About Maanasa
+      </span>
+
+      <h1
+        class="font-display mt-6 text-4xl leading-tight tracking-tight uppercase sm:text-6xl lg:text-7xl"
+      >
+        Engineering Scalable Systems & AI Experiences.
+      </h1>
+
+      <div
+        class="prose mt-8 space-y-6 text-base leading-relaxed font-medium text-black/90 sm:text-lg"
+      >
+        <p>
+          I am a Software Engineer based in the San Francisco Bay Area (Mountain
+          View, CA), currently working at <strong>Google</strong> on the Search team
+          focused on AI Mode. I build high-throughput backend services, resilient
+          distributed architectures, and interactive, accessible web applications.
+        </p>
+
+        <p>
+          Prior to joining Google, I spent nearly three years at <strong
+            >Kayak</strong
+          > (Boston, MA) engineering direct airline integration pipelines in Java.
+          My work powered real-time flight search, dynamic seat-mapping, ancillaries,
+          luggage calculations, and booking confirmation microservices for major international
+          airlines. I led initiatives in automated testing, observability dashboards
+          in Kibana, and canary releases with GitHub Actions.
+        </p>
+
+        <p>
+          During my graduate studies, I interned as a Software Engineer at <strong
+            >Amazon</strong
+          > in Seattle, WA, where I created &ldquo;Bug Bash&rdquo;&mdash;an automated
+          validation tool utilizing AWS Lambda, Node.js, and React to verify Amazon&rsquo;s
+          Choice badges and prevent merchant catalog regressions. I also worked at
+          <strong>Nokia</strong> (Raleigh, NC) developing microservices and at <strong
+            >Adobe</strong
+          > (Bengaluru, India) building enterprise cloud platforms.
+        </p>
+      </div>
+
+      <div class="mt-12 border-t-4 border-black pt-10">
+        <div class="flex items-center gap-3">
+          <span
+            class="bg-neo-mint grid h-10 w-10 place-items-center border-2 border-black"
+          >
+            <GraduationCap class="h-5 w-5 stroke-[3px]" />
+          </span>
+          <h2
+            class="font-display text-2xl tracking-tight uppercase sm:text-3xl"
+          >
+            Education
+          </h2>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div
+            class="bg-neo-muted border-4 border-black p-5 shadow-[4px_4px_0_0_#000]"
+          >
+            <span class="text-xs font-bold tracking-widest uppercase opacity-75"
+              >2021 – 2023 · Boston, MA</span
+            >
+            <h3 class="font-display mt-1 text-xl tracking-tight uppercase">
+              M.S. in Computer Science
+            </h3>
+            <p class="mt-1 font-bold text-black/90">Northeastern University</p>
+            <p class="mt-2 text-sm font-medium">
+              GPA: 3.9 / 4.0 · Advanced algorithms, distributed systems, web
+              development, and cloud computing.
+            </p>
+          </div>
+
+          <div
+            class="bg-neo-secondary border-4 border-black p-5 shadow-[4px_4px_0_0_#000]"
+          >
+            <span class="text-xs font-bold tracking-widest uppercase opacity-75"
+              >2014 – 2018 · Bengaluru, India</span
+            >
+            <h3 class="font-display mt-1 text-xl tracking-tight uppercase">
+              B.E. in Computer Science
+            </h3>
+            <p class="mt-1 font-bold text-black/90">
+              KSIT, Visvesvaraya Technological University
+            </p>
+            <p class="mt-2 text-sm font-medium">
+              Data structures, object-oriented design, operating systems,
+              database management, and networking.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 border-t-4 border-black pt-10">
+        <div class="flex items-center gap-3">
+          <span
+            class="bg-neo-accent grid h-10 w-10 place-items-center border-2 border-black text-white"
+          >
+            <Code2 class="h-5 w-5 stroke-[3px]" />
+          </span>
+          <h2
+            class="font-display text-2xl tracking-tight uppercase sm:text-3xl"
+          >
+            Technical Competencies
+          </h2>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div
+            class="border-2 border-black bg-white p-4 shadow-[3px_3px_0_0_#000]"
+          >
+            <h3 class="font-display text-base tracking-tight uppercase">
+              Core Languages
+            </h3>
+            <p class="mt-2 text-sm font-medium">
+              Java, Python, JavaScript, TypeScript, SQL, HTML5, CSS3
+            </p>
+          </div>
+          <div
+            class="border-2 border-black bg-white p-4 shadow-[3px_3px_0_0_#000]"
+          >
+            <h3 class="font-display text-base tracking-tight uppercase">
+              Backend & Cloud
+            </h3>
+            <p class="mt-2 text-sm font-medium">
+              Spring Boot, Node.js, Express, REST APIs, AWS Lambda, Docker,
+              Kubernetes, Cloudflare
+            </p>
+          </div>
+          <div
+            class="border-2 border-black bg-white p-4 shadow-[3px_3px_0_0_#000]"
+          >
+            <h3 class="font-display text-base tracking-tight uppercase">
+              Frontend & Tools
+            </h3>
+            <p class="mt-2 text-sm font-medium">
+              React, Redux, Astro, Tailwind CSS, Elasticsearch, Kibana, JUnit,
+              Jest, Git
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="mt-12 flex flex-wrap items-center justify-between gap-4 border-t-4 border-black pt-8"
+      >
+        <a
+          href={content.profile.resumeUrl}
+          download="MaanasaNarayan_Resume.pdf"
+          class="bg-neo-accent inline-flex items-center gap-2 border-4 border-black px-5 py-2.5 text-xs font-bold tracking-widest text-white uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+        >
+          <Download class="h-4 w-4 stroke-[3px]" />
+          Download Resume (PDF)
+        </a>
+
+        <a
+          href="/contact"
+          class="bg-neo-secondary inline-flex items-center gap-2 border-4 border-black px-5 py-2.5 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+        >
+          Get in Touch &rarr;
+        </a>
+      </div>
+    </article>
+  </div>
+</SiteLayout>

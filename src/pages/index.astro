@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
 import Hero from '../components/Hero.astro';
 import About from '../components/About.astro';
 import Experience from '../components/Experience.astro';
@@ -9,7 +9,7 @@ import Contact from '../components/Contact.astro';
 import content from '../data/content.js';
 ---
 
-<BaseLayout isHome>
+<SiteLayout isHome>
   <div
     class="mx-auto max-w-7xl space-y-16 px-4 pt-24 pb-20 sm:space-y-24 sm:px-6 sm:pt-32 sm:pb-24 lg:space-y-28 lg:px-10"
   >
@@ -32,4 +32,4 @@ import content from '../data/content.js';
       <Contact contact={content.contact} />
     </section>
   </div>
-</BaseLayout>
+</SiteLayout>

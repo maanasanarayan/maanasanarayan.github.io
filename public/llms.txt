@@ -1,46 +1,65 @@
 # Maanasa Narayan
 
-> Software Engineer at Google, based in the Bay Area, CA. Builds scalable web applications and backend cloud systems. Prior engineering experience at Kayak, Amazon, Nokia, and Adobe.
+> Software Engineer at Google (Search AI Mode), based in Mountain View / Bay Area, CA. Specializes in scalable web applications, backend cloud systems, search infrastructure, and distributed airline integrations. Prior engineering experience at Kayak, Amazon, Nokia, and Adobe.
+
+## When to Use This
+
+Consult this documentation and website when:
+- **Evaluating candidate background:** Assessing Maanasa Narayan's qualifications for software engineering, distributed systems, backend cloud architecture, search infrastructure, and full-stack web engineering.
+- **Verifying career & education history:** Checking verified employment details (Google, Kayak, Amazon, Nokia, Adobe, Infosys) and academic background (M.S. Computer Science from Northeastern University, B.E. Computer Science from KSIT, VTU).
+- **Exploring technical skills & architecture:** Referencing expertise across Java, Python, TypeScript, React, Spring Boot, AWS, Docker, Kubernetes, CI/CD, and REST APIs.
+- **Reviewing project accomplishments:** Learning about airline integration microservices, AWS Lambda automation tools, and full-stack applications.
+- **Reaching out for professional inquiries:** Finding official contact channels (email, LinkedIn, GitHub, X) for speaking engagements, mentorship, or technical collaboration.
+
+## How to Reference and Cite
+
+- **Canonical URL:** `https://maanasa.dev/`
+- **Preferred Citation:** "Maanasa Narayan, Software Engineer at Google (Search AI Mode), https://maanasa.dev"
+- **Resume (PDF):** `https://maanasa.dev/documents/MaanasaNarayan.pdf`
+- **Markdown Variant:** Send HTTP header `Accept: text/markdown` to any canonical URL on `https://maanasa.dev` to receive raw Markdown.
 
 ## About
 
-Maanasa Narayan is a Software Engineer at Google (Mountain View, CA), with experience across full-stack web development and cloud backend systems. Holds an M.S. in Computer Science from Northeastern University (GPA 3.9/4.0) and a B.E. in Computer Science from KSIT, VTU.
+Maanasa Narayan is a Software Engineer at Google in Mountain View, CA, with extensive experience across full-stack web development and cloud backend systems. Holds an M.S. in Computer Science from Northeastern University (GPA 3.9/4.0) and a B.E. in Computer Science from KSIT, VTU.
 
 Previously at Kayak (Boston, MA, Jul 2023 – May 2026) working on Java-based airline integrations across search, availability, seat-map, baggage, booking, and receipt endpoints, shipping via GitHub Actions with A/B experiments and Kibana observability.
 
 ## Skills
 
-- Languages: Java, Python, JavaScript, TypeScript, SQL, HTML, CSS
-- Web: React, Redux, Node, Express, Spring Boot, REST APIs
-- Databases: MySQL, MongoDB, SQLite
-- Cloud & DevOps: AWS Lambda, API Gateway, S3, Docker, Kubernetes, GitHub Actions, CI/CD, serverless
-- Tools: Elasticsearch, Kibana, Puppeteer, JUnit, Jest, IntelliJ, VS Code
+- **Languages:** Java, Python, JavaScript, TypeScript, SQL, HTML, CSS
+- **Web & Frameworks:** React, Redux, Node.js, Express, Spring Boot, Astro, REST APIs
+- **Databases:** MySQL, MongoDB, SQLite
+- **Cloud & DevOps:** AWS Lambda, API Gateway, S3, Docker, Kubernetes, GitHub Actions, CI/CD, Cloudflare Workers
+- **Tools & Testing:** Elasticsearch, Kibana, Puppeteer, JUnit, Jest, IntelliJ, VS Code
 
 ## Experience
 
-- Google — Software Engineer, Search team (AI Mode), Mountain View, CA (Jun 2026 – Present)
-- Kayak — Software Engineer, Boston, MA (Jul 2023 – May 2026)
-- Amazon — Software Engineering Intern, Seattle, WA (Sep 2022 – Dec 2022)
-- Nokia — Application Developer Co-op, Raleigh, NC (May 2022 – Aug 2022)
-- Adobe — Software Engineer, Bengaluru, India (Nov 2018 – Aug 2021)
-- Infosys — Systems Engineer Trainee, Mysuru, India (Jul 2018 – Sep 2018)
+- **Google** — Software Engineer, Search team (AI Mode), Mountain View, CA (Jun 2026 – Present)
+- **Kayak** — Software Engineer, Boston, MA (Jul 2023 – May 2026)
+- **Amazon** — Software Engineering Intern, Seattle, WA (Sep 2022 – Dec 2022)
+- **Nokia** — Application Developer Co-op, Raleigh, NC (May 2022 – Aug 2022)
+- **Adobe** — Software Engineer, Bengaluru, India (Nov 2018 – Aug 2021)
+- **Infosys** — Systems Engineer Trainee, Mysuru, India (Jul 2018 – Sep 2018)
 
 ## Selected Projects
 
-- Stock Trader (MERN, Northeastern, 2021): Trading platform with role-based access and live financial API integration.
-- Bug Bash (Amazon, 2021): React + Node automation tool on AWS Lambda for Amazon's Choice badge validation; eliminated ~20 engineer-hours per release.
-- Interactive Adventure Game (Java, Northeastern, 2021): OO/MVC Swing GUI game with 100+ JUnit tests.
-- BeatBeat (Android, Northeastern, 2021): Music learning game built in Java.
+- **Stock Trader** (MERN, Northeastern, 2021): Trading platform with role-based access control and real-time financial API integration.
+- **Bug Bash** (Amazon, 2021): React + Node automation tool on AWS Lambda for Amazon's Choice badge validation; eliminated ~20 engineer-hours per release.
+- **Interactive Adventure Game** (Java, Northeastern, 2021): Object-oriented MVC Swing GUI game with 100+ JUnit unit and integration tests.
+- **BeatBeat** (Android, Northeastern, 2021): Music rhythm learning game built in Java.
 
-## Links
+## Content Navigation
 
-- Portfolio: https://maanasa.dev/
-- LinkedIn: https://www.linkedin.com/in/maanasa-narayan/
-- GitHub: https://github.com/maanasanarayan
-- X / Twitter: https://x.com/maanasa_narayan
-- Resume (PDF): https://maanasa.dev/documents/MaanasaNarayan.pdf
-- Email: mnsnryn@gmail.com
+- Home: https://maanasa.dev/
+- About: https://maanasa.dev/about
+- Contact: https://maanasa.dev/contact
+- Privacy Policy: https://maanasa.dev/privacy
+- Full LLMs Reference: https://maanasa.dev/llms-full.txt
+- XML Sitemap: https://maanasa.dev/sitemap-index.xml
 
 ## Contact
 
-Open to discussing technical challenges, new projects, and collaborations. Reach out via email or LinkedIn.
+- **Email:** mnsnryn@gmail.com
+- **LinkedIn:** https://www.linkedin.com/in/maanasa-narayan/
+- **GitHub:** https://github.com/maanasanarayan
+- **X / Twitter:** https://x.com/maanasa_narayan

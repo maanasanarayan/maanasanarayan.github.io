@@ -1,0 +1,203 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import {
+  Home,
+  ArrowRight,
+  FileText,
+  Search,
+  Mail,
+  Shield,
+  User,
+} from 'lucide-astro';
+---
+
+<SiteLayout
+  title="Page Not Found (404) — Maanasa Narayan"
+  description="The requested page does not exist on maanasa.dev. Explore navigation options to find what you need."
+>
+  <div
+    class="mx-auto max-w-4xl px-4 pt-28 pb-20 sm:px-6 sm:pt-36 sm:pb-24 lg:px-8"
+  >
+    <div
+      class="border-4 border-black bg-white p-6 shadow-[8px_8px_0_0_#000] sm:p-10 sm:shadow-[12px_12px_0_0_#000] lg:p-12"
+    >
+      <span
+        class="bg-neo-accent inline-block border-4 border-black px-3 py-1 text-xs font-bold tracking-widest text-white uppercase shadow-[4px_4px_0_0_#000]"
+      >
+        HTTP 404
+      </span>
+
+      <h1
+        class="font-display mt-6 text-4xl leading-tight tracking-tight uppercase sm:text-6xl lg:text-7xl"
+      >
+        Page Not Found.
+      </h1>
+
+      <p
+        class="mt-4 max-w-xl text-base leading-snug font-medium text-black/80 sm:text-lg"
+      >
+        The link you followed may be broken, or the page may have been moved or
+        removed. Use the links below to quickly navigate back to what you need.
+      </p>
+
+      <div class="mt-10 border-t-4 border-black pt-8">
+        <h2 class="font-display text-2xl tracking-tight uppercase sm:text-3xl">
+          Where to Go Next
+        </h2>
+
+        <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <a
+            href="/"
+            class="bg-neo-secondary group flex items-center justify-between border-4 border-black p-4 shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000]"
+          >
+            <div class="flex items-center gap-3">
+              <span
+                class="grid h-10 w-10 place-items-center border-2 border-black bg-white"
+              >
+                <Home class="h-5 w-5 stroke-[3px]" />
+              </span>
+              <div>
+                <span
+                  class="font-display block text-base tracking-tight uppercase"
+                  >Homepage</span
+                >
+                <span class="text-xs font-bold uppercase opacity-80"
+                  >Portfolio overview & projects</span
+                >
+              </div>
+            </div>
+            <ArrowRight
+              class="h-5 w-5 stroke-[3px] transition-transform duration-100 group-hover:translate-x-1"
+            />
+          </a>
+
+          <a
+            href="/about"
+            class="bg-neo-mint group flex items-center justify-between border-4 border-black p-4 shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000]"
+          >
+            <div class="flex items-center gap-3">
+              <span
+                class="grid h-10 w-10 place-items-center border-2 border-black bg-white"
+              >
+                <User class="h-5 w-5 stroke-[3px]" />
+              </span>
+              <div>
+                <span
+                  class="font-display block text-base tracking-tight uppercase"
+                  >About</span
+                >
+                <span class="text-xs font-bold uppercase opacity-80"
+                  >Career history & background</span
+                >
+              </div>
+            </div>
+            <ArrowRight
+              class="h-5 w-5 stroke-[3px] transition-transform duration-100 group-hover:translate-x-1"
+            />
+          </a>
+
+          <a
+            href="/contact"
+            class="bg-neo-sky group flex items-center justify-between border-4 border-black p-4 shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000]"
+          >
+            <div class="flex items-center gap-3">
+              <span
+                class="grid h-10 w-10 place-items-center border-2 border-black bg-white"
+              >
+                <Mail class="h-5 w-5 stroke-[3px]" />
+              </span>
+              <div>
+                <span
+                  class="font-display block text-base tracking-tight uppercase"
+                  >Contact</span
+                >
+                <span class="text-xs font-bold uppercase opacity-80"
+                  >Email, LinkedIn, and social</span
+                >
+              </div>
+            </div>
+            <ArrowRight
+              class="h-5 w-5 stroke-[3px] transition-transform duration-100 group-hover:translate-x-1"
+            />
+          </a>
+
+          <a
+            href="/llms.txt"
+            class="bg-neo-muted group flex items-center justify-between border-4 border-black p-4 shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000]"
+          >
+            <div class="flex items-center gap-3">
+              <span
+                class="grid h-10 w-10 place-items-center border-2 border-black bg-white"
+              >
+                <Search class="h-5 w-5 stroke-[3px]" />
+              </span>
+              <div>
+                <span
+                  class="font-display block text-base tracking-tight uppercase"
+                  >LLMs.txt</span
+                >
+                <span class="text-xs font-bold uppercase opacity-80"
+                  >Machine-readable context</span
+                >
+              </div>
+            </div>
+            <ArrowRight
+              class="h-5 w-5 stroke-[3px] transition-transform duration-100 group-hover:translate-x-1"
+            />
+          </a>
+
+          <a
+            href="/documents/MaanasaNarayan.pdf"
+            download="MaanasaNarayan_Resume.pdf"
+            class="group flex items-center justify-between border-4 border-black bg-white p-4 shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000]"
+          >
+            <div class="flex items-center gap-3">
+              <span
+                class="bg-neo-accent grid h-10 w-10 place-items-center border-2 border-black text-white"
+              >
+                <FileText class="h-5 w-5 stroke-[3px]" />
+              </span>
+              <div>
+                <span
+                  class="font-display block text-base tracking-tight uppercase"
+                  >Resume (PDF)</span
+                >
+                <span class="text-xs font-bold uppercase opacity-80"
+                  >Download current resume</span
+                >
+              </div>
+            </div>
+            <ArrowRight
+              class="h-5 w-5 stroke-[3px] transition-transform duration-100 group-hover:translate-x-1"
+            />
+          </a>
+
+          <a
+            href="/privacy"
+            class="group flex items-center justify-between border-4 border-black bg-white p-4 shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000]"
+          >
+            <div class="flex items-center gap-3">
+              <span
+                class="bg-neo-secondary grid h-10 w-10 place-items-center border-2 border-black"
+              >
+                <Shield class="h-5 w-5 stroke-[3px]" />
+              </span>
+              <div>
+                <span
+                  class="font-display block text-base tracking-tight uppercase"
+                  >Privacy Policy</span
+                >
+                <span class="text-xs font-bold uppercase opacity-80"
+                  >Data collection & privacy</span
+                >
+              </div>
+            </div>
+            <ArrowRight
+              class="h-5 w-5 stroke-[3px] transition-transform duration-100 group-hover:translate-x-1"
+            />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</SiteLayout>

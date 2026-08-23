@@ -175,7 +175,10 @@ export default function ContactCard({ contact }) {
         />
         <div className="relative grid grid-cols-1 items-center gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)] lg:gap-12">
           <div>
-            <p className="max-w-md text-base leading-snug font-medium sm:text-lg">
+            <h3 className="font-display text-2xl tracking-tight text-white uppercase sm:text-3xl">
+              Get in Touch
+            </h3>
+            <p className="mt-2 max-w-md text-base leading-snug font-medium sm:text-lg">
               Let&apos;s talk &mdash; projects, technical challenges, or just a
               hello.
             </p>
