@@ -1,11 +1,11 @@
-<!-- markdownlint-disable MD025 -->
 ---
-title: "Maanasa Narayan - Software Engineer"
+title: 'Maanasa Narayan - Software Engineer'
 description: "Maanasa Narayan's Maanasa Narayan - Software Engineer page"
-canonical: "https://maanasa.dev/"
-last-updated: "2026-08-24"
+canonical: 'https://maanasa.dev/'
+last-updated: '2026-08-24'
 ---
-# Maanasa Narayan — Software Engineer
+
+## Maanasa Narayan — Software Engineer
 
 > Software Engineer at Google (Search AI Mode), Mountain View / Bay Area, CA. Specializes in building scalable web applications, backend cloud systems, search infrastructure, and airline integrations.
 

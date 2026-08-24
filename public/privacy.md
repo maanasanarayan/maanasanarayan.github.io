@@ -1,11 +1,11 @@
-<!-- markdownlint-disable MD025 -->
 ---
-title: "Privacy"
+title: 'Privacy'
 description: "Maanasa Narayan's Privacy page"
-canonical: "https://maanasa.dev/privacy"
-last-updated: "2026-08-24"
+canonical: 'https://maanasa.dev/privacy'
+last-updated: '2026-08-24'
 ---
-# Privacy Policy
+
+## Privacy Policy
 
 **Effective Date:** January 1, 2026  
 **Last Updated:** August 23, 2026  
