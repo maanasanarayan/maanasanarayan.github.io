@@ -1,3 +1,10 @@
+<!-- markdownlint-disable MD025 -->
+---
+title: "About"
+description: "Maanasa Narayan's About page"
+canonical: "https://maanasa.dev/about"
+last-updated: "2026-08-24"
+---
 # About Maanasa Narayan
 
 > Software Engineer at Google, based in Mountain View / Bay Area, CA. Specialist in distributed systems, backend cloud infrastructure, search engines, and full-stack web applications.

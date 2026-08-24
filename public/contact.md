@@ -1,3 +1,10 @@
+<!-- markdownlint-disable MD025 -->
+---
+title: "Contact"
+description: "Maanasa Narayan's Contact page"
+canonical: "https://maanasa.dev/contact"
+last-updated: "2026-08-24"
+---
 # Contact Maanasa Narayan
 
 > Software Engineer at Google, Mountain View / Bay Area, CA. Open to discussions on backend cloud architecture, distributed systems, web engineering, speaking engagements, and engineering mentorship.

@@ -1,0 +1,4 @@
+# About Maanasa Narayan
+
+Maanasa Narayan is a Software Engineer at Google.
+For more details, see the main /llms.txt

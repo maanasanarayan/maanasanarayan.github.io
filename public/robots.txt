@@ -43,3 +43,4 @@ User-agent: DuckDuckBot
 Allow: /
 
 Sitemap: https://maanasa.dev/sitemap-index.xml
+Schemamap: https://maanasa.dev/schemamap.json

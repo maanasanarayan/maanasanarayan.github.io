@@ -1,0 +1,11 @@
+{
+  "@context": "https://schema.org",
+  "@type": "DataFeed",
+  "dataFeedElement": [
+    {
+      "@type": "Person",
+      "url": "https://maanasa.dev",
+      "name": "Maanasa Narayan"
+    }
+  ]
+}

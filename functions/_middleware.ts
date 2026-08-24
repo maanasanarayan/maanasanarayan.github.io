@@ -125,7 +125,7 @@ export function markdownPath(pathname: string): string {
 }
 
 const STATIC_EXT =
-  /\.(?:css|js|mjs|map|png|jpe?g|webp|gif|svg|avif|ico|woff2?|ttf|otf|eot|xml|txt|json|pdf|mp4|webm|mp3|wav|ogg|zip|md|html)$/i;
+  /\.(?:css|js|mjs|map|png|jpe?g|webp|gif|svg|avif|ico|woff2?|ttf|otf|eot|xml|txt|json|pdf|mp4|webm|mp3|wav|ogg|zip|html)$/i;
 
 export const onRequest: PagesFunction = async (context) => {
   const { request, next } = context;
@@ -137,7 +137,24 @@ export const onRequest: PagesFunction = async (context) => {
   }
 
   const acceptHeader = request.headers.get('accept');
-  const chosen = preferredType(acceptHeader, PRODUCES);
+  let chosen = preferredType(acceptHeader, PRODUCES);
+
+  const BOT_UAS = [
+    'gptbot',
+    'claudebot',
+    'chatgpt-user',
+    'perplexitybot',
+    'google-extended',
+    'applebot-extended',
+    'ora-agent',
+    'deepseekbot',
+    'anthropic-ai',
+    'perplexity-user',
+  ];
+  const userAgent = request.headers.get('user-agent')?.toLowerCase() || '';
+  if (BOT_UAS.some((bot) => userAgent.includes(bot))) {
+    chosen = 'text/markdown';
+  }
 
   // Client explicitly rejected everything we produce (q=0 on both)
   if (chosen === null && acceptHeader) {
@@ -239,22 +256,38 @@ export const onRequest: PagesFunction = async (context) => {
 
   // If 404, serve custom 404 page with 404 status and recovery links
   if (htmlRes.status === 404) {
-    const notFoundHtmlRes = await next(
-      new Request(new URL('/404.html', url).toString(), request),
-    );
-    if (notFoundHtmlRes.status === 200) {
-      const body = await notFoundHtmlRes.text();
-      const custom404 = new Response(body, {
-        status: 404,
-        headers: notFoundHtmlRes.headers,
-      });
-      custom404.headers.set('Content-Type', 'text/html; charset=utf-8');
-      appendVaryAccept(custom404.headers);
-      custom404.headers.set(
-        'Link',
-        '</404.md>; rel="alternate"; type="text/markdown"',
+    if (url.pathname.endsWith('.md')) {
+      const notFoundMdRes = await next(
+        new Request(new URL('/404.md', url).toString(), request),
       );
-      return custom404;
+      if (notFoundMdRes.status === 200) {
+        const body = await notFoundMdRes.text();
+        const custom404 = new Response(body, {
+          status: 404,
+          headers: notFoundMdRes.headers,
+        });
+        custom404.headers.set('Content-Type', 'text/markdown; charset=utf-8');
+        appendVaryAccept(custom404.headers);
+        return custom404;
+      }
+    } else {
+      const notFoundHtmlRes = await next(
+        new Request(new URL('/404.html', url).toString(), request),
+      );
+      if (notFoundHtmlRes.status === 200) {
+        const body = await notFoundHtmlRes.text();
+        const custom404 = new Response(body, {
+          status: 404,
+          headers: notFoundHtmlRes.headers,
+        });
+        custom404.headers.set('Content-Type', 'text/html; charset=utf-8');
+        appendVaryAccept(custom404.headers);
+        custom404.headers.set(
+          'Link',
+          '</404.md>; rel="alternate"; type="text/markdown"',
+        );
+        return custom404;
+      }
     }
   }
 
