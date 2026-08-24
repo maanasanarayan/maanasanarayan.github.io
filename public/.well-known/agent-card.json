@@ -1,0 +1,43 @@
+{
+  "$schema": "https://a2a.dev/schema/v1/agent-card.json",
+  "name": "Maanasa Narayan Agent",
+  "description": "Agent-to-Agent interface for Maanasa Narayan's engineering background and portfolio.",
+  "version": "1.0.0",
+  "url": "https://maanasa.dev",
+  "endpoint": "https://maanasa.dev/api/agent",
+  "contact": {
+    "email": "mnsnryn@gmail.com",
+    "name": "Maanasa Narayan",
+    "url": "https://maanasa.dev/contact"
+  },
+  "capabilities": [
+    "profile-query",
+    "experience-verification",
+    "skills-inspection",
+    "project-analysis",
+    "natural-language-qa"
+  ],
+  "skills": [
+    {
+      "name": "profile",
+      "description": "Provides background, current role at Google, education (Northeastern, KSIT), and location."
+    },
+    {
+      "name": "experience",
+      "description": "Provides detailed history across Google, Kayak, Amazon, Nokia, Adobe, and Infosys."
+    },
+    {
+      "name": "skills",
+      "description": "Provides verified skills across frontend, backend, cloud, databases, and DevOps."
+    },
+    {
+      "name": "ask",
+      "description": "Answers natural language queries about career, projects, and architecture."
+    }
+  ],
+  "protocols": {
+    "mcp": "https://maanasa.dev/api/mcp",
+    "nlweb": "https://maanasa.dev/ask",
+    "rfc9727": "https://maanasa.dev/.well-known/api-catalog"
+  }
+}

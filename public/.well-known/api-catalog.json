@@ -1,0 +1,37 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://maanasa.dev/",
+      "service-desc": [
+        {
+          "href": "https://maanasa.dev/api/openapi.json",
+          "type": "application/vnd.oai.openapi+json;version=3.1.0"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://maanasa.dev/llms.txt",
+          "type": "text/markdown"
+        },
+        {
+          "href": "https://maanasa.dev/auth.md",
+          "type": "text/markdown"
+        }
+      ],
+      "service-meta": [
+        {
+          "href": "https://maanasa.dev/.well-known/ai-catalog.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://maanasa.dev/.well-known/agent-card.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://maanasa.dev/.well-known/mcp/server-card.json",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Maanasa Narayan Portfolio",
+  "name_for_model": "maanasa_portfolio",
+  "description_for_human": "Explore Maanasa Narayan's software engineering portfolio, background at Google, and technical projects.",
+  "description_for_model": "Plugin for accessing verified biographical, career history, technical skills, projects, and contact info for Maanasa Narayan.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://maanasa.dev/api/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://maanasa.dev/images/maanasan.jpg",
+  "contact_email": "mnsnryn@gmail.com",
+  "legal_info_url": "https://maanasa.dev/privacy"
+}

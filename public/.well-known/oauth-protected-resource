@@ -1,0 +1,17 @@
+{
+  "resource": "https://maanasa.dev",
+  "authorization_servers": [
+    "https://maanasa.dev"
+  ],
+  "scopes_supported": [
+    "read:profile",
+    "read:experience",
+    "read:skills",
+    "read:projects",
+    "ask:question"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_documentation": "https://maanasa.dev/auth.md"
+}

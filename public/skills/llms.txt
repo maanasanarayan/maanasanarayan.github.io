@@ -1,0 +1,14 @@
+# Technical Skills & Stack
+
+> Technical competencies and toolchains mastered by Maanasa Narayan.
+
+- [Skills Section](https://maanasa.dev/#skills)
+- [Main LLMs Reference](https://maanasa.dev/llms.txt)
+
+## Competencies
+
+- **Languages:** Java, Python, JavaScript, TypeScript, SQL, HTML, CSS
+- **Web & Frameworks:** React, Redux, Node.js, Express, Spring Boot, Astro, REST APIs
+- **Databases:** MySQL, MongoDB, SQLite
+- **Cloud & DevOps:** AWS Lambda, API Gateway, S3, Docker, Kubernetes, Cloudflare Workers, GitHub Actions, CI/CD
+- **Testing & Observability:** JUnit, Jest, Elasticsearch, Kibana, Puppeteer

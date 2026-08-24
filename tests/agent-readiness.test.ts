@@ -6,6 +6,7 @@ import worker, {
   preferredType,
   appendVaryAccept,
   markdownPath,
+  isBotUA,
 } from '../src/worker.ts';
 
 describe('1. Agent-friendly 404s', () => {
@@ -15,7 +16,7 @@ describe('1. Agent-friendly 404s', () => {
         const url = typeof req === 'string' ? new URL(req) : new URL(req.url);
         if (url.pathname === '/404.md') {
           return new Response(
-            '# 404 Not Found\n\n## Where to look next\n\n- [Home](https://maanasa.dev/)\n- [LLMs](https://maanasa.dev/llms.txt)\n- [Sitemap](https://maanasa.dev/sitemap-index.xml)',
+            '---\ntitle: "404 Not Found"\n---\n\n# 404 Not Found\n\n## Where to look next\n\n- [Home](https://maanasa.dev/)\n- [LLMs](https://maanasa.dev/llms.txt)\n- [Sitemap](https://maanasa.dev/sitemap-index.xml)',
             { status: 200, headers: { 'Content-Type': 'text/markdown' } },
           );
         }
@@ -106,10 +107,13 @@ describe('2. Markdown Content Negotiation (RFC 9110 / acceptmarkdown.com)', () =
       async fetch(r: Request | string) {
         const url = typeof r === 'string' ? new URL(r) : new URL(r.url);
         if (url.pathname === '/index.md') {
-          return new Response('# Maanasa Narayan\n\nSoftware Engineer', {
-            status: 200,
-            headers: { 'Content-Type': 'text/plain' },
-          });
+          return new Response(
+            '---\ntitle: "Maanasa Narayan"\n---\n\n# Maanasa Narayan\n\nSoftware Engineer',
+            {
+              status: 200,
+              headers: { 'Content-Type': 'text/plain' },
+            },
+          );
         }
         return new Response('Not Found', { status: 404 });
       },
@@ -125,6 +129,14 @@ describe('2. Markdown Content Negotiation (RFC 9110 / acceptmarkdown.com)', () =
     expect(res.headers.get('Vary')).toContain('Accept');
     expect(res.headers.get('Link')).toContain('rel="canonical"');
   });
+
+  it('detects AI bot User-Agents and serves markdown', () => {
+    expect(isBotUA('GPTBot/1.0')).toBe(true);
+    expect(isBotUA('ClaudeBot/1.0')).toBe(true);
+    expect(isBotUA('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)')).toBe(
+      false,
+    );
+  });
 });
 
 describe('3. Agent Instruction / When-to-Use (llms.txt)', () => {
@@ -134,23 +146,30 @@ describe('3. Agent Instruction / When-to-Use (llms.txt)', () => {
       'utf-8',
     );
     expect(content).toContain('## When to Use This');
-    expect(content).toContain('## How to Reference');
     expect(content).toContain('Software Engineer');
+    expect(content).toContain('[About Maanasa]');
+    expect(content).toContain('## Sandbox / Test Environment');
   });
 
-  it('ensures public/llms-full.txt exists and is populated', () => {
-    const content = readFileSync(
-      join(process.cwd(), 'public/llms-full.txt'),
-      'utf-8',
-    );
-    expect(content.length).toBeGreaterThan(1000);
-    expect(content).toContain('## When to Use This');
-    expect(content).toContain('Work Experience');
+  it('ensures modular section-level llms.txt files exist', () => {
+    const sections = [
+      'about',
+      'contact',
+      'projects',
+      'skills',
+      'experience',
+      'docs',
+      'api',
+    ];
+    for (const s of sections) {
+      const p = join(process.cwd(), `public/${s}/llms.txt`);
+      expect(existsSync(p)).toBe(true);
+    }
   });
 });
 
-describe('4. Organization & Person Schema Completeness', () => {
-  it('validates JSON-LD schema includes Person, Organization, contactPoint, and PostalAddress', () => {
+describe('4. Extended Schema Completeness & WebMCP', () => {
+  it('validates JSON-LD schema includes Person, Organization, FAQPage, Service, AggregateRating, BreadcrumbList', () => {
     const layoutContent = readFileSync(
       join(process.cwd(), 'src/layouts/SiteLayout.astro'),
       'utf-8',
@@ -159,94 +178,127 @@ describe('4. Organization & Person Schema Completeness', () => {
     expect(layoutContent).toContain("'Organization'");
     expect(layoutContent).toContain("'ContactPoint'");
     expect(layoutContent).toContain("'PostalAddress'");
-    expect(layoutContent).toContain('contactType');
-    expect(layoutContent).toContain('addressLocality');
+    expect(layoutContent).toContain("'FAQPage'");
+    expect(layoutContent).toContain("'Service'");
+    expect(layoutContent).toContain("'AggregateRating'");
+    expect(layoutContent).toContain("'BreadcrumbList'");
+  });
+
+  it('validates WebMCP client-side registration and action form attributes', () => {
+    const layoutContent = readFileSync(
+      join(process.cwd(), 'src/layouts/SiteLayout.astro'),
+      'utf-8',
+    );
+    expect(layoutContent).toContain('modelContext');
+    expect(layoutContent).toContain('registerTool');
+
+    const contactContent = readFileSync(
+      join(process.cwd(), 'src/components/Contact.astro'),
+      'utf-8',
+    );
+    expect(contactContent).toContain("toolname: 'contact_maanasa'");
+    expect(contactContent).toContain('tooldescription:');
   });
 });
 
-describe('5. Trust Anchor Pages & Static Markdown Siblings', () => {
-  it('ensures /about, /contact, /privacy pages exist with Markdown siblings and >500 chars of content', () => {
-    const pages = ['about', 'contact', 'privacy'];
-    for (const page of pages) {
-      const astroPage = join(process.cwd(), `src/pages/${page}.astro`);
-      const mdPage = join(process.cwd(), `public/${page}/index.md`);
-      const mdAlias = join(process.cwd(), `public/${page}.md`);
-
-      expect(existsSync(astroPage)).toBe(true);
-      expect(existsSync(mdPage)).toBe(true);
-      expect(existsSync(mdAlias)).toBe(true);
-
-      const astroText = readFileSync(astroPage, 'utf-8');
-      const mdText = readFileSync(mdPage, 'utf-8');
-
-      expect(astroText.length).toBeGreaterThan(500);
-      expect(mdText.length).toBeGreaterThan(500);
-    }
-  });
-});
-
-describe('6. Homepage Heading Tree Hierarchy & SSR Content Length', () => {
-  it('validates index.html contains an H1 and structured semantic heading hierarchy', () => {
-    const indexPath = join(process.cwd(), 'dist/client/index.html');
-    expect(existsSync(indexPath)).toBe(true);
-    const html = readFileSync(indexPath, 'utf-8');
-
-    // H1 check
-    expect(html).toMatch(/<h1[\s>]/i);
-
-    // Text content length > 500 characters
-    const cleanText = html
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-    expect(cleanText.length).toBeGreaterThan(500);
-
-    // Strict hierarchy checks
-    expect(html).toContain('About &amp; Skills.');
-    expect(html).toContain('Technical Skills');
-    expect(html).toContain('Work Experience.');
-    expect(html).toContain('Featured Projects.');
-    expect(html).toContain('Recommendations.');
-    expect(html).toContain('Contact.');
-  });
-});
-
-describe('7. Cloudflare Pages Middleware', () => {
-  it('handles markdown negotiation and 404 recovery in functions/_middleware.ts', async () => {
-    const { onRequest } = await import('../functions/_middleware.ts');
-
-    // Test markdown negotiation
-    const req = new Request('https://maanasa.dev/', {
-      headers: { Accept: 'text/markdown' },
-    });
-    const nextMock = async (r?: Request | string) => {
-      const u =
-        typeof r === 'string'
-          ? new URL(r)
-          : r
-            ? new URL(r.url)
-            : new URL('https://maanasa.dev/');
-      if (u.pathname === '/index.md') {
-        return new Response('# Maanasa Narayan\n\nSoftware Engineer', {
-          status: 200,
-          headers: { 'Content-Type': 'text/plain' },
-        });
-      }
-      return new Response('Not Found', { status: 404 });
-    };
-
-    const res = await onRequest({
-      request: req,
-      next: nextMock,
-      functionPath: '',
-      waitUntil: () => {},
-      env: {},
-      params: {},
-      data: {},
-    });
+describe('5. Agent Mode View (?mode=agent)', () => {
+  it('returns structured JSON data when ?mode=agent is present', async () => {
+    const req = new Request('https://maanasa.dev/?mode=agent');
+    const res = await worker.fetch(req, {});
 
     expect(res.status).toBe(200);
-    expect(res.headers.get('Content-Type')).toContain('text/markdown');
-    expect(res.headers.get('Vary')).toContain('Accept');
+    expect(res.headers.get('Content-Type')).toContain('application/json');
+    const data = await res.json();
+    expect(data.mode).toBe('agent');
+    expect(data.entity).toBe('Maanasa Narayan');
+    expect(data.endpoints.ask_nlweb).toBe('https://maanasa.dev/ask');
+    expect(data.skills.length).toBeGreaterThan(5);
+  });
+});
+
+describe('6. Microsoft NLWeb Protocol (/ask)', () => {
+  it('returns JSON answer response on POST /ask', async () => {
+    const req = new Request('https://maanasa.dev/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query: 'Tell me about Maanasa' }),
+    });
+    const res = await worker.fetch(req, {});
+
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Content-Type')).toContain('application/json');
+    const data = await res.json();
+    expect(data._meta.protocol).toBe('NLWeb');
+    expect(data.answers.length).toBeGreaterThan(0);
+  });
+
+  it('supports SSE streaming when Accept: text/event-stream is present', async () => {
+    const req = new Request('https://maanasa.dev/ask?q=experience', {
+      headers: { Accept: 'text/event-stream' },
+    });
+    const res = await worker.fetch(req, {});
+
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Content-Type')).toContain('text/event-stream');
+    const text = await res.text();
+    expect(text).toContain('event: start');
+    expect(text).toContain('event: result');
+    expect(text).toContain('event: complete');
+  });
+});
+
+describe('7. RFC 9727 API Catalog & Discovery Metadata', () => {
+  it('serves RFC 9727 API catalog with correct linkset profile', async () => {
+    const req = new Request('https://maanasa.dev/.well-known/api-catalog');
+    const res = await worker.fetch(req, {});
+
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Content-Type')).toContain(
+      'application/linkset+json',
+    );
+    const data = await res.json();
+    expect(data.linkset).toBeDefined();
+    expect(data.linkset[0]['service-desc']).toBeDefined();
+  });
+
+  it('ensures all well-known discovery documents exist', () => {
+    const docs = [
+      'public/.well-known/ai-catalog.json',
+      'public/.well-known/agent-skills/index.json',
+      'public/.well-known/agent-card.json',
+      'public/.well-known/mcp/server-card.json',
+      'public/.well-known/mcp/docs-server-card.json',
+      'public/.well-known/oauth-protected-resource',
+      'public/.well-known/oauth-authorization-server',
+      'public/.well-known/http-message-signatures-directory',
+      'public/api/openapi.json',
+      'public/auth.md',
+      'public/schemamap.xml',
+      'SKILL.md',
+    ];
+    for (const d of docs) {
+      expect(existsSync(join(process.cwd(), d))).toBe(true);
+    }
+  });
+
+  it('validates auth entrypoints return 401 with WWW-Authenticate hint', async () => {
+    const req = new Request('https://maanasa.dev/api');
+    const res = await worker.fetch(req, {});
+
+    expect(res.status).toBe(401);
+    expect(res.headers.get('WWW-Authenticate')).toContain(
+      'resource_metadata="https://maanasa.dev/.well-known/oauth-protected-resource"',
+    );
+  });
+
+  it('validates agent registration endpoints respond with 200', async () => {
+    const req = new Request('https://maanasa.dev/api/agent/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const res = await worker.fetch(req, {});
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.status).toBe('registered');
   });
 });

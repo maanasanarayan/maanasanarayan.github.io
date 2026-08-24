@@ -1,4 +1,13 @@
 # About Maanasa Narayan
 
-Maanasa Narayan is a Software Engineer at Google.
-For more details, see the main /llms.txt
+> Software Engineer at Google (Search AI Mode), Mountain View, CA.
+
+- [Main Documentation](https://maanasa.dev/llms.txt)
+- [Interactive About Page](https://maanasa.dev/about)
+- [Full LLMs Context](https://maanasa.dev/llms-full.txt)
+
+## Background
+
+Maanasa is a software engineer with extensive experience in distributed systems, backend cloud architecture, and full-stack web applications.
+Holds an M.S. in Computer Science from Northeastern University (GPA 3.9/4.0) and a B.E. in Computer Science from KSIT, VTU.
+Prior roles include Kayak (Boston), Amazon (Seattle), Nokia (Raleigh), Adobe (Bengaluru), and Infosys (Mysuru).

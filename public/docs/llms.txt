@@ -1,0 +1,14 @@
+# Documentation Index for Agents
+
+> Index of all machine-readable documents, schemas, and API guides on maanasa.dev.
+
+- [Main LLMs Index](https://maanasa.dev/llms.txt)
+- [Full LLMs Context](https://maanasa.dev/llms-full.txt)
+- [Agent Auth Specification](https://maanasa.dev/auth.md)
+- [OpenAPI 3.1.0 Specification](https://maanasa.dev/api/openapi.json)
+- [API Catalog (RFC 9727)](https://maanasa.dev/.well-known/api-catalog)
+- [Agent Card (A2A)](https://maanasa.dev/.well-known/agent-card.json)
+- [Agent Skills](https://maanasa.dev/.well-known/agent-skills/index.json)
+- [MCP Server Card](https://maanasa.dev/.well-known/mcp/server-card.json)
+- [MCP Docs Server Card](https://maanasa.dev/.well-known/mcp/docs-server-card.json)
+- [Schema Map (NLWeb)](https://maanasa.dev/schemamap.xml)

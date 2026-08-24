@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemamap xmlns="http://www.schemamap.org/schemas/schemamap/0.9">
+  <feed>
+    <url>https://maanasa.dev/schemamap.jsonl</url>
+    <type>jsonl</type>
+    <schematype>Person,Organization,WebSite</schematype>
+    <lastmod>2026-08-24T00:00:00Z</lastmod>
+  </feed>
+</schemamap>

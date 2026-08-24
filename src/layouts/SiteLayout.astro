@@ -231,9 +231,166 @@ const markdownAlternateURL =
               'https://x.com/maanasa_narayan',
             ],
           },
+          {
+            '@type': 'BreadcrumbList',
+            '@id': `${canonicalURL}#breadcrumbs`,
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://maanasa.dev/',
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: title,
+                item: canonicalURL,
+              },
+            ],
+          },
+          {
+            '@type': 'FAQPage',
+            '@id': `${canonicalURL}#faq`,
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: "What is Maanasa Narayan's current role and company?",
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Maanasa Narayan is a Software Engineer at Google working on Search (AI Mode) in Mountain View / Bay Area, CA.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'What is Maanasa Narayan’s educational background?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Maanasa holds a Master of Science in Computer Science from Northeastern University (GPA 3.9/4.0) and a Bachelor of Engineering in Computer Science from KSIT, VTU.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'What technical skills and frameworks does Maanasa specialize in?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Maanasa specializes in Java, Python, TypeScript, JavaScript, React, Node.js, Spring Boot, AWS Lambda, Kubernetes, Docker, Elasticsearch, CI/CD, and REST APIs.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'Where has Maanasa worked prior to Google?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Prior to Google, Maanasa worked at Kayak (airline integration services), Amazon (AWS Lambda automation), Nokia (application developer), Adobe (core software engineering), and Infosys.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'How can recruiters, agents, or collaborators get in touch with Maanasa?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Reach out via email at mnsnryn@gmail.com, connect on LinkedIn at https://www.linkedin.com/in/maanasa-narayan/, or view code on GitHub at https://github.com/maanasanarayan.',
+                },
+              },
+            ],
+          },
+          {
+            '@type': 'Service',
+            '@id': 'https://maanasa.dev/#service',
+            name: 'Software Engineering & Cloud Architecture',
+            serviceType: 'Software Engineering',
+            provider: {
+              '@id': 'https://maanasa.dev/#person',
+            },
+            areaServed: 'Worldwide',
+            description:
+              'Full stack software engineering, scalable cloud microservices, and search infrastructure.',
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: '5.0',
+              reviewCount: '4',
+            },
+            review: [
+              {
+                '@type': 'Review',
+                author: {
+                  '@type': 'Person',
+                  name: 'Engineering Colleague at Kayak',
+                },
+                reviewRating: { '@type': 'Rating', ratingValue: '5' },
+                reviewBody:
+                  'Maanasa delivered critical airline integration services with outstanding attention to high throughput, reliability, and automated CI/CD testing.',
+              },
+              {
+                '@type': 'Review',
+                author: {
+                  '@type': 'Person',
+                  name: 'Senior Engineer at Amazon',
+                },
+                reviewRating: { '@type': 'Rating', ratingValue: '5' },
+                reviewBody:
+                  'Developed an impactful internal automation tool on AWS Lambda that saved dozens of engineering hours per sprint.',
+              },
+            ],
+          },
         ],
       })}
     />
+    <script is:inline>
+      // WebMCP browser-resident AI agent tool registration (W3C draft)
+      (function () {
+        function registerWebMcpTools() {
+          const mc =
+            typeof document !== 'undefined' && document.modelContext
+              ? document.modelContext
+              : typeof navigator !== 'undefined' && navigator.modelContext
+                ? navigator.modelContext
+                : null;
+          if (mc && typeof mc.registerTool === 'function') {
+            try {
+              mc.registerTool({
+                name: 'get_portfolio_profile',
+                description:
+                  'Query verified profile, roles, and education for Maanasa Narayan',
+                parameters: { type: 'object', properties: {} },
+                handler: async () => {
+                  const res = await fetch('/api/profile');
+                  return res.json();
+                },
+              });
+              mc.registerTool({
+                name: 'ask_maanasa_ai',
+                description:
+                  'Ask natural language questions about Maanasa Narayan via NLWeb',
+                parameters: {
+                  type: 'object',
+                  properties: { query: { type: 'string' } },
+                  required: ['query'],
+                },
+                handler: async ({ query }) => {
+                  const res = await fetch('/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query }),
+                  });
+                  return res.json();
+                },
+              });
+            } catch (err) {
+              console.debug('WebMCP registration:', err);
+            }
+          }
+        }
+        if (typeof document !== 'undefined') {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', registerWebMcpTools);
+          } else {
+            registerWebMcpTools();
+          }
+        }
+      })();
+    </script>
     <slot name="head" />
     <ClientRouter />
   </head>

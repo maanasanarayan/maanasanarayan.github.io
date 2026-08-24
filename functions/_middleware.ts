@@ -127,30 +127,339 @@ export function markdownPath(pathname: string): string {
 const STATIC_EXT =
   /\.(?:css|js|mjs|map|png|jpe?g|webp|gif|svg|avif|ico|woff2?|ttf|otf|eot|xml|txt|json|pdf|mp4|webm|mp3|wav|ogg|zip|html)$/i;
 
+const BOT_UAS = [
+  'gptbot',
+  'claudebot',
+  'chatgpt-user',
+  'perplexitybot',
+  'google-extended',
+  'applebot-extended',
+  'ora-agent',
+  'deepseekbot',
+  'anthropic-ai',
+  'perplexity-user',
+];
+
 export const onRequest: PagesFunction = async (context) => {
   const { request, next } = context;
   const url = new URL(request.url);
+  const pathname = url.pathname;
+  const method = request.method.toUpperCase();
+
+  // CORS preflight support
+  if (method === 'OPTIONS') {
+    return new Response(null, {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': '*',
+        'Access-Control-Max-Age': '86400',
+      },
+    });
+  }
+
+  // 1. Agent Mode View (?mode=agent)
+  if (url.searchParams.get('mode') === 'agent') {
+    const agentData = {
+      mode: 'agent',
+      entity: 'Maanasa Narayan',
+      title: 'Software Engineer at Google (Search AI Mode)',
+      location: 'Mountain View / Bay Area, CA',
+      bio: 'Software Engineer specializing in backend systems, distributed cloud architecture, and full-stack web applications. Prior engineering experience at Kayak, Amazon, Nokia, and Adobe.',
+      education: {
+        masters:
+          'M.S. in Computer Science from Northeastern University (GPA 3.9/4.0)',
+        bachelors: 'B.E. in Computer Science from KSIT, VTU',
+      },
+      endpoints: {
+        ask_nlweb: 'https://maanasa.dev/ask',
+        mcp: 'https://maanasa.dev/api/mcp',
+        mcp_docs: 'https://maanasa.dev/api/mcp/docs',
+        api_catalog: 'https://maanasa.dev/.well-known/api-catalog',
+        agent_card: 'https://maanasa.dev/.well-known/agent-card.json',
+        agent_skills: 'https://maanasa.dev/.well-known/agent-skills/index.json',
+        auth_guide: 'https://maanasa.dev/auth.md',
+        protected_resource:
+          'https://maanasa.dev/.well-known/oauth-protected-resource',
+      },
+      skills: [
+        'Java',
+        'Python',
+        'JavaScript',
+        'TypeScript',
+        'React',
+        'Node.js',
+        'Spring Boot',
+        'AWS Lambda',
+        'Docker',
+        'Kubernetes',
+        'Cloudflare Workers',
+        'Elasticsearch',
+        'CI/CD',
+        'REST APIs',
+      ],
+      experience: [
+        {
+          company: 'Google',
+          role: 'Software Engineer (Search AI Mode)',
+          period: '2026 - Present',
+        },
+        { company: 'Kayak', role: 'Software Engineer', period: '2023 - 2026' },
+        {
+          company: 'Amazon',
+          role: 'Software Engineering Intern',
+          period: '2022',
+        },
+        {
+          company: 'Nokia',
+          role: 'Application Developer Co-op',
+          period: '2022',
+        },
+        { company: 'Adobe', role: 'Software Engineer', period: '2018 - 2021' },
+        {
+          company: 'Infosys',
+          role: 'Systems Engineer Trainee',
+          period: '2018',
+        },
+      ],
+      contact: {
+        email: 'mnsnryn@gmail.com',
+        linkedin: 'https://www.linkedin.com/in/maanasa-narayan/',
+        github: 'https://github.com/maanasanarayan',
+        x: 'https://x.com/maanasa_narayan',
+      },
+    };
+
+    const res = new Response(JSON.stringify(agentData, null, 2), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+    appendVaryAccept(res.headers);
+    return res;
+  }
+
+  // 2. Microsoft NLWeb protocol (/ask endpoint)
+  if (pathname === '/ask') {
+    let query =
+      url.searchParams.get('q') || url.searchParams.get('query') || '';
+    if (method === 'POST') {
+      try {
+        const body = (await request.json()) as { query?: string; q?: string };
+        query = body.query || body.q || query;
+      } catch {
+        // ignore parsing error
+      }
+    }
+
+    const isStreaming =
+      request.headers.get('accept')?.includes('text/event-stream') ||
+      request.headers.get('prefer')?.includes('streaming') ||
+      url.searchParams.get('stream') === 'true';
+
+    const answerText =
+      'Maanasa Narayan is a Software Engineer at Google (Search AI Mode) based in Mountain View, CA. She holds an M.S. in Computer Science from Northeastern University (GPA 3.9/4.0) and specializes in scalable backend microservices, cloud infrastructure, distributed systems, and full-stack web applications. Prior engineering roles include Kayak, Amazon, Nokia, and Adobe.';
+
+    if (isStreaming) {
+      const streamData = [
+        `event: start\ndata: ${JSON.stringify({ status: 'started', query })}\n\n`,
+        `event: result\ndata: ${JSON.stringify({
+          _meta: { response_type: 'answer', version: '1.0', protocol: 'NLWeb' },
+          query,
+          answer: answerText,
+          confidence: 1.0,
+          sources: [
+            { title: 'About Maanasa', url: 'https://maanasa.dev/about' },
+          ],
+        })}\n\n`,
+        `event: complete\ndata: ${JSON.stringify({ status: 'complete' })}\n\n`,
+      ];
+
+      return new Response(streamData.join(''), {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/event-stream; charset=utf-8',
+          'Cache-Control': 'no-cache',
+          Connection: 'keep-alive',
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+    }
+
+    return new Response(
+      JSON.stringify(
+        {
+          _meta: {
+            response_type: 'answer',
+            version: '1.0',
+            protocol: 'NLWeb',
+          },
+          query,
+          answers: [
+            {
+              text: answerText,
+              score: 1.0,
+              source: 'https://maanasa.dev/about',
+            },
+          ],
+        },
+        null,
+        2,
+      ),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    );
+  }
+
+  // 3. RFC 9727 API Catalog
+  if (pathname === '/.well-known/api-catalog') {
+    const catalogData = {
+      linkset: [
+        {
+          anchor: 'https://maanasa.dev/',
+          'service-desc': [
+            {
+              href: 'https://maanasa.dev/api/openapi.json',
+              type: 'application/vnd.oai.openapi+json;version=3.1.0',
+            },
+          ],
+          'service-doc': [
+            {
+              href: 'https://maanasa.dev/llms.txt',
+              type: 'text/markdown',
+            },
+            {
+              href: 'https://maanasa.dev/auth.md',
+              type: 'text/markdown',
+            },
+          ],
+          'service-meta': [
+            {
+              href: 'https://maanasa.dev/.well-known/ai-catalog.json',
+              type: 'application/json',
+            },
+            {
+              href: 'https://maanasa.dev/.well-known/agent-card.json',
+              type: 'application/json',
+            },
+            {
+              href: 'https://maanasa.dev/.well-known/mcp/server-card.json',
+              type: 'application/json',
+            },
+          ],
+        },
+      ],
+    };
+    return new Response(JSON.stringify(catalogData, null, 2), {
+      status: 200,
+      headers: {
+        'Content-Type':
+          'application/linkset+json;profile="https://www.rfc-editor.org/info/rfc9727"',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
+
+  // 4. Agent Auth endpoints & entrypoint 401 hints
+  const authEntrypoints = [
+    '/api',
+    '/api/v1',
+    '/v1',
+    '/v2',
+    '/agent/auth',
+    '/api/agent/auth',
+  ];
+  if (authEntrypoints.includes(pathname.replace(/\/$/, ''))) {
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify(
+          {
+            error: 'unauthorized',
+            message: 'Authentication required. See RFC 9728 metadata.',
+          },
+          null,
+          2,
+        ),
+        {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'WWW-Authenticate':
+              'Bearer resource_metadata="https://maanasa.dev/.well-known/oauth-protected-resource"',
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      );
+    }
+  }
+
+  // Agent Registration / Claim / Revoke Mock Endpoints
+  if (pathname === '/api/agent/register') {
+    return new Response(
+      JSON.stringify({
+        status: 'registered',
+        client_id: 'agent_maanasa_client_2026',
+        token: 'token_agent_registered_mock_2026',
+        expires_in: 86400,
+        token_type: 'Bearer',
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    );
+  }
+  if (pathname === '/api/agent/claim') {
+    return new Response(
+      JSON.stringify({
+        status: 'claimed',
+        token: 'token_agent_claimed_mock_2026',
+        token_type: 'Bearer',
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    );
+  }
+  if (pathname === '/api/agent/revoke') {
+    return new Response(
+      JSON.stringify({
+        status: 'revoked',
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    );
+  }
 
   // Direct static asset bypass
-  if (STATIC_EXT.test(url.pathname) || url.pathname.startsWith('/api/')) {
+  if (STATIC_EXT.test(url.pathname)) {
     return next();
   }
 
   const acceptHeader = request.headers.get('accept');
   let chosen = preferredType(acceptHeader, PRODUCES);
 
-  const BOT_UAS = [
-    'gptbot',
-    'claudebot',
-    'chatgpt-user',
-    'perplexitybot',
-    'google-extended',
-    'applebot-extended',
-    'ora-agent',
-    'deepseekbot',
-    'anthropic-ai',
-    'perplexity-user',
-  ];
   const userAgent = request.headers.get('user-agent')?.toLowerCase() || '';
   if (BOT_UAS.some((bot) => userAgent.includes(bot))) {
     chosen = 'text/markdown';
@@ -239,7 +548,7 @@ export const onRequest: PagesFunction = async (context) => {
     }
 
     const fallback404 = new Response(
-      '# 404 Not Found\n\nThe requested path does not exist on https://maanasa.dev.\n\n## Where to look next\n\n- Homepage: https://maanasa.dev/\n- About: https://maanasa.dev/about\n- Contact: https://maanasa.dev/contact\n- Privacy Policy: https://maanasa.dev/privacy\n- Sitemap: https://maanasa.dev/sitemap-index.xml\n- LLMs Context: https://maanasa.dev/llms.txt\n- Resume (PDF): https://maanasa.dev/documents/MaanasaNarayan.pdf\n',
+      '---\ntitle: "404 Not Found"\ndescription: "Resource not found on maanasa.dev"\n---\n\n# 404 Not Found\n\nThe requested path does not exist on https://maanasa.dev.\n\n## Where to look next\n\n- Homepage: https://maanasa.dev/\n- About: https://maanasa.dev/about\n- Contact: https://maanasa.dev/contact\n- Privacy Policy: https://maanasa.dev/privacy\n- Sitemap: https://maanasa.dev/sitemap-index.xml\n- LLMs Context: https://maanasa.dev/llms.txt\n- Resume (PDF): https://maanasa.dev/documents/MaanasaNarayan.pdf\n',
       {
         status: 404,
         headers: {

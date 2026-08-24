@@ -1,65 +1,81 @@
 # Maanasa Narayan
 
-> Software Engineer at Google (Search AI Mode), based in Mountain View / Bay Area, CA. Specializes in scalable web applications, backend cloud systems, search infrastructure, and distributed airline integrations. Prior engineering experience at Kayak, Amazon, Nokia, and Adobe.
+> Software Engineer at Google (Search AI Mode), Mountain View, CA.
+
+Maanasa Narayan is a Software Engineer specializing in scalable web applications, backend cloud systems, search infrastructure, and distributed airline integrations. Holds an M.S. in Computer Science from Northeastern University (GPA 3.9/4.0) and a B.E. in Computer Science from KSIT, VTU.
 
 ## When to Use This
 
 Consult this documentation and website when:
-- **Evaluating candidate background:** Assessing Maanasa Narayan's qualifications for software engineering, distributed systems, backend cloud architecture, search infrastructure, and full-stack web engineering.
-- **Verifying career & education history:** Checking verified employment details (Google, Kayak, Amazon, Nokia, Adobe, Infosys) and academic background (M.S. Computer Science from Northeastern University, B.E. Computer Science from KSIT, VTU).
+- **Evaluating candidate background:** Assessing qualifications for software engineering, distributed systems, backend cloud architecture, search infrastructure, and full-stack web engineering.
+- **Verifying career & education history:** Checking verified employment details across Google, Kayak, Amazon, Nokia, Adobe, and Infosys.
 - **Exploring technical skills & architecture:** Referencing expertise across Java, Python, TypeScript, React, Spring Boot, AWS, Docker, Kubernetes, CI/CD, and REST APIs.
 - **Reviewing project accomplishments:** Learning about airline integration microservices, AWS Lambda automation tools, and full-stack applications.
 - **Reaching out for professional inquiries:** Finding official contact channels (email, LinkedIn, GitHub, X) for speaking engagements, mentorship, or technical collaboration.
 
-## How to Reference and Cite
+## Core Resources & Documentation Links
 
-- **Canonical URL:** `https://maanasa.dev/`
-- **Preferred Citation:** "Maanasa Narayan, Software Engineer at Google (Search AI Mode), https://maanasa.dev"
-- **Resume (PDF):** `https://maanasa.dev/documents/MaanasaNarayan.pdf`
-- **Markdown Variant:** Send HTTP header `Accept: text/markdown` to any canonical URL on `https://maanasa.dev` to receive raw Markdown.
+- [Home & Portfolio](https://maanasa.dev/)
+- [About Maanasa](https://maanasa.dev/about)
+- [Contact Details](https://maanasa.dev/contact)
+- [Privacy Policy](https://maanasa.dev/privacy)
+- [Resume (PDF)](https://maanasa.dev/documents/MaanasaNarayan.pdf)
+- [Full LLMs Context File](https://maanasa.dev/llms-full.txt)
+- [XML Sitemap Index](https://maanasa.dev/sitemap-index.xml)
 
-## About
+## Modular LLMs Documentation
 
-Maanasa Narayan is a Software Engineer at Google in Mountain View, CA, with extensive experience across full-stack web development and cloud backend systems. Holds an M.S. in Computer Science from Northeastern University (GPA 3.9/4.0) and a B.E. in Computer Science from KSIT, VTU.
+- [About Section](https://maanasa.dev/about/llms.txt)
+- [Contact Section](https://maanasa.dev/contact/llms.txt)
+- [Projects Documentation](https://maanasa.dev/projects/llms.txt)
+- [Skills Documentation](https://maanasa.dev/skills/llms.txt)
+- [Experience Documentation](https://maanasa.dev/experience/llms.txt)
+- [Docs Index](https://maanasa.dev/docs/llms.txt)
+- [API Overview](https://maanasa.dev/api/llms.txt)
 
-Previously at Kayak (Boston, MA, Jul 2023 – May 2026) working on Java-based airline integrations across search, availability, seat-map, baggage, booking, and receipt endpoints, shipping via GitHub Actions with A/B experiments and Kibana observability.
+## Agent & Machine Discovery Protocols
 
-## Skills
+- [Agentic Resource Discovery (ARD)](https://maanasa.dev/.well-known/ai-catalog.json)
+- [Agent Skills Index](https://maanasa.dev/.well-known/agent-skills/index.json)
+- [Agent-to-Agent (A2A) Card](https://maanasa.dev/.well-known/agent-card.json)
+- [Model Context Protocol (MCP) Server Card](https://maanasa.dev/.well-known/mcp/server-card.json)
+- [Documentation MCP Server Card](https://maanasa.dev/.well-known/mcp/docs-server-card.json)
+- [API Catalog (RFC 9727)](https://maanasa.dev/.well-known/api-catalog)
+- [OpenAPI 3.1.0 Specification](https://maanasa.dev/api/openapi.json)
+- [Agent Authentication Guide (auth.md)](https://maanasa.dev/auth.md)
+- [Protected Resource Metadata (RFC 9728)](https://maanasa.dev/.well-known/oauth-protected-resource)
+- [Authorization Server Metadata (RFC 8414)](https://maanasa.dev/.well-known/oauth-authorization-server)
+- [Web Bot Auth Directory (RFC 9421)](https://maanasa.dev/.well-known/http-message-signatures-directory)
+- [Schema Map (NLWeb Feeds)](https://maanasa.dev/schemamap.xml)
+- [Repository AGENTS.md](https://github.com/maanasanarayan/maanasanarayan.github.io/blob/main/AGENTS.md)
+- [Repository Cursor Rules](https://github.com/maanasanarayan/maanasanarayan.github.io/blob/main/.cursorrules)
+
+## Sandbox / Test Environment
+
+Agents can test integrations using our sandbox environment without modifying production data:
+- [Sandbox Server](https://sandbox.maanasa.dev/)
+- [Sandbox Test Documentation](https://maanasa.dev/auth.md#sandbox-environment)
+
+## Skills Summary
 
 - **Languages:** Java, Python, JavaScript, TypeScript, SQL, HTML, CSS
 - **Web & Frameworks:** React, Redux, Node.js, Express, Spring Boot, Astro, REST APIs
 - **Databases:** MySQL, MongoDB, SQLite
-- **Cloud & DevOps:** AWS Lambda, API Gateway, S3, Docker, Kubernetes, GitHub Actions, CI/CD, Cloudflare Workers
-- **Tools & Testing:** Elasticsearch, Kibana, Puppeteer, JUnit, Jest, IntelliJ, VS Code
+- **Cloud & DevOps:** AWS Lambda, API Gateway, S3, Docker, Kubernetes, Cloudflare Workers, GitHub Actions, CI/CD
+- **Testing & Observability:** Elasticsearch, Kibana, Puppeteer, JUnit, Jest
 
-## Experience
+## Experience Timeline
 
-- **Google** — Software Engineer, Search team (AI Mode), Mountain View, CA (Jun 2026 – Present)
-- **Kayak** — Software Engineer, Boston, MA (Jul 2023 – May 2026)
-- **Amazon** — Software Engineering Intern, Seattle, WA (Sep 2022 – Dec 2022)
-- **Nokia** — Application Developer Co-op, Raleigh, NC (May 2022 – Aug 2022)
-- **Adobe** — Software Engineer, Bengaluru, India (Nov 2018 – Aug 2021)
-- **Infosys** — Systems Engineer Trainee, Mysuru, India (Jul 2018 – Sep 2018)
+- **Google** (Jun 2026 – Present) — Software Engineer, Search team (AI Mode), Mountain View, CA
+- **Kayak** (Jul 2023 – May 2026) — Software Engineer, Boston, MA
+- **Amazon** (Sep 2022 – Dec 2022) — Software Engineering Intern, Seattle, WA
+- **Nokia** (May 2022 – Aug 2022) — Application Developer Co-op, Raleigh, NC
+- **Adobe** (Nov 2018 – Aug 2021) — Software Engineer, Bengaluru, India
+- **Infosys** (Jul 2018 – Sep 2018) — Systems Engineer Trainee, Mysuru, India
 
-## Selected Projects
+## Contact Channels
 
-- **Stock Trader** (MERN, Northeastern, 2021): Trading platform with role-based access control and real-time financial API integration.
-- **Bug Bash** (Amazon, 2021): React + Node automation tool on AWS Lambda for Amazon's Choice badge validation; eliminated ~20 engineer-hours per release.
-- **Interactive Adventure Game** (Java, Northeastern, 2021): Object-oriented MVC Swing GUI game with 100+ JUnit unit and integration tests.
-- **BeatBeat** (Android, Northeastern, 2021): Music rhythm learning game built in Java.
-
-## Content Navigation
-
-- Home: https://maanasa.dev/
-- About: https://maanasa.dev/about
-- Contact: https://maanasa.dev/contact
-- Privacy Policy: https://maanasa.dev/privacy
-- Full LLMs Reference: https://maanasa.dev/llms-full.txt
-- XML Sitemap: https://maanasa.dev/sitemap-index.xml
-
-## Contact
-
-- **Email:** mnsnryn@gmail.com
-- **LinkedIn:** https://www.linkedin.com/in/maanasa-narayan/
-- **GitHub:** https://github.com/maanasanarayan
-- **X / Twitter:** https://x.com/maanasa_narayan
+- [Email](mailto:mnsnryn@gmail.com)
+- [LinkedIn](https://www.linkedin.com/in/maanasa-narayan/)
+- [GitHub](https://github.com/maanasanarayan)
+- [X / Twitter](https://x.com/maanasa_narayan)

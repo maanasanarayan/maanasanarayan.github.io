@@ -1,0 +1,9 @@
+# API Documentation for AI Agents
+
+> Machine-readable endpoints and authentication protocols for programmatic access.
+
+- [OpenAPI Specification](https://maanasa.dev/api/openapi.json)
+- [Agent Authentication (auth.md)](https://maanasa.dev/auth.md)
+- [API Catalog (RFC 9727)](https://maanasa.dev/.well-known/api-catalog)
+- [NLWeb /ask Endpoint](https://maanasa.dev/ask)
+- [MCP Server](https://maanasa.dev/api/mcp)

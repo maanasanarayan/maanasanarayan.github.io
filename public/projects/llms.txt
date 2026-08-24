@@ -1,0 +1,13 @@
+# Featured Engineering Projects
+
+> Highlights of software engineering and cloud infrastructure projects by Maanasa Narayan.
+
+- [Projects Section](https://maanasa.dev/#projects)
+- [Main LLMs Reference](https://maanasa.dev/llms.txt)
+
+## Projects List
+
+- **Airline Integration Microservices (Kayak):** High-throughput Java services for flight search, availability, seat maps, and bookings with automated CI/CD and Kibana monitoring.
+- **Bug Bash Tool (Amazon):** React and Node.js automation platform deployed on AWS Lambda for Amazon's Choice badge validation; saved ~20 engineering hours per release.
+- **Stock Trader Platform (MERN):** Full-stack financial platform with role-based access control and real-time market data integration.
+- **Interactive Adventure Game (Java):** MVC Swing game with 100+ unit and integration tests in JUnit.

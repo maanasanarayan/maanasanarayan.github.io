@@ -15,4 +15,26 @@ const { contact } = Astro.props as { contact: ContactData };
 <div>
   <SectionHeader kicker="05 · Say hello" title="Contact." />
   <ContactCard contact={contact} client:load />
+  <form
+    action="mailto:mnsnryn@gmail.com"
+    method="GET"
+    class="sr-only"
+    {...{
+      toolname: 'contact_maanasa',
+      tooldescription:
+        'Send an inquiry, message or collaboration request to Maanasa Narayan',
+    }}
+  >
+    <label for="agent-subject">Subject</label>
+    <input
+      id="agent-subject"
+      name="subject"
+      type="text"
+      placeholder="Inquiry subject"
+    />
+    <label for="agent-body">Message</label>
+    <textarea id="agent-body" name="body" placeholder="Message content"
+    ></textarea>
+    <button type="submit">Send Message</button>
+  </form>
 </div>

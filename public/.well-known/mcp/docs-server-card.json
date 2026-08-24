@@ -1,0 +1,41 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/server-card.json",
+  "name": "maanasa-docs-mcp",
+  "description": "Documentation Model Context Protocol server for querying portfolio documentation, markdown pages, and resume context.",
+  "version": "1.0.0",
+  "serverUrl": "https://maanasa.dev/api/mcp/docs",
+  "transport": {
+    "type": "http-sse",
+    "endpoint": "https://maanasa.dev/api/mcp/docs"
+  },
+  "tools": [
+    {
+      "name": "search_docs",
+      "description": "Search across all portfolio documentation, markdown twin pages, and LLM context files.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "The search query term or topic."
+          }
+        },
+        "required": ["query"]
+      }
+    },
+    {
+      "name": "get_doc",
+      "description": "Retrieve the full markdown text of a specific documentation page (e.g. /about, /contact, /privacy, /auth).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "The path to the document (e.g. /about, /llms.txt, /auth.md)."
+          }
+        },
+        "required": ["path"]
+      }
+    }
+  ]
+}

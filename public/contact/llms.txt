@@ -1,8 +1,9 @@
 # Contact Maanasa Narayan
 
-- Email: mnsnryn@gmail.com
-- LinkedIn: https://www.linkedin.com/in/maanasa-narayan/
-- GitHub: https://github.com/maanasanarayan
-- X / Twitter: https://x.com/maanasa_narayan
+> Official communication channels for professional inquiries, technical consulting, and collaboration.
 
-For more details, see the main /llms.txt
+- [Contact Page](https://maanasa.dev/contact)
+- [Email](mailto:mnsnryn@gmail.com)
+- [LinkedIn Profile](https://www.linkedin.com/in/maanasa-narayan/)
+- [GitHub Profile](https://github.com/maanasanarayan)
+- [X / Twitter](https://x.com/maanasa_narayan)

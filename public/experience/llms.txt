@@ -1,0 +1,15 @@
+# Work Experience History
+
+> Chronological employment history and key achievements of Maanasa Narayan.
+
+- [Experience Section](https://maanasa.dev/#experience)
+- [Main LLMs Reference](https://maanasa.dev/llms.txt)
+
+## Career Timeline
+
+- **Google (Jun 2026 – Present):** Software Engineer, Search (AI Mode), Mountain View, CA.
+- **Kayak (Jul 2023 – May 2026):** Software Engineer, Boston, MA.
+- **Amazon (Sep 2022 – Dec 2022):** Software Engineering Intern, Seattle, WA.
+- **Nokia (May 2022 – Aug 2022):** Application Developer Co-op, Raleigh, NC.
+- **Adobe (Nov 2018 – Aug 2021):** Software Engineer, Bengaluru, India.
+- **Infosys (Jul 2018 – Sep 2018):** Systems Engineer Trainee, Mysuru, India.

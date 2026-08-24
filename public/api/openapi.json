@@ -1,0 +1,241 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Maanasa Narayan Agent API",
+    "description": "REST and Agent API surface for Maanasa Narayan's software engineering portfolio, NLWeb query engine, and agent authentication services.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Maanasa Narayan",
+      "email": "mnsnryn@gmail.com",
+      "url": "https://maanasa.dev"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://maanasa.dev",
+      "description": "Production Server"
+    },
+    {
+      "url": "https://sandbox.maanasa.dev",
+      "description": "Sandbox / Test Environment"
+    }
+  ],
+  "paths": {
+    "/ask": {
+      "get": {
+        "summary": "Natural Language Query (NLWeb GET)",
+        "description": "Ask natural language questions about Maanasa Narayan's engineering experience, skills, and background.",
+        "operationId": "askGet",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The natural language question."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful NLWeb query response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_meta": {
+                      "type": "object"
+                    },
+                    "answers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Natural Language Query (NLWeb POST)",
+        "description": "Submit natural language question per Microsoft NLWeb protocol with optional streaming.",
+        "operationId": "askPost",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": {
+                    "type": "string"
+                  }
+                },
+                "required": ["query"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "NLWeb answer or SSE stream",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/event-stream": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profile": {
+      "get": {
+        "summary": "Get Profile Data",
+        "operationId": "getProfile",
+        "responses": {
+          "200": {
+            "description": "Profile JSON",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/experience": {
+      "get": {
+        "summary": "Get Work Experience",
+        "operationId": "getExperience",
+        "responses": {
+          "200": {
+            "description": "Experience list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/skills": {
+      "get": {
+        "summary": "Get Technical Skills",
+        "operationId": "getSkills",
+        "responses": {
+          "200": {
+            "description": "Skills breakdown",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects": {
+      "get": {
+        "summary": "Get Featured Projects",
+        "operationId": "getProjects",
+        "responses": {
+          "200": {
+            "description": "Projects list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/agent/register": {
+      "post": {
+        "summary": "Agent Registration",
+        "description": "WorkOS auth.md agent registration endpoint.",
+        "operationId": "agentRegister",
+        "responses": {
+          "200": {
+            "description": "Registration successful"
+          }
+        }
+      },
+      "options": {
+        "summary": "Agent Registration Preflight",
+        "responses": {
+          "200": {
+            "description": "Preflight OK"
+          }
+        }
+      }
+    },
+    "/api/agent/claim": {
+      "post": {
+        "summary": "Agent Claim Credential",
+        "description": "WorkOS auth.md agent claim endpoint.",
+        "operationId": "agentClaim",
+        "responses": {
+          "200": {
+            "description": "Claim successful"
+          }
+        }
+      },
+      "options": {
+        "summary": "Agent Claim Preflight",
+        "responses": {
+          "200": {
+            "description": "Preflight OK"
+          }
+        }
+      }
+    },
+    "/api/agent/revoke": {
+      "post": {
+        "summary": "Agent Revocation",
+        "description": "WorkOS auth.md agent revocation endpoint.",
+        "operationId": "agentRevoke",
+        "responses": {
+          "200": {
+            "description": "Revocation successful"
+          }
+        }
+      },
+      "options": {
+        "summary": "Agent Revocation Preflight",
+        "responses": {
+          "200": {
+            "description": "Preflight OK"
+          }
+        }
+      }
+    }
+  }
+}

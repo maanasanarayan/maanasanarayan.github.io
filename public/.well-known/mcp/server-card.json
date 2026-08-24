@@ -1,0 +1,69 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/server-card.json",
+  "name": "maanasa-portfolio-mcp",
+  "description": "Model Context Protocol server for inspecting Maanasa Narayan's software engineering portfolio, experience, skills, and projects.",
+  "version": "1.0.0",
+  "serverUrl": "https://maanasa.dev/api/mcp",
+  "transport": {
+    "type": "http-sse",
+    "endpoint": "https://maanasa.dev/api/mcp"
+  },
+  "tools": [
+    {
+      "name": "get_profile",
+      "description": "Retrieve biographical background, current role at Google, education, and social links.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "get_experience",
+      "description": "Retrieve work history, roles, dates, and responsibilities at Google, Kayak, Amazon, Nokia, and Adobe.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "company": {
+            "type": "string",
+            "description": "Optional company name to filter experience."
+          }
+        }
+      }
+    },
+    {
+      "name": "get_skills",
+      "description": "Retrieve technical skills categorised by Languages, Frameworks, Databases, Cloud & DevOps, and Tools.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Optional category filter."
+          }
+        }
+      }
+    },
+    {
+      "name": "get_projects",
+      "description": "Retrieve featured projects, architecture details, and accomplishments.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    },
+    {
+      "name": "ask_question",
+      "description": "Answer natural language questions about Maanasa's engineering experience and background.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "The natural language question to ask."
+          }
+        },
+        "required": ["query"]
+      }
+    }
+  ]
+}

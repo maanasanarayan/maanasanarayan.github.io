@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ietf.org/rfc/rfc9421.json",
+  "keys": [
+    {
+      "kty": "OKP",
+      "crv": "Ed25519",
+      "kid": "maanasa-agent-key-2026",
+      "use": "sig",
+      "alg": "EdDSA",
+      "x": "O2onvM62pC1iv6RefLl3OamzkGbUDTmeGKY5588n4BQ",
+      "nbf": 1767225600,
+      "exp": 1893456000
+    }
+  ]
+}
