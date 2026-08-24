@@ -270,7 +270,11 @@ export const onRequest: PagesFunction = async (context) => {
     const mdPath = markdownPath(url.pathname);
     const linkValue = `<${mdPath}>; rel="alternate"; type="text/markdown"`;
     const existing = res.headers.get('Link') || res.headers.get('link');
-    res.headers.set('Link', existing ? `${existing}, ${linkValue}` : linkValue);
+    if (!existing) {
+      res.headers.set('Link', linkValue);
+    } else if (!existing.includes(linkValue)) {
+      res.headers.set('Link', `${existing}, ${linkValue}`);
+    }
   }
 
   return res;
