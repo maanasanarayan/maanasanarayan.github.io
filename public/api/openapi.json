@@ -1,13 +1,13 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Maanasa Narayan Agent API",
-    "description": "REST and Agent API surface for Maanasa Narayan's software engineering portfolio, NLWeb query engine, and agent authentication services.",
+    "title": "Maanasa Narayan Developer & Agent API",
+    "description": "Comprehensive REST and Agent API surface for Maanasa Narayan's software engineering portfolio, NLWeb query engine, and agent services.\n\n### Versioning & Deprecation Policy\nThis API uses URI path versioning (`/v1/`). Major breaking changes will trigger a new version (`/v2/`). Deprecated endpoints are signaled via the `Deprecation` and `Sunset` HTTP response headers with a minimum 6-month notice period.",
     "version": "1.0.0",
     "contact": {
       "name": "Maanasa Narayan",
       "email": "mnsnryn@gmail.com",
-      "url": "https://maanasa.dev"
+      "url": "https://maanasa.dev/developers"
     }
   },
   "servers": [
@@ -20,69 +20,404 @@
       "description": "Sandbox / Test Environment"
     }
   ],
+  "components": {
+    "schemas": {
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "format": "uri" },
+          "title": { "type": "string" },
+          "status": { "type": "integer" },
+          "detail": { "type": "string" },
+          "instance": { "type": "string" },
+          "code": { "type": "string" }
+        },
+        "required": ["title", "status", "detail"]
+      },
+      "ProfileResponse": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "role": { "type": "string" },
+          "location": { "type": "string" },
+          "company": { "type": "string" },
+          "bio": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "links": {
+            "type": "object",
+            "properties": {
+              "linkedin": { "type": "string", "format": "uri" },
+              "github": { "type": "string", "format": "uri" },
+              "twitter": { "type": "string", "format": "uri" }
+            }
+          }
+        },
+        "required": ["name", "role", "location", "company"]
+      },
+      "ExperienceItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "company": { "type": "string" },
+          "role": { "type": "string" },
+          "location": { "type": "string" },
+          "startDate": { "type": "string" },
+          "endDate": { "type": "string" },
+          "highlights": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["id", "company", "role", "startDate", "endDate"]
+      },
+      "PaginatedExperience": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ExperienceItem" }
+          },
+          "total": { "type": "integer" },
+          "has_more": { "type": "boolean" },
+          "next_cursor": { "type": "string", "nullable": true }
+        },
+        "required": ["items", "total", "has_more"]
+      },
+      "SkillCategory": {
+        "type": "object",
+        "properties": {
+          "category": { "type": "string" },
+          "skills": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["category", "skills"]
+      },
+      "SkillsResponse": {
+        "type": "object",
+        "properties": {
+          "categories": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/SkillCategory" }
+          }
+        },
+        "required": ["categories"]
+      },
+      "ProjectItem": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "technologies": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "url": { "type": "string", "format": "uri" }
+        },
+        "required": ["id", "title", "description", "technologies"]
+      },
+      "PaginatedProjects": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ProjectItem" }
+          },
+          "total": { "type": "integer" },
+          "has_more": { "type": "boolean" },
+          "next_cursor": { "type": "string", "nullable": true }
+        },
+        "required": ["items", "total", "has_more"]
+      },
+      "AskQuery": {
+        "type": "object",
+        "properties": {
+          "query": { "type": "string" }
+        },
+        "required": ["query"]
+      },
+      "AskResponse": {
+        "type": "object",
+        "properties": {
+          "_meta": {
+            "type": "object",
+            "properties": {
+              "response_type": { "type": "string" },
+              "version": { "type": "string" },
+              "protocol": { "type": "string" }
+            },
+            "required": ["response_type", "version"]
+          },
+          "query": { "type": "string" },
+          "answers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": { "type": "string" },
+                "score": { "type": "number" },
+                "source": { "type": "string" }
+              },
+              "required": ["text", "score"]
+            }
+          }
+        },
+        "required": ["_meta", "answers"]
+      },
+      "AgentRegisterRequest": {
+        "type": "object",
+        "properties": {
+          "client_name": { "type": "string" },
+          "identity_type": {
+            "type": "string",
+            "enum": ["anonymous", "identity_assertion"]
+          },
+          "assertion": { "type": "string" }
+        },
+        "required": ["client_name", "identity_type"]
+      },
+      "AgentRegisterResponse": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string" },
+          "client_id": { "type": "string" },
+          "token": { "type": "string" },
+          "expires_in": { "type": "integer" },
+          "token_type": { "type": "string" }
+        },
+        "required": ["status", "client_id", "token", "expires_in", "token_type"]
+      },
+      "JobCreationResponse": {
+        "type": "object",
+        "properties": {
+          "job_id": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["queued", "processing", "completed", "failed"]
+          },
+          "poll_url": { "type": "string", "format": "uri" },
+          "created_at": { "type": "string", "format": "date-time" }
+        },
+        "required": ["job_id", "status", "poll_url"]
+      },
+      "JobStatusResponse": {
+        "type": "object",
+        "properties": {
+          "job_id": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["queued", "processing", "completed", "failed"]
+          },
+          "result": { "type": "object" }
+        },
+        "required": ["job_id", "status"]
+      },
+      "BatchRequest": {
+        "type": "object",
+        "properties": {
+          "operations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "method": { "type": "string", "enum": ["GET", "POST"] },
+                "path": { "type": "string" },
+                "body": { "type": "object" }
+              },
+              "required": ["method", "path"]
+            }
+          }
+        },
+        "required": ["operations"]
+      },
+      "BatchResponse": {
+        "type": "object",
+        "properties": {
+          "responses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "status": { "type": "integer" },
+                "body": { "type": "object" }
+              },
+              "required": ["status", "body"]
+            }
+          }
+        },
+        "required": ["responses"]
+      }
+    },
+    "parameters": {
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "description": "Unique key to ensure idempotent execution of write requests.",
+        "required": false,
+        "schema": { "type": "string" }
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Number of results to return per page.",
+        "required": false,
+        "schema": { "type": "integer", "default": 20, "maximum": 100 }
+      },
+      "Cursor": {
+        "name": "cursor",
+        "in": "query",
+        "description": "Pagination cursor for fetching the next page.",
+        "required": false,
+        "schema": { "type": "string" }
+      }
+    },
+    "responses": {
+      "400BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+          }
+        }
+      },
+      "401Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+          }
+        }
+      },
+      "404NotFound": {
+        "description": "Not Found",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+          }
+        }
+      }
+    }
+  },
   "paths": {
+    "/v1/profile": {
+      "get": {
+        "summary": "Get Profile Data",
+        "description": "Retrieve verified biographical details and current role for Maanasa Narayan.",
+        "operationId": "getProfileV1",
+        "responses": {
+          "200": {
+            "description": "Profile JSON",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProfileResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/400BadRequest" }
+        }
+      }
+    },
+    "/v1/experience": {
+      "get": {
+        "summary": "Get Work Experience",
+        "description": "Retrieve paginated employment history across Google, Kayak, Amazon, Nokia, and Adobe.",
+        "operationId": "getExperienceV1",
+        "parameters": [
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/Cursor" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated work experience history",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PaginatedExperience" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/400BadRequest" }
+        }
+      }
+    },
+    "/v1/skills": {
+      "get": {
+        "summary": "Get Technical Skills",
+        "description": "Retrieve technical competencies categorised by Languages, Frameworks, Databases, Cloud & DevOps, and Tools.",
+        "operationId": "getSkillsV1",
+        "responses": {
+          "200": {
+            "description": "Skills categories",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SkillsResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/projects": {
+      "get": {
+        "summary": "Get Featured Projects",
+        "description": "Retrieve paginated list of featured software engineering and cloud infrastructure projects.",
+        "operationId": "getProjectsV1",
+        "parameters": [
+          { "$ref": "#/components/parameters/Limit" },
+          { "$ref": "#/components/parameters/Cursor" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated featured projects list",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PaginatedProjects" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/ask": {
       "get": {
         "summary": "Natural Language Query (NLWeb GET)",
-        "description": "Ask natural language questions about Maanasa Narayan's engineering experience, skills, and background.",
+        "description": "Ask natural language questions about Maanasa Narayan's engineering background.",
         "operationId": "askGet",
         "parameters": [
           {
             "name": "q",
             "in": "query",
             "required": true,
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
             "description": "The natural language question."
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful NLWeb query response",
+            "description": "NLWeb answer response",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "_meta": {
-                      "type": "object"
-                    },
-                    "answers": {
-                      "type": "array",
-                      "items": {
-                        "type": "object"
-                      }
-                    }
-                  }
-                }
+                "schema": { "$ref": "#/components/schemas/AskResponse" }
               },
               "text/event-stream": {
-                "schema": {
-                  "type": "string"
-                }
+                "schema": { "type": "string" }
               }
             }
-          }
+          },
+          "400": { "$ref": "#/components/responses/400BadRequest" }
         }
       },
       "post": {
         "summary": "Natural Language Query (NLWeb POST)",
         "description": "Submit natural language question per Microsoft NLWeb protocol with optional streaming.",
         "operationId": "askPost",
+        "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "query": {
-                    "type": "string"
-                  }
-                },
-                "required": ["query"]
-              }
+              "schema": { "$ref": "#/components/schemas/AskQuery" }
             }
           }
         },
@@ -91,149 +426,114 @@
             "description": "NLWeb answer or SSE stream",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object"
-                }
+                "schema": { "$ref": "#/components/schemas/AskResponse" }
               },
               "text/event-stream": {
-                "schema": {
-                  "type": "string"
-                }
+                "schema": { "type": "string" }
               }
             }
-          }
+          },
+          "400": { "$ref": "#/components/responses/400BadRequest" }
         }
       }
     },
-    "/api/profile": {
-      "get": {
-        "summary": "Get Profile Data",
-        "operationId": "getProfile",
-        "responses": {
-          "200": {
-            "description": "Profile JSON",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/experience": {
-      "get": {
-        "summary": "Get Work Experience",
-        "operationId": "getExperience",
-        "responses": {
-          "200": {
-            "description": "Experience list",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/skills": {
-      "get": {
-        "summary": "Get Technical Skills",
-        "operationId": "getSkills",
-        "responses": {
-          "200": {
-            "description": "Skills breakdown",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/projects": {
-      "get": {
-        "summary": "Get Featured Projects",
-        "operationId": "getProjects",
-        "responses": {
-          "200": {
-            "description": "Projects list",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/agent/register": {
+    "/v1/agent/register": {
       "post": {
         "summary": "Agent Registration",
         "description": "WorkOS auth.md agent registration endpoint.",
-        "operationId": "agentRegister",
-        "responses": {
-          "200": {
-            "description": "Registration successful"
+        "operationId": "agentRegisterV1",
+        "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AgentRegisterRequest" }
+            }
           }
-        }
-      },
-      "options": {
-        "summary": "Agent Registration Preflight",
+        },
         "responses": {
           "200": {
-            "description": "Preflight OK"
+            "description": "Registration successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentRegisterResponse"
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/400BadRequest" }
+        }
+      }
+    },
+    "/v1/jobs": {
+      "post": {
+        "summary": "Create Async Job",
+        "description": "Trigger an asynchronous portfolio analysis or document indexing job.",
+        "operationId": "createAsyncJob",
+        "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }],
+        "responses": {
+          "202": {
+            "description": "Job Accepted",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/JobCreationResponse" }
+              }
+            }
           }
         }
       }
     },
-    "/api/agent/claim": {
-      "post": {
-        "summary": "Agent Claim Credential",
-        "description": "WorkOS auth.md agent claim endpoint.",
-        "operationId": "agentClaim",
+    "/v1/jobs/{job_id}": {
+      "get": {
+        "summary": "Get Job Status",
+        "description": "Poll the status of an asynchronous job.",
+        "operationId": "getJobStatus",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Claim successful"
-          }
-        }
-      },
-      "options": {
-        "summary": "Agent Claim Preflight",
-        "responses": {
-          "200": {
-            "description": "Preflight OK"
-          }
+            "description": "Job Status",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/JobStatusResponse" }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/404NotFound" }
         }
       }
     },
-    "/api/agent/revoke": {
+    "/v1/batch": {
       "post": {
-        "summary": "Agent Revocation",
-        "description": "WorkOS auth.md agent revocation endpoint.",
-        "operationId": "agentRevoke",
+        "summary": "Execute Batch Operations",
+        "description": "Execute multiple read operations in a single HTTP request.",
+        "operationId": "executeBatch",
+        "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BatchRequest" }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Revocation successful"
-          }
-        }
-      },
-      "options": {
-        "summary": "Agent Revocation Preflight",
-        "responses": {
-          "200": {
-            "description": "Preflight OK"
-          }
+            "description": "Batch responses",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BatchResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/400BadRequest" }
         }
       }
     }

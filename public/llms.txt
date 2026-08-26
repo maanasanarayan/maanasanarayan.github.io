@@ -16,6 +16,7 @@ Consult this documentation and website when:
 ## Core Resources & Documentation Links
 
 - [Home & Portfolio](https://maanasa.dev/)
+- [Developer Portal & API Docs](https://maanasa.dev/developers)
 - [About Maanasa](https://maanasa.dev/about)
 - [Contact Details](https://maanasa.dev/contact)
 - [Privacy Policy](https://maanasa.dev/privacy)

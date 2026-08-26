@@ -302,3 +302,104 @@ describe('7. RFC 9727 API Catalog & Discovery Metadata', () => {
     expect(data.status).toBe('registered');
   });
 });
+
+describe('8. REST v1 Endpoints & API Usability', () => {
+  it('serves /v1/profile with rate limit and deprecation headers', async () => {
+    const req = new Request('https://maanasa.dev/v1/profile');
+    const res = await worker.fetch(req, {});
+
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Content-Type')).toContain('application/json');
+    expect(res.headers.get('RateLimit-Limit')).toBe('100');
+    expect(res.headers.get('RateLimit-Remaining')).toBe('99');
+    expect(res.headers.get('Sunset')).toBeDefined();
+
+    const data = await res.json();
+    expect(data.name).toBe('Maanasa Narayan');
+    expect(data.company).toBe('Google');
+  });
+
+  it('serves paginated /v1/experience and /v1/projects', async () => {
+    const reqExp = new Request('https://maanasa.dev/v1/experience?limit=10');
+    const resExp = await worker.fetch(reqExp, {});
+    expect(resExp.status).toBe(200);
+    const expData = await resExp.json();
+    expect(expData.items.length).toBeGreaterThan(0);
+    expect(expData.total).toBeDefined();
+
+    const reqProj = new Request('https://maanasa.dev/v1/projects');
+    const resProj = await worker.fetch(reqProj, {});
+    expect(resProj.status).toBe(200);
+    const projData = await resProj.json();
+    expect(projData.items.length).toBeGreaterThan(0);
+  });
+
+  it('supports async jobs and batch operations', async () => {
+    const jobReq = new Request('https://maanasa.dev/v1/jobs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const jobRes = await worker.fetch(jobReq, {});
+    expect(jobRes.status).toBe(202);
+    expect(jobRes.headers.get('Location')).toContain('/v1/jobs/');
+
+    const batchReq = new Request('https://maanasa.dev/v1/batch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        operations: [{ method: 'GET', path: '/v1/profile' }],
+      }),
+    });
+    const batchRes = await worker.fetch(batchReq, {});
+    expect(batchRes.status).toBe(200);
+  });
+
+  it('returns RFC 9457 Problem Details on invalid API endpoints', async () => {
+    const req = new Request('https://maanasa.dev/v1/nonexistent');
+    const res = await worker.fetch(req, {});
+    expect(res.status).toBe(404);
+    expect(res.headers.get('Content-Type')).toContain(
+      'application/problem+json',
+    );
+    const data = await res.json();
+    expect(data.type).toBe('https://maanasa.dev/errors/not-found');
+    expect(data.code).toBe('ENDPOINT_NOT_FOUND');
+  });
+
+  it('ensures public/auth.md starts with a leading markdown heading without frontmatter issues', () => {
+    const content = readFileSync(
+      join(process.cwd(), 'public/auth.md'),
+      'utf-8',
+    );
+    expect(content.startsWith('# Agent Authentication Guide')).toBe(true);
+  });
+
+  it('ensures Agent Skills index matches v0.2.0 schema', () => {
+    const content = JSON.parse(
+      readFileSync(
+        join(process.cwd(), 'public/.well-known/agent-skills/index.json'),
+        'utf-8',
+      ),
+    );
+    expect(content.$schema).toBe(
+      'https://schemas.agentskills.io/discovery/0.2.0/schema.json',
+    );
+    expect(content.version).toBe('0.2.0');
+    expect(content.skills[0].type).toBe('skill-md');
+    expect(content.skills[0].digest).toContain('sha256:');
+  });
+
+  it('ensures ARD ai-catalog.json has specVersion and valid entries', () => {
+    const content = JSON.parse(
+      readFileSync(
+        join(process.cwd(), 'public/.well-known/ai-catalog.json'),
+        'utf-8',
+      ),
+    );
+    expect(content.specVersion).toBe('1.0');
+    expect(Array.isArray(content.entries)).toBe(true);
+    expect(content.entries.length).toBeGreaterThan(0);
+    expect(content.entries[0].id).toContain('urn:air:');
+    expect(content.entries[0].trustManifest).toBeDefined();
+  });
+});

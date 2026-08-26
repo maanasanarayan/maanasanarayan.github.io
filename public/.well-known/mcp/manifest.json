@@ -1,0 +1,20 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/manifest.json",
+  "name": "maanasa-mcp",
+  "version": "1.0.0",
+  "description": "Model Context Protocol server for Maanasa Narayan",
+  "transport": {
+    "type": "streamable-http",
+    "endpoint": "https://maanasa.dev/api/mcp"
+  },
+  "servers": [
+    {
+      "name": "portfolio-mcp",
+      "url": "https://maanasa.dev/.well-known/mcp/server-card.json"
+    },
+    {
+      "name": "docs-mcp",
+      "url": "https://maanasa.dev/.well-known/mcp/docs-server-card.json"
+    }
+  ]
+}

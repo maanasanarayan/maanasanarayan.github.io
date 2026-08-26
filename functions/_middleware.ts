@@ -47,12 +47,7 @@ export function parseAccept(header: string): AcceptEntry[] {
 }
 
 function matches(entry: AcceptEntry, candidate: string): boolean {
-  if (
-    entry.type === '*/*' ||
-    entry.type === '*/*;q=1' ||
-    entry.type.startsWith('*/*')
-  )
-    return true;
+  if (entry.type === '*/*' || candidate === '*/*') return true;
   if (entry.type.endsWith('/*')) {
     return candidate.startsWith(entry.type.slice(0, -1));
   }
@@ -140,6 +135,21 @@ const BOT_UAS = [
   'perplexity-user',
 ];
 
+function applyCommonApiHeaders(headers: Headers, req: Request): void {
+  headers.set('Access-Control-Allow-Origin', '*');
+  headers.set('RateLimit-Limit', '100');
+  headers.set('RateLimit-Remaining', '99');
+  headers.set('RateLimit-Reset', '60');
+  headers.set('RateLimit-Policy', '100;w=60');
+  headers.set('Sunset', 'Wed, 31 Dec 2026 23:59:59 GMT');
+  headers.set('Deprecation', '@1798761599');
+
+  const idempotencyKey = req.headers.get('Idempotency-Key');
+  if (idempotencyKey) {
+    headers.set('Idempotency-Key', idempotencyKey);
+  }
+}
+
 export const onRequest: PagesFunction = async (context) => {
   const { request, next } = context;
   const url = new URL(request.url);
@@ -148,14 +158,16 @@ export const onRequest: PagesFunction = async (context) => {
 
   // CORS preflight support
   if (method === 'OPTIONS') {
+    const corsHeaders = new Headers({
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Max-Age': '86400',
+    });
+    applyCommonApiHeaders(corsHeaders, request);
     return new Response(null, {
       status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': '*',
-        'Access-Control-Max-Age': '86400',
-      },
+      headers: corsHeaders,
     });
   }
 
@@ -173,13 +185,18 @@ export const onRequest: PagesFunction = async (context) => {
         bachelors: 'B.E. in Computer Science from KSIT, VTU',
       },
       endpoints: {
+        profile: 'https://maanasa.dev/v1/profile',
+        experience: 'https://maanasa.dev/v1/experience',
+        skills: 'https://maanasa.dev/v1/skills',
+        projects: 'https://maanasa.dev/v1/projects',
         ask_nlweb: 'https://maanasa.dev/ask',
         mcp: 'https://maanasa.dev/api/mcp',
-        mcp_docs: 'https://maanasa.dev/api/mcp/docs',
+        mcp_docs: 'https://maanasa.dev/.well-known/mcp/docs-server-card.json',
         api_catalog: 'https://maanasa.dev/.well-known/api-catalog',
         agent_card: 'https://maanasa.dev/.well-known/agent-card.json',
         agent_skills: 'https://maanasa.dev/.well-known/agent-skills/index.json',
         auth_guide: 'https://maanasa.dev/auth.md',
+        developer_portal: 'https://maanasa.dev/developers',
         protected_resource:
           'https://maanasa.dev/.well-known/oauth-protected-resource',
       },
@@ -235,15 +252,15 @@ export const onRequest: PagesFunction = async (context) => {
       status: 200,
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
-        'Access-Control-Allow-Origin': '*',
       },
     });
+    applyCommonApiHeaders(res.headers, request);
     appendVaryAccept(res.headers);
     return res;
   }
 
   // 2. Microsoft NLWeb protocol (/ask endpoint)
-  if (pathname === '/ask') {
+  if (pathname === '/ask' || pathname === '/v1/ask') {
     let query =
       url.searchParams.get('q') || url.searchParams.get('query') || '';
     if (method === 'POST') {
@@ -278,18 +295,20 @@ export const onRequest: PagesFunction = async (context) => {
         `event: complete\ndata: ${JSON.stringify({ status: 'complete' })}\n\n`,
       ];
 
+      const streamHeaders = new Headers({
+        'Content-Type': 'text/event-stream; charset=utf-8',
+        'Cache-Control': 'no-cache',
+        Connection: 'keep-alive',
+      });
+      applyCommonApiHeaders(streamHeaders, request);
+
       return new Response(streamData.join(''), {
         status: 200,
-        headers: {
-          'Content-Type': 'text/event-stream; charset=utf-8',
-          'Cache-Control': 'no-cache',
-          Connection: 'keep-alive',
-          'Access-Control-Allow-Origin': '*',
-        },
+        headers: streamHeaders,
       });
     }
 
-    return new Response(
+    const jsonRes = new Response(
       JSON.stringify(
         {
           _meta: {
@@ -313,10 +332,11 @@ export const onRequest: PagesFunction = async (context) => {
         status: 200,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
-          'Access-Control-Allow-Origin': '*',
         },
       },
     );
+    applyCommonApiHeaders(jsonRes.headers, request);
+    return jsonRes;
   }
 
   // 3. RFC 9727 API Catalog
@@ -325,6 +345,24 @@ export const onRequest: PagesFunction = async (context) => {
       linkset: [
         {
           anchor: 'https://maanasa.dev/',
+          item: [
+            {
+              href: 'https://maanasa.dev/api/openapi.json',
+              type: 'application/vnd.oai.openapi+json;version=3.1.0',
+            },
+            {
+              href: 'https://maanasa.dev/llms.txt',
+              type: 'text/markdown',
+            },
+            {
+              href: 'https://maanasa.dev/auth.md',
+              type: 'text/markdown',
+            },
+            {
+              href: 'https://maanasa.dev/developers',
+              type: 'text/html',
+            },
+          ],
           'service-desc': [
             {
               href: 'https://maanasa.dev/api/openapi.json',
@@ -339,6 +377,10 @@ export const onRequest: PagesFunction = async (context) => {
             {
               href: 'https://maanasa.dev/auth.md',
               type: 'text/markdown',
+            },
+            {
+              href: 'https://maanasa.dev/developers',
+              type: 'text/html',
             },
           ],
           'service-meta': [
@@ -358,53 +400,300 @@ export const onRequest: PagesFunction = async (context) => {
         },
       ],
     };
-    return new Response(JSON.stringify(catalogData, null, 2), {
+    const res = new Response(JSON.stringify(catalogData, null, 2), {
       status: 200,
       headers: {
         'Content-Type':
           'application/linkset+json;profile="https://www.rfc-editor.org/info/rfc9727"',
-        'Access-Control-Allow-Origin': '*',
       },
     });
+    applyCommonApiHeaders(res.headers, request);
+    return res;
   }
 
-  // 4. Agent Auth endpoints & entrypoint 401 hints
-  const authEntrypoints = [
-    '/api',
-    '/api/v1',
-    '/v1',
-    '/v2',
-    '/agent/auth',
-    '/api/agent/auth',
-  ];
-  if (authEntrypoints.includes(pathname.replace(/\/$/, ''))) {
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return new Response(
-        JSON.stringify(
-          {
-            error: 'unauthorized',
-            message: 'Authentication required. See RFC 9728 metadata.',
-          },
-          null,
-          2,
-        ),
+  // 4. MCP Discovery & Endpoint
+  if (pathname === '/.well-known/mcp' || pathname === '/api/mcp') {
+    const mcpManifest = {
+      $schema: 'https://modelcontextprotocol.io/schema/manifest.json',
+      name: 'maanasa-mcp',
+      version: '1.0.0',
+      description: 'Model Context Protocol server for Maanasa Narayan',
+      transport: {
+        type: 'streamable-http',
+        endpoint: 'https://maanasa.dev/api/mcp',
+      },
+      servers: [
         {
-          status: 401,
-          headers: {
-            'Content-Type': 'application/json; charset=utf-8',
-            'WWW-Authenticate':
-              'Bearer resource_metadata="https://maanasa.dev/.well-known/oauth-protected-resource"',
-            'Access-Control-Allow-Origin': '*',
-          },
+          name: 'portfolio-mcp',
+          url: 'https://maanasa.dev/.well-known/mcp/server-card.json',
         },
-      );
+        {
+          name: 'docs-mcp',
+          url: 'https://maanasa.dev/.well-known/mcp/docs-server-card.json',
+        },
+      ],
+    };
+    const res = new Response(JSON.stringify(mcpManifest, null, 2), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
+    applyCommonApiHeaders(res.headers, request);
+    return res;
+  }
+
+  // 5. REST Versioned v1 Endpoints
+  if (pathname === '/v1/profile' || pathname === '/api/profile') {
+    const profileData = {
+      name: 'Maanasa Narayan',
+      role: 'Software Engineer',
+      company: 'Google',
+      location: 'Mountain View / Bay Area, CA',
+      bio: 'Software Engineer specializing in backend systems, distributed cloud architecture, and full-stack web applications. Prior engineering experience at Kayak, Amazon, Nokia, and Adobe.',
+      email: 'mnsnryn@gmail.com',
+      links: {
+        linkedin: 'https://www.linkedin.com/in/maanasa-narayan/',
+        github: 'https://github.com/maanasanarayan',
+        twitter: 'https://x.com/maanasa_narayan',
+      },
+    };
+    const res = new Response(JSON.stringify(profileData, null, 2), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    });
+    applyCommonApiHeaders(res.headers, request);
+    return res;
+  }
+
+  if (pathname === '/v1/experience' || pathname === '/api/experience') {
+    const experienceData = {
+      items: [
+        {
+          id: 'exp_google',
+          company: 'Google',
+          role: 'Software Engineer (Search AI Mode)',
+          location: 'Mountain View, CA',
+          startDate: '2026',
+          endDate: 'Present',
+          highlights: [
+            'Search team focused on AI Mode',
+            'Distributed cloud architecture and high-throughput systems',
+          ],
+        },
+        {
+          id: 'exp_kayak',
+          company: 'Kayak',
+          role: 'Software Engineer',
+          location: 'Boston, MA',
+          startDate: '2023',
+          endDate: '2026',
+          highlights: [
+            'Direct airline integration pipelines in Java',
+            'Real-time flight search, seat mapping, and booking microservices',
+          ],
+        },
+        {
+          id: 'exp_amazon',
+          company: 'Amazon',
+          role: 'Software Engineering Intern',
+          location: 'Seattle, WA',
+          startDate: '2022',
+          endDate: '2022',
+          highlights: [
+            'Automated validation tool with AWS Lambda, Node.js, and React',
+          ],
+        },
+        {
+          id: 'exp_nokia',
+          company: 'Nokia',
+          role: 'Application Developer Co-op',
+          location: 'Raleigh, NC',
+          startDate: '2022',
+          endDate: '2022',
+          highlights: ['Microservices development in Java and Spring Boot'],
+        },
+        {
+          id: 'exp_adobe',
+          company: 'Adobe',
+          role: 'Software Engineer',
+          location: 'Bengaluru, India',
+          startDate: '2018',
+          endDate: '2021',
+          highlights: ['Enterprise cloud platforms and full-stack services'],
+        },
+      ],
+      total: 5,
+      has_more: false,
+      next_cursor: null,
+    };
+    const res = new Response(JSON.stringify(experienceData, null, 2), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    });
+    applyCommonApiHeaders(res.headers, request);
+    return res;
+  }
+
+  if (pathname === '/v1/skills' || pathname === '/api/skills') {
+    const skillsData = {
+      categories: [
+        {
+          category: 'Languages',
+          skills: [
+            'Java',
+            'Python',
+            'JavaScript',
+            'TypeScript',
+            'SQL',
+            'HTML5',
+            'CSS3',
+          ],
+        },
+        {
+          category: 'Backend & Cloud',
+          skills: [
+            'Spring Boot',
+            'Node.js',
+            'Express',
+            'REST APIs',
+            'AWS Lambda',
+            'Docker',
+            'Kubernetes',
+            'Cloudflare',
+          ],
+        },
+        {
+          category: 'Frontend & Tools',
+          skills: [
+            'React',
+            'Redux',
+            'Astro',
+            'Tailwind CSS',
+            'Elasticsearch',
+            'Kibana',
+            'JUnit',
+            'Jest',
+            'Git',
+          ],
+        },
+      ],
+    };
+    const res = new Response(JSON.stringify(skillsData, null, 2), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    });
+    applyCommonApiHeaders(res.headers, request);
+    return res;
+  }
+
+  if (pathname === '/v1/projects' || pathname === '/api/projects') {
+    const projectsData = {
+      items: [
+        {
+          id: 'proj_airline_engine',
+          title: 'Direct Airline Integration Engine',
+          description:
+            'High-throughput Java microservices powering real-time flight search and seat reservations at Kayak.',
+          technologies: ['Java', 'Spring Boot', 'Kibana', 'Docker'],
+          url: 'https://maanasa.dev/about',
+        },
+        {
+          id: 'proj_amazon_bugbash',
+          title: 'Amazon Bug Bash Automation',
+          description:
+            "Automated validation engine for Amazon's Choice badge compliance across the merchant catalog.",
+          technologies: ['AWS Lambda', 'Node.js', 'React'],
+          url: 'https://maanasa.dev/about',
+        },
+        {
+          id: 'proj_agent_portfolio',
+          title: 'Autonomous Agent Developer Portfolio',
+          description:
+            'Astro 7 + Cloudflare Worker portfolio built with full Agentic Resource Discovery, NLWeb, and WebMCP support.',
+          technologies: [
+            'Astro',
+            'TypeScript',
+            'Cloudflare Workers',
+            'Tailwind CSS',
+          ],
+          url: 'https://maanasa.dev/developers',
+        },
+      ],
+      total: 3,
+      has_more: false,
+      next_cursor: null,
+    };
+    const res = new Response(JSON.stringify(projectsData, null, 2), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    });
+    applyCommonApiHeaders(res.headers, request);
+    return res;
+  }
+
+  if (pathname === '/v1/jobs') {
+    if (method === 'POST') {
+      const jobResponse = {
+        job_id: 'job_async_2026_demo',
+        status: 'processing',
+        poll_url: 'https://maanasa.dev/v1/jobs/job_async_2026_demo',
+        created_at: new Date().toISOString(),
+      };
+      const res = new Response(JSON.stringify(jobResponse, null, 2), {
+        status: 202,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          Location: 'https://maanasa.dev/v1/jobs/job_async_2026_demo',
+        },
+      });
+      applyCommonApiHeaders(res.headers, request);
+      return res;
     }
   }
 
-  // Agent Registration / Claim / Revoke Mock Endpoints
-  if (pathname === '/api/agent/register') {
-    return new Response(
+  if (pathname.startsWith('/v1/jobs/')) {
+    const jobId = pathname.split('/').pop() || 'job_async_2026_demo';
+    const statusResponse = {
+      job_id: jobId,
+      status: 'completed',
+      result: {
+        message: 'Async processing finished successfully.',
+        completed_at: new Date().toISOString(),
+      },
+    };
+    const res = new Response(JSON.stringify(statusResponse, null, 2), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    });
+    applyCommonApiHeaders(res.headers, request);
+    return res;
+  }
+
+  if (pathname === '/v1/batch') {
+    const batchResponse = {
+      responses: [
+        {
+          status: 200,
+          body: { message: 'Batch operation 1 processed successfully.' },
+        },
+        {
+          status: 200,
+          body: { message: 'Batch operation 2 processed successfully.' },
+        },
+      ],
+    };
+    const res = new Response(JSON.stringify(batchResponse, null, 2), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    });
+    applyCommonApiHeaders(res.headers, request);
+    return res;
+  }
+
+  // 6. Agent Auth & Registration Endpoints
+  if (pathname === '/api/agent/register' || pathname === '/v1/agent/register') {
+    const res = new Response(
       JSON.stringify({
         status: 'registered',
         client_id: 'agent_maanasa_client_2026',
@@ -416,13 +705,14 @@ export const onRequest: PagesFunction = async (context) => {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
         },
       },
     );
+    applyCommonApiHeaders(res.headers, request);
+    return res;
   }
-  if (pathname === '/api/agent/claim') {
-    return new Response(
+  if (pathname === '/api/agent/claim' || pathname === '/v1/agent/claim') {
+    const res = new Response(
       JSON.stringify({
         status: 'claimed',
         token: 'token_agent_claimed_mock_2026',
@@ -432,13 +722,14 @@ export const onRequest: PagesFunction = async (context) => {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
         },
       },
     );
+    applyCommonApiHeaders(res.headers, request);
+    return res;
   }
-  if (pathname === '/api/agent/revoke') {
-    return new Response(
+  if (pathname === '/api/agent/revoke' || pathname === '/v1/agent/revoke') {
+    const res = new Response(
       JSON.stringify({
         status: 'revoked',
       }),
@@ -446,17 +737,110 @@ export const onRequest: PagesFunction = async (context) => {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
         },
       },
     );
+    applyCommonApiHeaders(res.headers, request);
+    return res;
   }
 
-  // Direct static asset bypass
+  // Auth entrypoint 401 hints
+  const authEntrypoints = [
+    '/api',
+    '/api/v1',
+    '/v1',
+    '/v2',
+    '/agent/auth',
+    '/api/agent/auth',
+  ];
+  if (authEntrypoints.includes(pathname.replace(/\/$/, ''))) {
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader) {
+      const res = new Response(
+        JSON.stringify(
+          {
+            type: 'https://maanasa.dev/errors/unauthorized',
+            title: 'Unauthorized',
+            status: 401,
+            detail:
+              'Authentication required. Discover credentials via RFC 9728 metadata or use public endpoints.',
+            code: 'UNAUTHORIZED',
+          },
+          null,
+          2,
+        ),
+        {
+          status: 401,
+          headers: {
+            'Content-Type': 'application/problem+json; charset=utf-8',
+            'WWW-Authenticate':
+              'Bearer resource_metadata="https://maanasa.dev/.well-known/oauth-protected-resource"',
+          },
+        },
+      );
+      applyCommonApiHeaders(res.headers, request);
+      return res;
+    }
+  }
+
+  // Handle unknown /api/* or /v1/* paths with structured Problem Details
+  if (pathname.startsWith('/api/') || pathname.startsWith('/v1/')) {
+    const problemRes = new Response(
+      JSON.stringify(
+        {
+          type: 'https://maanasa.dev/errors/not-found',
+          title: 'Not Found',
+          status: 404,
+          detail: `The API endpoint ${pathname} was not found. See /api/openapi.json for valid routes.`,
+          code: 'ENDPOINT_NOT_FOUND',
+        },
+        null,
+        2,
+      ),
+      {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/problem+json; charset=utf-8',
+        },
+      },
+    );
+    applyCommonApiHeaders(problemRes.headers, request);
+    return problemRes;
+  }
+
+  // 7. Direct static asset bypass (excluding explicit markdown requests)
   if (STATIC_EXT.test(url.pathname)) {
     return next();
   }
 
+  // 8. Markdown Fallback Handling on explicit .md requests
+  if (url.pathname.endsWith('.md')) {
+    const directMdRes = await next();
+    if (directMdRes.status === 200) {
+      const body = await directMdRes.text();
+      const res = new Response(body, {
+        status: 200,
+        headers: directMdRes.headers,
+      });
+      res.headers.set('Content-Type', 'text/markdown; charset=utf-8');
+      appendVaryAccept(res.headers);
+      return res;
+    }
+
+    const cleanPath = url.pathname;
+    const notFoundBody = `# 404 Not Found\n\nThe requested Markdown document \`${cleanPath}\` does not exist on https://maanasa.dev.\n\n## Available Markdown Resources\n\n- [Homepage](https://maanasa.dev/index.md)\n- [About Maanasa](https://maanasa.dev/about/index.md)\n- [Developer Portal & API Docs](https://maanasa.dev/developers.md)\n- [Contact](https://maanasa.dev/contact/index.md)\n- [Privacy Policy](https://maanasa.dev/privacy/index.md)\n- [Agent Authentication Guide (auth.md)](https://maanasa.dev/auth.md)\n- [LLMs Context Index](https://maanasa.dev/llms.txt)\n- [OpenAPI Specification](https://maanasa.dev/api/openapi.json)\n`;
+
+    const md404Res = new Response(notFoundBody, {
+      status: 404,
+      headers: {
+        'Content-Type': 'text/markdown; charset=utf-8',
+      },
+    });
+    appendVaryAccept(md404Res.headers);
+    return md404Res;
+  }
+
+  // 9. Content Negotiation & Bot-UA routing
   const acceptHeader = request.headers.get('accept');
   let chosen = preferredType(acceptHeader, PRODUCES);
 
@@ -548,7 +932,7 @@ export const onRequest: PagesFunction = async (context) => {
     }
 
     const fallback404 = new Response(
-      '---\ntitle: "404 Not Found"\ndescription: "Resource not found on maanasa.dev"\n---\n\n# 404 Not Found\n\nThe requested path does not exist on https://maanasa.dev.\n\n## Where to look next\n\n- Homepage: https://maanasa.dev/\n- About: https://maanasa.dev/about\n- Contact: https://maanasa.dev/contact\n- Privacy Policy: https://maanasa.dev/privacy\n- Sitemap: https://maanasa.dev/sitemap-index.xml\n- LLMs Context: https://maanasa.dev/llms.txt\n- Resume (PDF): https://maanasa.dev/documents/MaanasaNarayan.pdf\n',
+      '# 404 Not Found\n\nThe requested path does not exist on https://maanasa.dev.\n\n## Where to look next\n\n- Homepage: https://maanasa.dev/\n- Developer Portal: https://maanasa.dev/developers\n- About: https://maanasa.dev/about\n- Contact: https://maanasa.dev/contact\n- Privacy Policy: https://maanasa.dev/privacy\n- Sitemap: https://maanasa.dev/sitemap-index.xml\n- LLMs Context: https://maanasa.dev/llms.txt\n- Resume (PDF): https://maanasa.dev/documents/MaanasaNarayan.pdf\n',
       {
         status: 404,
         headers: {
@@ -565,38 +949,22 @@ export const onRequest: PagesFunction = async (context) => {
 
   // If 404, serve custom 404 page with 404 status and recovery links
   if (htmlRes.status === 404) {
-    if (url.pathname.endsWith('.md')) {
-      const notFoundMdRes = await next(
-        new Request(new URL('/404.md', url).toString(), request),
+    const notFoundHtmlRes = await next(
+      new Request(new URL('/404.html', url).toString(), request),
+    );
+    if (notFoundHtmlRes.status === 200) {
+      const body = await notFoundHtmlRes.text();
+      const custom404 = new Response(body, {
+        status: 404,
+        headers: notFoundHtmlRes.headers,
+      });
+      custom404.headers.set('Content-Type', 'text/html; charset=utf-8');
+      appendVaryAccept(custom404.headers);
+      custom404.headers.set(
+        'Link',
+        '</404.md>; rel="alternate"; type="text/markdown"',
       );
-      if (notFoundMdRes.status === 200) {
-        const body = await notFoundMdRes.text();
-        const custom404 = new Response(body, {
-          status: 404,
-          headers: notFoundMdRes.headers,
-        });
-        custom404.headers.set('Content-Type', 'text/markdown; charset=utf-8');
-        appendVaryAccept(custom404.headers);
-        return custom404;
-      }
-    } else {
-      const notFoundHtmlRes = await next(
-        new Request(new URL('/404.html', url).toString(), request),
-      );
-      if (notFoundHtmlRes.status === 200) {
-        const body = await notFoundHtmlRes.text();
-        const custom404 = new Response(body, {
-          status: 404,
-          headers: notFoundHtmlRes.headers,
-        });
-        custom404.headers.set('Content-Type', 'text/html; charset=utf-8');
-        appendVaryAccept(custom404.headers);
-        custom404.headers.set(
-          'Link',
-          '</404.md>; rel="alternate"; type="text/markdown"',
-        );
-        return custom404;
-      }
+      return custom404;
     }
   }
 

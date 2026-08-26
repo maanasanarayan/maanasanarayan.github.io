@@ -1,50 +1,13 @@
 {
-  "$schema": "https://agent-skills.org/schema/v1/index.json",
-  "name": "Maanasa Narayan Agent Skills",
-  "description": "Index of discoverable skills and capabilities for Maanasa Narayan's portfolio.",
-  "version": "1.0.0",
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "version": "0.2.0",
   "skills": [
     {
-      "id": "get-profile",
-      "name": "Get Profile Summary",
-      "description": "Fetch verified biographical and current employment details for Maanasa Narayan (Software Engineer at Google).",
-      "endpoint": "https://maanasa.dev/api/profile",
-      "documentation": "https://maanasa.dev/about"
-    },
-    {
-      "id": "get-experience",
-      "name": "Get Work Experience",
-      "description": "Retrieve comprehensive employment history across Google, Kayak, Amazon, Nokia, and Adobe.",
-      "endpoint": "https://maanasa.dev/api/experience",
-      "documentation": "https://maanasa.dev/about"
-    },
-    {
-      "id": "get-skills",
-      "name": "Get Technical Skills",
-      "description": "List technical competencies including Java, Python, TypeScript, React, Spring Boot, AWS, Kubernetes, and CI/CD.",
-      "endpoint": "https://maanasa.dev/api/skills",
-      "documentation": "https://maanasa.dev/#skills"
-    },
-    {
-      "id": "get-projects",
-      "name": "Get Featured Projects",
-      "description": "Inspect software engineering projects including airline integration microservices and full-stack web applications.",
-      "endpoint": "https://maanasa.dev/api/projects",
-      "documentation": "https://maanasa.dev/#projects"
-    },
-    {
-      "id": "get-contact",
-      "name": "Get Contact Information",
-      "description": "Retrieve official channels (email, LinkedIn, GitHub, X) for professional inquiries and technical collaboration.",
-      "endpoint": "https://maanasa.dev/api/contact",
-      "documentation": "https://maanasa.dev/contact"
-    },
-    {
-      "id": "ask-question",
-      "name": "Ask Question (NLWeb)",
-      "description": "Ask natural language questions about Maanasa's background, projects, skills, or publications.",
-      "endpoint": "https://maanasa.dev/ask",
-      "documentation": "https://maanasa.dev/llms.txt"
+      "name": "maanasa-portfolio-agent",
+      "type": "skill-md",
+      "url": "https://maanasa.dev/SKILL.md",
+      "digest": "sha256:caf371f488b48a1119aefa888549f12d28a80c74b23f55ca4439f6a8c44a2926",
+      "description": "Inspect and query Maanasa Narayan's verified software engineering experience, background, and skills."
     }
   ]
 }

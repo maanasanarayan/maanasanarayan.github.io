@@ -1,0 +1,313 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import {
+  Terminal,
+  Key,
+  BookOpen,
+  ArrowLeft,
+  Bot,
+  Sparkles,
+} from 'lucide-astro';
+---
+
+<SiteLayout
+  title="Developer Portal & API Docs — Maanasa Narayan"
+  description="Developer documentation, OpenAPI 3.1.0 specifications, MCP server discovery, NLWeb query endpoints, and authentication guides for Maanasa Narayan's API surface."
+>
+  <div
+    class="mx-auto max-w-5xl px-4 pt-28 pb-20 sm:px-6 sm:pt-36 sm:pb-24 lg:px-8"
+  >
+    <div class="mb-8">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 border-2 border-black bg-white px-3 py-1.5 text-xs font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
+      >
+        <ArrowLeft class="h-4 w-4 stroke-[3px]" />
+        Back to Home
+      </a>
+    </div>
+
+    <article
+      class="border-4 border-black bg-white p-6 shadow-[8px_8px_0_0_#000] sm:p-10 sm:shadow-[12px_12px_0_0_#000] lg:p-12"
+    >
+      <span
+        class="bg-neo-accent inline-block border-4 border-black px-3 py-1 text-xs font-bold tracking-widest text-white uppercase shadow-[4px_4px_0_0_#000]"
+      >
+        Developer Surface
+      </span>
+
+      <h1
+        class="font-display mt-6 text-4xl leading-tight tracking-tight uppercase sm:text-6xl lg:text-7xl"
+      >
+        Maanasa Narayan Developer Portal &amp; API Docs
+      </h1>
+
+      <p
+        class="mt-6 text-lg leading-relaxed font-medium text-black/90 sm:text-xl"
+      >
+        Welcome to the programmatic interface for Maanasa Narayan's portfolio.
+        Autonomous agents, AI assistants, and developers can query verified
+        skills, career history, technical projects, and documentation via
+        standard protocols.
+      </p>
+
+      <!-- Quickstart Cards -->
+      <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div
+          class="bg-neo-muted border-4 border-black p-6 shadow-[6px_6px_0_0_#000]"
+        >
+          <div class="flex items-center gap-3">
+            <span
+              class="grid h-10 w-10 place-items-center border-2 border-black bg-white"
+            >
+              <Bot class="h-5 w-5 stroke-[3px]" />
+            </span>
+            <h2 class="font-display text-xl tracking-tight uppercase">
+              Agent Quickstart (NLWeb)
+            </h2>
+          </div>
+          <p class="mt-3 text-sm font-medium">
+            Ask natural language questions using Microsoft's NLWeb protocol.
+            Streams real-time answers via Server-Sent Events.
+          </p>
+          <pre
+            class="mt-4 overflow-x-auto border-2 border-black bg-black p-3 text-xs text-white"><code>{`curl -X POST https://maanasa.dev/ask \\
+  -H "Content-Type: application/json" \\
+  -d '{"query":"What did Maanasa build at Kayak?"}'`}</code></pre>
+        </div>
+
+        <div
+          class="bg-neo-secondary border-4 border-black p-6 shadow-[6px_6px_0_0_#000]"
+        >
+          <div class="flex items-center gap-3">
+            <span
+              class="grid h-10 w-10 place-items-center border-2 border-black bg-white"
+            >
+              <Sparkles class="h-5 w-5 stroke-[3px]" />
+            </span>
+            <h2 class="font-display text-xl tracking-tight uppercase">
+              Model Context Protocol (MCP)
+            </h2>
+          </div>
+          <p class="mt-3 text-sm font-medium">
+            Connect Claude, ChatGPT, or custom agents directly via our
+            Streamable HTTP MCP server surfaces.
+          </p>
+          <ul class="mt-4 space-y-1 font-mono text-xs">
+            <li>
+              <strong>Portfolio MCP:</strong>
+              <a href="/.well-known/mcp/server-card.json" class="underline"
+                >/.well-known/mcp/server-card.json</a
+              >
+            </li>
+            <li>
+              <strong>Docs MCP:</strong>
+              <a href="/.well-known/mcp/docs-server-card.json" class="underline"
+                >/.well-known/mcp/docs-server-card.json</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Core Protocols Section -->
+      <div class="mt-12 border-t-4 border-black pt-10">
+        <div class="flex items-center gap-3">
+          <span
+            class="bg-neo-mint grid h-10 w-10 place-items-center border-2 border-black"
+          >
+            <BookOpen class="h-5 w-5 stroke-[3px]" />
+          </span>
+          <h2
+            class="font-display text-2xl tracking-tight uppercase sm:text-3xl"
+          >
+            API Endpoints &amp; Standards
+          </h2>
+        </div>
+
+        <div class="mt-6 space-y-4">
+          <div
+            class="border-2 border-black bg-white p-4 shadow-[3px_3px_0_0_#000]"
+          >
+            <span
+              class="bg-black px-2 py-0.5 font-mono text-xs font-bold text-white uppercase"
+              >GET</span
+            >
+            <span class="ml-2 font-mono font-bold">/v1/profile</span>
+            <p class="mt-1 text-sm">
+              Returns biographical summary, current role at Google, education,
+              and links.
+            </p>
+          </div>
+
+          <div
+            class="border-2 border-black bg-white p-4 shadow-[3px_3px_0_0_#000]"
+          >
+            <span
+              class="bg-black px-2 py-0.5 font-mono text-xs font-bold text-white uppercase"
+              >GET</span
+            >
+            <span class="ml-2 font-mono font-bold"
+              >/v1/experience?limit=20&amp;cursor=...</span
+            >
+            <p class="mt-1 text-sm">
+              Paginated work experience history across Google, Kayak, Amazon,
+              Nokia, and Adobe.
+            </p>
+          </div>
+
+          <div
+            class="border-2 border-black bg-white p-4 shadow-[3px_3px_0_0_#000]"
+          >
+            <span
+              class="bg-black px-2 py-0.5 font-mono text-xs font-bold text-white uppercase"
+              >GET</span
+            >
+            <span class="ml-2 font-mono font-bold">/v1/skills</span>
+            <p class="mt-1 text-sm">
+              Categorised technical skills breakdown across languages,
+              frameworks, and infrastructure.
+            </p>
+          </div>
+
+          <div
+            class="border-2 border-black bg-white p-4 shadow-[3px_3px_0_0_#000]"
+          >
+            <span
+              class="bg-black px-2 py-0.5 font-mono text-xs font-bold text-white uppercase"
+              >GET</span
+            >
+            <span class="ml-2 font-mono font-bold"
+              >/v1/projects?limit=20&amp;cursor=...</span
+            >
+            <p class="mt-1 text-sm">
+              Paginated list of featured software projects and architecture
+              highlights.
+            </p>
+          </div>
+
+          <div
+            class="border-2 border-black bg-white p-4 shadow-[3px_3px_0_0_#000]"
+          >
+            <span
+              class="bg-black px-2 py-0.5 font-mono text-xs font-bold text-white uppercase"
+              >POST</span
+            >
+            <span class="ml-2 font-mono font-bold">/v1/agent/register</span>
+            <p class="mt-1 text-sm">
+              WorkOS auth.md compliant automated agent credential registration
+              endpoint.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Authentication & Sandbox Section -->
+      <div id="sandbox" class="mt-12 border-t-4 border-black pt-10">
+        <div class="flex items-center gap-3">
+          <span
+            class="bg-neo-secondary grid h-10 w-10 place-items-center border-2 border-black"
+          >
+            <Key class="h-5 w-5 stroke-[3px]" />
+          </span>
+          <h2
+            class="font-display text-2xl tracking-tight uppercase sm:text-3xl"
+          >
+            Authentication &amp; Sandbox Testing
+          </h2>
+        </div>
+
+        <p class="mt-4 text-base leading-relaxed font-medium">
+          Public endpoints (profile, skills, projects, and NLWeb) require zero
+          authentication. For elevated rate limits, agents can obtain automated
+          tokens via <a href="/auth.md" class="font-bold underline">/auth.md</a> and
+          RFC 9728 discovery.
+        </p>
+
+        <div
+          class="bg-neo-muted mt-6 border-4 border-black p-5 shadow-[4px_4px_0_0_#000]"
+        >
+          <h3 class="font-display text-lg tracking-tight uppercase">
+            Interactive Sandbox Environment
+          </h3>
+          <p class="mt-2 text-sm font-medium">
+            Test agent queries and tools in an isolated, read-only sandbox mode:
+          </p>
+          <ul class="mt-3 space-y-1 font-mono text-xs">
+            <li>
+              <strong>Sandbox Origin:</strong>
+              <code>https://sandbox.maanasa.dev</code> or <code
+                >https://maanasa.dev/?mode=agent</code
+              >
+            </li>
+            <li>
+              <strong>Mock API Key:</strong>
+              <code>test_token_sandbox_agent_2026</code>
+            </li>
+            <li>
+              <strong>Rate Limits:</strong> 100 requests / minute per client IP (RateLimit
+              headers returned).
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Machine Discovery Documents -->
+      <div class="mt-12 border-t-4 border-black pt-10">
+        <div class="flex items-center gap-3">
+          <span
+            class="grid h-10 w-10 place-items-center border-2 border-black bg-black text-white"
+          >
+            <Terminal class="h-5 w-5 stroke-[3px]" />
+          </span>
+          <h2
+            class="font-display text-2xl tracking-tight uppercase sm:text-3xl"
+          >
+            Machine Discovery Links
+          </h2>
+        </div>
+
+        <div
+          class="mt-6 grid grid-cols-1 gap-3 font-mono text-sm font-bold sm:grid-cols-2"
+        >
+          <a
+            href="/api/openapi.json"
+            class="hover:bg-neo-secondary border-2 border-black bg-white p-3 shadow-[3px_3px_0_0_#000]"
+          >
+            📄 OpenAPI 3.1.0 Specification
+          </a>
+          <a
+            href="/.well-known/ai-catalog.json"
+            class="hover:bg-neo-secondary border-2 border-black bg-white p-3 shadow-[3px_3px_0_0_#000]"
+          >
+            🌐 ARD AI Resource Catalog
+          </a>
+          <a
+            href="/.well-known/api-catalog"
+            class="hover:bg-neo-secondary border-2 border-black bg-white p-3 shadow-[3px_3px_0_0_#000]"
+          >
+            🔗 RFC 9727 API Catalog
+          </a>
+          <a
+            href="/auth.md"
+            class="hover:bg-neo-secondary border-2 border-black bg-white p-3 shadow-[3px_3px_0_0_#000]"
+          >
+            🔐 WorkOS auth.md Walkthrough
+          </a>
+          <a
+            href="/.well-known/agent-card.json"
+            class="hover:bg-neo-secondary border-2 border-black bg-white p-3 shadow-[3px_3px_0_0_#000]"
+          >
+            🤖 Agent-to-Agent (A2A) Card
+          </a>
+          <a
+            href="/llms.txt"
+            class="hover:bg-neo-secondary border-2 border-black bg-white p-3 shadow-[3px_3px_0_0_#000]"
+          >
+            📑 LLMs Context Index
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
+</SiteLayout>

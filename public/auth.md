@@ -1,11 +1,4 @@
----
-title: 'Agent Authentication Guide (auth.md)'
-description: "Step-by-step authentication and credentials walkthrough for AI agents accessing Maanasa Narayan's API surface."
-canonical: 'https://maanasa.dev/auth.md'
-last-updated: '2026-08-24'
----
-
-## Agent Authentication Guide
+# Agent Authentication Guide (auth.md)
 
 This document outlines how autonomous agents, AI assistants, and machine clients authenticate against the `https://maanasa.dev` API surface according to the WorkOS `auth.md` specification.
 
@@ -87,7 +80,7 @@ Content-Type: application/json
 
 ## Errors
 
-When an authentication error occurs, responses follow standard RFC 6750 format:
+When an authentication error occurs, responses follow standard RFC 6750 and RFC 9457 format:
 
 - **401 Unauthorized:** Invalid or expired token. The response includes `WWW-Authenticate: Bearer error="invalid_token"`.
 - **403 Forbidden:** The authenticated token lacks required scopes (`read:profile`, `ask:question`).
@@ -110,5 +103,5 @@ Content-Type: application/json
 
 Agents can test authentication flows and API integrations against our sandbox environment at:
 
-- Sandbox URL: `https://sandbox.maanasa.dev`
+- Sandbox URL: `https://maanasa.dev/developers#sandbox`
 - Mock Token: `test_token_sandbox_agent_2026`

@@ -2,6 +2,24 @@
   "linkset": [
     {
       "anchor": "https://maanasa.dev/",
+      "item": [
+        {
+          "href": "https://maanasa.dev/api/openapi.json",
+          "type": "application/vnd.oai.openapi+json;version=3.1.0"
+        },
+        {
+          "href": "https://maanasa.dev/llms.txt",
+          "type": "text/markdown"
+        },
+        {
+          "href": "https://maanasa.dev/auth.md",
+          "type": "text/markdown"
+        },
+        {
+          "href": "https://maanasa.dev/developers",
+          "type": "text/html"
+        }
+      ],
       "service-desc": [
         {
           "href": "https://maanasa.dev/api/openapi.json",
@@ -16,6 +34,10 @@
         {
           "href": "https://maanasa.dev/auth.md",
           "type": "text/markdown"
+        },
+        {
+          "href": "https://maanasa.dev/developers",
+          "type": "text/html"
         }
       ],
       "service-meta": [

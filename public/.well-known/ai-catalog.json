@@ -1,49 +1,52 @@
 {
   "$schema": "https://agenticresourcediscovery.org/schema/v1/ai-catalog.json",
-  "name": "Maanasa Narayan Agentic Services",
-  "description": "Agentic discovery catalog for Maanasa Narayan's engineering portfolio, skills, projects, and APIs.",
-  "version": "1.0.0",
-  "publisher": {
-    "name": "Maanasa Narayan",
-    "url": "https://maanasa.dev"
-  },
-  "resources": [
+  "specVersion": "1.0",
+  "name": "Maanasa Narayan Developer & Agentic Resources",
+  "description": "Agentic discovery catalog for Maanasa Narayan's developer APIs, MCP servers, and skills.",
+  "entries": [
     {
-      "id": "portfolio-mcp",
-      "type": "mcp",
-      "name": "Maanasa Portfolio MCP Server",
-      "description": "Model Context Protocol server for querying engineering background, projects, and skills.",
-      "url": "https://maanasa.dev/api/mcp",
-      "card": "https://maanasa.dev/.well-known/mcp/server-card.json"
+      "id": "urn:air:maanasa.dev:mcp:portfolio",
+      "name": "Maanasa Narayan Portfolio MCP Server",
+      "description": "Model Context Protocol server for Maanasa Narayan's developer portfolio, projects, and skills.",
+      "mediaType": "application/json",
+      "url": "https://maanasa.dev/.well-known/mcp/server-card.json",
+      "trustManifest": {
+        "identity": "https://maanasa.dev",
+        "issuer": "https://maanasa.dev"
+      }
     },
     {
-      "id": "docs-mcp",
-      "type": "mcp",
-      "name": "Maanasa Docs MCP Server",
-      "description": "MCP documentation search surface for technical documentation and resumes.",
-      "url": "https://maanasa.dev/api/mcp/docs",
-      "card": "https://maanasa.dev/.well-known/mcp/docs-server-card.json"
+      "id": "urn:air:maanasa.dev:mcp:docs",
+      "name": "Maanasa Narayan Docs MCP Server",
+      "description": "Documentation search MCP server for Maanasa Narayan.",
+      "mediaType": "application/json",
+      "url": "https://maanasa.dev/.well-known/mcp/docs-server-card.json",
+      "trustManifest": {
+        "identity": "https://maanasa.dev",
+        "issuer": "https://maanasa.dev"
+      }
     },
     {
-      "id": "portfolio-agent",
-      "type": "agent",
-      "name": "Maanasa Portfolio Agent",
-      "description": "Autonomous portfolio and background consultation agent.",
-      "url": "https://maanasa.dev/.well-known/agent-card.json"
+      "id": "urn:air:maanasa.dev:api:openapi",
+      "name": "Maanasa Narayan OpenAPI Specification",
+      "description": "OpenAPI 3.1.0 specification for Maanasa Narayan's REST API.",
+      "mediaType": "application/vnd.oai.openapi+json;version=3.1.0",
+      "url": "https://maanasa.dev/api/openapi.json",
+      "trustManifest": {
+        "identity": "https://maanasa.dev",
+        "issuer": "https://maanasa.dev"
+      }
     },
     {
-      "id": "portfolio-skills",
-      "type": "skill",
-      "name": "Portfolio Inspection Skills",
-      "description": "Agent skills for inspecting experience, skill stack, and contacting Maanasa.",
-      "url": "https://maanasa.dev/.well-known/agent-skills/index.json"
-    },
-    {
-      "id": "nlweb-ask-api",
-      "type": "api",
-      "name": "NLWeb Ask Endpoint",
-      "description": "Natural language question-answering endpoint following Microsoft NLWeb protocol.",
-      "url": "https://maanasa.dev/ask"
+      "id": "urn:air:maanasa.dev:api:nlweb",
+      "name": "Maanasa Narayan NLWeb Ask Endpoint",
+      "description": "Natural language query answering endpoint following Microsoft NLWeb protocol.",
+      "mediaType": "application/json",
+      "url": "https://maanasa.dev/ask",
+      "trustManifest": {
+        "identity": "https://maanasa.dev",
+        "issuer": "https://maanasa.dev"
+      }
     }
   ]
 }
