@@ -5,16 +5,24 @@
   "version": "1.0.0",
   "serverUrl": "https://maanasa.dev/api/mcp",
   "transport": {
-    "type": "http-sse",
+    "type": "streamable-http",
     "endpoint": "https://maanasa.dev/api/mcp"
   },
+  "instructions": "This MCP server provides read-only access to Maanasa Narayan's software engineering portfolio data including profile, work experience at Google/Kayak/Amazon/Nokia/Adobe, technical skills, and featured projects. All tools are safe, read-only operations.",
   "tools": [
     {
       "name": "get_profile",
       "description": "Retrieve biographical background, current role at Google, education, and social links.",
       "inputSchema": {
         "type": "object",
-        "properties": {}
+        "properties": {},
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
       }
     },
     {
@@ -25,22 +33,36 @@
         "properties": {
           "company": {
             "type": "string",
-            "description": "Optional company name to filter experience."
+            "description": "Optional company name to filter experience (e.g. \"Google\", \"Kayak\")"
           }
-        }
+        },
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
       }
     },
     {
       "name": "get_skills",
-      "description": "Retrieve technical skills categorised by Languages, Frameworks, Databases, Cloud & DevOps, and Tools.",
+      "description": "Retrieve technical skills categorised by Languages, Backend & Cloud, and Frontend & Tools.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "category": {
             "type": "string",
-            "description": "Optional category filter."
+            "description": "Optional category filter (e.g. \"Languages\", \"Backend & Cloud\", \"Frontend & Tools\")"
           }
-        }
+        },
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
       }
     },
     {
@@ -48,7 +70,14 @@
       "description": "Retrieve featured projects, architecture details, and accomplishments.",
       "inputSchema": {
         "type": "object",
-        "properties": {}
+        "properties": {},
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
       }
     },
     {
@@ -59,10 +88,17 @@
         "properties": {
           "query": {
             "type": "string",
-            "description": "The natural language question to ask."
+            "description": "The natural language question to ask about Maanasa's background"
           }
         },
-        "required": ["query"]
+        "required": ["query"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
       }
     }
   ]

@@ -1,24 +1,15 @@
 {
-  "$schema": "https://agent-plugins.org/specification/v1/plugin.json",
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "maanasa-portfolio-plugin",
   "version": "1.0.0",
-  "description": "Agent plugin for interacting with Maanasa Narayan's engineering portfolio and services.",
+  "description": "Agent plugin for interacting with Maanasa Narayan's engineering portfolio, experience, and skills via MCP and REST APIs.",
   "author": {
     "name": "Maanasa Narayan",
     "url": "https://maanasa.dev",
     "email": "mnsnryn@gmail.com"
   },
-  "capabilities": ["mcp", "nlweb", "agent-skills"],
-  "mcpServers": [
-    {
-      "name": "portfolio-mcp",
-      "url": "https://maanasa.dev/api/mcp"
-    }
-  ],
-  "skills": [
-    {
-      "name": "portfolio",
-      "url": "https://maanasa.dev/.well-known/agent-skills/index.json"
-    }
-  ]
+  "homepage": "https://maanasa.dev/developers",
+  "repository": "https://github.com/maanasanarayan/maanasanarayan.github.io",
+  "license": "MIT",
+  "keywords": ["portfolio", "mcp", "nlweb", "agent-skills", "software-engineer"]
 }

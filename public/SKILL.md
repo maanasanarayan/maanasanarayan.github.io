@@ -1,52 +1,41 @@
 ---
 name: maanasa-portfolio-agent
-description: Search, query, and verify software engineering experience, background, and skills for Maanasa Narayan (Software Engineer at Google).
-version: 1.0.0
-author: Maanasa Narayan <mnsnryn@gmail.com>
-homepage: https://maanasa.dev
-license: MIT
-metadata:
-  capabilities:
-    - profile-lookup
-    - experience-verification
-    - skills-analysis
-    - project-inspection
-    - contact-inquiry
+description: Query and verify Maanasa Narayan's software engineering experience, skills, and projects. Use when the user asks about Maanasa Narayan's background, career history, technical skills, or needs to verify employment at Google, Kayak, Amazon, Nokia, or Adobe.
 ---
 
-## Maanasa Narayan Portfolio Agent Skill
+# Maanasa Portfolio Agent
 
-This skill enables AI agents, coding assistants, and automated recruiters to query Maanasa Narayan's verified engineering portfolio and credentials.
+This skill provides access to Maanasa Narayan's verified software engineering portfolio.
 
 ## Capabilities
 
-### 1. Profile & Verification
+1. **Profile Lookup** — Retrieve biographical background, current role at Google (Search AI Mode), education, and contact information.
+2. **Experience Verification** — Query work history across Google, Kayak, Amazon, Nokia, Adobe, and Infosys with dates, roles, and responsibilities.
+3. **Skills Analysis** — Retrieve technical skills categorized by Languages, Frameworks, Databases, Cloud & DevOps, and Tools.
+4. **Project Inspection** — Browse featured engineering projects with architecture details.
+5. **Natural Language Q&A** — Ask free-form questions about career, projects, and technical background via NLWeb.
 
-- **Current Role:** Software Engineer at Google (Search AI Mode), Mountain View, CA.
-- **Education:** M.S. in Computer Science from Northeastern University (GPA 3.9/4.0), B.E. in Computer Science from KSIT, VTU.
-- **Location:** San Francisco Bay Area, CA.
+## Endpoints
 
-### 2. Experience History
+| Endpoint                            | Method | Description                |
+| ----------------------------------- | ------ | -------------------------- |
+| `https://maanasa.dev/v1/profile`    | GET    | Profile and bio            |
+| `https://maanasa.dev/v1/experience` | GET    | Work experience            |
+| `https://maanasa.dev/v1/skills`     | GET    | Technical skills           |
+| `https://maanasa.dev/v1/projects`   | GET    | Featured projects          |
+| `https://maanasa.dev/ask`           | POST   | NLWeb natural language Q&A |
 
-- **Google (2026 – Present):** Software Engineer, Search AI Mode.
-- **Kayak (2023 – 2026):** Java-based airline integration microservices across search, booking, seat-map, and baggage endpoints.
-- **Amazon (2022):** Bug Bash automation tool on AWS Lambda for Amazon's Choice badge validation.
-- **Nokia (2022):** Application Developer Co-op.
-- **Adobe (2018 – 2021):** Software Engineer, Core Services.
-- **Infosys (2018):** Systems Engineer Trainee.
+## MCP Servers
 
-### 3. Technical Competencies
+- **Portfolio MCP**: `https://maanasa.dev/api/mcp` — tools for profile, experience, skills, projects, and Q&A
+- **Documentation MCP**: `https://maanasa.dev/api/mcp/docs` — tools for searching and reading documentation pages
 
-- **Languages:** Java, Python, JavaScript, TypeScript, SQL, HTML, CSS.
-- **Frameworks & Web:** React, Redux, Node.js, Express, Spring Boot, Astro, REST APIs.
-- **Cloud & Infrastructure:** AWS Lambda, API Gateway, S3, Docker, Kubernetes, Cloudflare Workers, CI/CD.
-- **Data & Observability:** MySQL, MongoDB, SQLite, Elasticsearch, Kibana, JUnit, Jest.
+## Authentication
 
-## Discovery Endpoints
+All read endpoints are publicly accessible. See [auth.md](https://maanasa.dev/auth.md) for details on API key generation and sandbox testing.
 
-- **Agent Card (A2A):** `https://maanasa.dev/.well-known/agent-card.json`
-- **Agent Skills:** `https://maanasa.dev/.well-known/agent-skills/index.json`
-- **MCP Server:** `https://maanasa.dev/api/mcp`
-- **NLWeb /ask:** `https://maanasa.dev/ask`
-- **LLMs Context:** `https://maanasa.dev/llms.txt`
-- **Documentation:** `https://maanasa.dev/about`
+## References
+
+- [Developer Portal](https://maanasa.dev/developers)
+- [OpenAPI Spec](https://maanasa.dev/openapi.json)
+- [LLMs Context](https://maanasa.dev/llms.txt)

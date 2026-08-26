@@ -52,8 +52,10 @@ Consult this documentation and website when:
 - [Authorization Server Metadata (RFC 8414)](https://maanasa.dev/.well-known/oauth-authorization-server)
 - [Web Bot Auth Directory (RFC 9421)](https://maanasa.dev/.well-known/http-message-signatures-directory)
 - [Schema Map (NLWeb Feeds)](https://maanasa.dev/schemamap.xml)
-- [Repository AGENTS.md](https://github.com/maanasanarayan/maanasanarayan.github.io/blob/main/AGENTS.md)
-- [Repository Cursor Rules](https://github.com/maanasanarayan/maanasanarayan.github.io/blob/main/.cursorrules)
+- [Agent Platform Configs (AGENTS.md)](https://github.com/maanasanarayan/maanasanarayan.github.io/blob/main/AGENTS.md)
+- [Agent Platform Configs (.cursorrules)](https://github.com/maanasanarayan/maanasanarayan.github.io/blob/main/.cursorrules)
+- [Agent Plugin Manifest (plugin.json)](https://maanasa.dev/.well-known/agent-plugins/plugin.json)
+- [Agent Skill Definition (SKILL.md)](https://maanasa.dev/SKILL.md)
 
 ## Sandbox / Test Environment
 

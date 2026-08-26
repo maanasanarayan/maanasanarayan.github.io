@@ -1,40 +1,79 @@
 {
   "$schema": "https://modelcontextprotocol.io/schema/server-card.json",
   "name": "maanasa-docs-mcp",
-  "description": "Documentation Model Context Protocol server for querying portfolio documentation, markdown pages, and resume context.",
+  "description": "Documentation Model Context Protocol server for querying portfolio documentation pages, markdown content, and reference material.",
   "version": "1.0.0",
   "serverUrl": "https://maanasa.dev/api/mcp/docs",
   "transport": {
-    "type": "http-sse",
+    "type": "streamable-http",
     "endpoint": "https://maanasa.dev/api/mcp/docs"
   },
+  "instructions": "This MCP server provides read-only access to documentation pages, markdown content, and reference material for Maanasa Narayan's portfolio site. Use search_doc_pages to find relevant documentation, read_doc_page to retrieve a specific page, and list_doc_resources to enumerate available documentation resources.",
   "tools": [
     {
-      "name": "search_docs",
-      "description": "Search across all portfolio documentation, markdown twin pages, and LLM context files.",
+      "name": "search_doc_pages",
+      "description": "Search across all portfolio documentation pages, markdown content, and LLM context files by keyword or topic.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "query": {
             "type": "string",
-            "description": "The search query term or topic."
+            "description": "The search query term or topic to find in documentation"
+          },
+          "limit": {
+            "type": "number",
+            "description": "Maximum number of results to return (default: 10, max: 50)"
           }
         },
-        "required": ["query"]
+        "required": ["query"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
       }
     },
     {
-      "name": "get_doc",
-      "description": "Retrieve the full markdown text of a specific documentation page (e.g. /about, /contact, /privacy, /auth).",
+      "name": "read_doc_page",
+      "description": "Retrieve the full markdown text content of a specific documentation page by its path.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "path": {
             "type": "string",
-            "description": "The path to the document (e.g. /about, /llms.txt, /auth.md)."
+            "description": "The path to the document page (e.g. \"/about\", \"/llms.txt\", \"/auth.md\", \"/developers\", \"/privacy\")"
           }
         },
-        "required": ["path"]
+        "required": ["path"],
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "list_doc_resources",
+      "description": "List all available documentation resources and pages with their paths, titles, and content types.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Optional category filter: \"pages\", \"api\", \"protocols\", or \"all\" (default: \"all\")"
+          }
+        },
+        "additionalProperties": false
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
       }
     }
   ]

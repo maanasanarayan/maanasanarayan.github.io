@@ -211,7 +211,7 @@ describe('5. Agent Mode View (?mode=agent)', () => {
     const data = await res.json();
     expect(data.mode).toBe('agent');
     expect(data.entity).toBe('Maanasa Narayan');
-    expect(data.endpoints.ask_nlweb).toBe('https://maanasa.dev/ask');
+    expect(data.endpoints.api.ask_nlweb).toBe('https://maanasa.dev/ask');
     expect(data.skills.length).toBeGreaterThan(5);
   });
 });
@@ -409,7 +409,8 @@ describe('8. REST v1 Endpoints & API Usability', () => {
     expect(existsSync(join(process.cwd(), 'public/openapi.json'))).toBe(true);
   });
 
-  it('handles MCP JSON-RPC protocol handshake and tools/list', async () => {
+  it('handles MCP JSON-RPC protocol handshake with instructions and split servers', async () => {
+    // Portfolio MCP
     const initReq = new Request('https://maanasa.dev/api/mcp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -419,8 +420,23 @@ describe('8. REST v1 Endpoints & API Usability', () => {
     expect(initRes.status).toBe(200);
     const initData = await initRes.json();
     expect(initData.result.protocolVersion).toBe('2024-11-05');
-    expect(initData.result.serverInfo.name).toBe('maanasa-mcp');
+    expect(initData.result.serverInfo.name).toBe('maanasa-portfolio-mcp');
+    expect(initData.result.instructions).toBeDefined();
+    expect(initData.result.instructions.length).toBeGreaterThan(20);
 
+    // Docs MCP
+    const docsInitReq = new Request('https://maanasa.dev/api/mcp/docs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize' }),
+    });
+    const docsInitRes = await worker.fetch(docsInitReq, {});
+    expect(docsInitRes.status).toBe(200);
+    const docsInitData = await docsInitRes.json();
+    expect(docsInitData.result.serverInfo.name).toBe('maanasa-docs-mcp');
+    expect(docsInitData.result.instructions).toBeDefined();
+
+    // Portfolio tools/list
     const toolsReq = new Request('https://maanasa.dev/api/mcp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -429,16 +445,115 @@ describe('8. REST v1 Endpoints & API Usability', () => {
     const toolsRes = await worker.fetch(toolsReq, {});
     expect(toolsRes.status).toBe(200);
     const toolsData = await toolsRes.json();
-    expect(toolsData.result.tools.length).toBeGreaterThan(0);
+    expect(toolsData.result.tools.length).toBe(5);
+    for (const tool of toolsData.result.tools) {
+      expect(tool.annotations).toBeDefined();
+      expect(tool.annotations.readOnlyHint).toBe(true);
+      expect(tool.annotations.destructiveHint).toBe(false);
+      expect(tool.inputSchema).toBeDefined();
+    }
   });
 
-  it('serves sandbox endpoint with test credentials', async () => {
-    const req = new Request('https://maanasa.dev/api/sandbox');
+  it('docs MCP exposes distinct content-referencing tools with parameter schemas', async () => {
+    const toolsReq = new Request('https://maanasa.dev/api/mcp/docs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 2, method: 'tools/list' }),
+    });
+    const toolsRes = await worker.fetch(toolsReq, {});
+    expect(toolsRes.status).toBe(200);
+    const toolsData = await toolsRes.json();
+    const toolNames = toolsData.result.tools.map(
+      (t: { name: string }) => t.name,
+    );
+    expect(toolNames).toContain('search_doc_pages');
+    expect(toolNames).toContain('read_doc_page');
+    expect(toolNames).toContain('list_doc_resources');
+    for (const tool of toolsData.result.tools) {
+      expect(tool.inputSchema.type).toBe('object');
+      expect(tool.inputSchema.properties).toBeDefined();
+      expect(tool.annotations).toBeDefined();
+      expect(tool.annotations.readOnlyHint).toBe(true);
+    }
+  });
+
+  it('returns structured JSON-RPC errors for invalid MCP requests', async () => {
+    // Unknown method
+    const unknownReq = new Request('https://maanasa.dev/api/mcp/docs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'nonexistent/method',
+      }),
+    });
+    const unknownRes = await worker.fetch(unknownReq, {});
+    expect(unknownRes.status).toBe(200);
+    const unknownData = await unknownRes.json();
+    expect(unknownData.error).toBeDefined();
+    expect(unknownData.error.code).toBe(-32601);
+    expect(unknownData.error.message).toContain('Method not found');
+
+    // Unknown tool
+    const badToolReq = new Request('https://maanasa.dev/api/mcp/docs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 2,
+        method: 'tools/call',
+        params: { name: 'nonexistent_tool' },
+      }),
+    });
+    const badToolRes = await worker.fetch(badToolReq, {});
+    expect(badToolRes.status).toBe(200);
+    const badToolData = await badToolRes.json();
+    expect(badToolData.error).toBeDefined();
+    expect(badToolData.error.code).toBe(-32602);
+    expect(badToolData.error.message).toContain('Unknown tool');
+
+    // Missing required params
+    const missingParamsReq = new Request('https://maanasa.dev/api/mcp/docs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 3,
+        method: 'tools/call',
+        params: { name: 'search_doc_pages', arguments: {} },
+      }),
+    });
+    const missingParamsRes = await worker.fetch(missingParamsReq, {});
+    expect(missingParamsRes.status).toBe(200);
+    const missingParamsData = await missingParamsRes.json();
+    expect(missingParamsData.error).toBeDefined();
+    expect(missingParamsData.error.code).toBe(-32602);
+    expect(missingParamsData.error.message).toContain('missing required');
+
+    // Parse error (invalid JSON)
+    const parseErrReq = new Request('https://maanasa.dev/api/mcp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: 'not valid json{{{',
+    });
+    const parseErrRes = await worker.fetch(parseErrReq, {});
+    expect(parseErrRes.status).toBe(200);
+    const parseErrData = await parseErrRes.json();
+    expect(parseErrData.error).toBeDefined();
+    expect(parseErrData.error.code).toBe(-32700);
+  });
+
+  it('serves sandbox endpoint with test credentials at /v1/sandbox/test', async () => {
+    const req = new Request('https://maanasa.dev/v1/sandbox/test');
     const res = await worker.fetch(req, {});
     expect(res.status).toBe(200);
     const data = await res.json();
     expect(data.mode).toBe('sandbox');
     expect(data.mock_token).toBeDefined();
+    expect(data.self_serve_key_generation).toBe(true);
+    expect(data.verified).toBe(true);
+    expect(data.timestamp).toBeDefined();
   });
 
   it('handles MCP resources/list and resources/read with valid MIME types', async () => {
@@ -496,6 +611,23 @@ describe('8. REST v1 Endpoints & API Usability', () => {
         expect(op.responses['200'] || op.responses['202']).toBeDefined();
       }
     }
+
+    // Verify 429 response exists in components
+    expect(openapi.components.responses['429TooManyRequests']).toBeDefined();
+  });
+
+  it('validates plugin.json uses correct agent-plugins.org schema', () => {
+    const plugin = JSON.parse(
+      readFileSync(join(process.cwd(), 'plugin.json'), 'utf-8'),
+    );
+    expect(plugin.$schema).toBe(
+      'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json',
+    );
+    expect(plugin.name).toMatch(/^[a-z0-9.-]{1,64}$/);
+    expect(plugin.homepage).toBeDefined();
+    expect(plugin.repository).toBeDefined();
+    expect(plugin.keywords).toBeDefined();
+    expect(Array.isArray(plugin.keywords)).toBe(true);
   });
 
   it('validates robots.txt contains AI crawlers policy, Content-Signal, and Schemamap', () => {
@@ -530,5 +662,26 @@ describe('8. REST v1 Endpoints & API Usability', () => {
     const text = await res.text();
     expect(text.startsWith('# api-catalog')).toBe(true);
     expect(text).toContain('```json');
+  });
+
+  it('validates ?mode=agent returns enriched agent view with authentication, capabilities, and onboarding', async () => {
+    const req = new Request('https://maanasa.dev/?mode=agent');
+    const res = await worker.fetch(req, {});
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.mode).toBe('agent');
+    expect(data.authentication).toBeDefined();
+    expect(data.authentication.sandbox).toBeDefined();
+    expect(data.capabilities).toBeDefined();
+    expect(Array.isArray(data.capabilities)).toBe(true);
+    expect(data.capabilities.length).toBeGreaterThan(5);
+    expect(data.documentation).toBeDefined();
+    expect(data.sdk).toBeDefined();
+    expect(data.agentConfigs).toBeDefined();
+    expect(data.onboarding).toBeDefined();
+    expect(data.onboarding.free_tier).toBe(true);
+    expect(data.onboarding.self_serve_key).toBe(true);
+    expect(data.endpoints.mcp).toBeDefined();
+    expect(data.endpoints.agent).toBeDefined();
   });
 });

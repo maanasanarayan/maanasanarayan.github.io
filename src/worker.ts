@@ -183,22 +183,85 @@ export default {
             'M.S. in Computer Science from Northeastern University (GPA 3.9/4.0)',
           bachelors: 'B.E. in Computer Science from KSIT, VTU',
         },
+        authentication: {
+          type: 'bearer',
+          flows: ['client_credentials', 'api_key'],
+          registration: 'https://maanasa.dev/api/agent/register',
+          guide: 'https://maanasa.dev/auth.md',
+          sandbox: {
+            url: 'https://maanasa.dev/v1/sandbox/test',
+            mock_token: 'test_token_sandbox_agent_2026',
+            description:
+              'Self-serve sandbox for testing API integrations without affecting production.',
+          },
+        },
+        capabilities: [
+          'profile-query',
+          'experience-verification',
+          'skills-inspection',
+          'project-analysis',
+          'natural-language-qa',
+          'mcp-protocol',
+          'nlweb-protocol',
+          'content-negotiation',
+          'markdown-twins',
+          'sse-streaming',
+          'async-jobs',
+          'batch-operations',
+        ],
         endpoints: {
-          profile: 'https://maanasa.dev/v1/profile',
-          experience: 'https://maanasa.dev/v1/experience',
-          skills: 'https://maanasa.dev/v1/skills',
-          projects: 'https://maanasa.dev/v1/projects',
-          ask_nlweb: 'https://maanasa.dev/ask',
-          mcp: 'https://maanasa.dev/api/mcp',
-          mcp_docs: 'https://maanasa.dev/.well-known/mcp/docs-server-card.json',
-          api_catalog: 'https://maanasa.dev/.well-known/api-catalog',
-          agent_card: 'https://maanasa.dev/.well-known/agent-card.json',
-          agent_skills:
-            'https://maanasa.dev/.well-known/agent-skills/index.json',
-          auth_guide: 'https://maanasa.dev/auth.md',
+          api: {
+            profile: 'https://maanasa.dev/v1/profile',
+            experience: 'https://maanasa.dev/v1/experience',
+            skills: 'https://maanasa.dev/v1/skills',
+            projects: 'https://maanasa.dev/v1/projects',
+            ask_nlweb: 'https://maanasa.dev/ask',
+            batch: 'https://maanasa.dev/v1/batch',
+            jobs: 'https://maanasa.dev/v1/jobs',
+          },
+          mcp: {
+            portfolio: 'https://maanasa.dev/api/mcp',
+            docs: 'https://maanasa.dev/api/mcp/docs',
+            manifest: 'https://maanasa.dev/.well-known/mcp/manifest.json',
+          },
+          agent: {
+            card: 'https://maanasa.dev/.well-known/agent-card.json',
+            skills: 'https://maanasa.dev/.well-known/agent-skills/index.json',
+            plugin: 'https://maanasa.dev/.well-known/agent-plugins/plugin.json',
+            register: 'https://maanasa.dev/api/agent/register',
+          },
+        },
+        documentation: {
           developer_portal: 'https://maanasa.dev/developers',
-          protected_resource:
-            'https://maanasa.dev/.well-known/oauth-protected-resource',
+          openapi: 'https://maanasa.dev/openapi.json',
+          llms_context: 'https://maanasa.dev/llms.txt',
+          auth_guide: 'https://maanasa.dev/auth.md',
+          api_catalog: 'https://maanasa.dev/.well-known/api-catalog',
+        },
+        sdk: {
+          openapi_spec: 'https://maanasa.dev/openapi.json',
+          mcp_server: 'https://maanasa.dev/api/mcp',
+          note: 'Auto-generate client SDKs from the OpenAPI 3.1.0 spec.',
+        },
+        agentConfigs: {
+          agents_md:
+            'https://github.com/maanasanarayan/maanasanarayan.github.io/blob/main/AGENTS.md',
+          cursorrules:
+            'https://github.com/maanasanarayan/maanasanarayan.github.io/blob/main/.cursorrules',
+          plugin_json:
+            'https://maanasa.dev/.well-known/agent-plugins/plugin.json',
+          skill_md: 'https://maanasa.dev/SKILL.md',
+        },
+        onboarding: {
+          free_tier: true,
+          self_serve_key: true,
+          sandbox_url: 'https://maanasa.dev/v1/sandbox/test',
+          sandbox_docs: 'https://maanasa.dev/auth.md#sandbox-environment',
+          steps: [
+            'POST /api/agent/register to get a client_id and token',
+            'Use the token as Bearer auth on API endpoints',
+            'Test with /v1/sandbox/test to verify connectivity',
+          ],
         },
         skills: [
           'Java',
@@ -423,225 +486,561 @@ export default {
       return res;
     }
 
-    // 4. MCP Discovery & JSON-RPC Protocol Handshake Endpoint
-    if (
-      pathname === '/.well-known/mcp' ||
-      pathname === '/api/mcp' ||
-      pathname === '/api/mcp/docs'
-    ) {
+    // 4. MCP Discovery & JSON-RPC Protocol Handshake Endpoints
+    // Portfolio MCP: /.well-known/mcp, /api/mcp
+    // Docs MCP: /api/mcp/docs
+    const isPortfolioMcp =
+      pathname === '/.well-known/mcp' || pathname === '/api/mcp';
+    const isDocsMcp = pathname === '/api/mcp/docs';
+
+    if (isPortfolioMcp || isDocsMcp) {
       if (method === 'POST') {
-        try {
-          const rpc = (await request.json()) as {
-            jsonrpc?: string;
-            id?: string | number | null;
-            method?: string;
-            params?: {
-              name?: string;
-              uri?: string;
-              arguments?: Record<string, unknown>;
-            };
+        let rpc: {
+          jsonrpc?: string;
+          id?: string | number | null;
+          method?: string;
+          params?: {
+            name?: string;
+            uri?: string;
+            arguments?: Record<string, unknown>;
           };
+        };
 
-          const rpcId = rpc.id ?? 1;
-
-          if (rpc.method === 'initialize') {
-            const initResponse = {
+        try {
+          rpc = (await request.json()) as typeof rpc;
+        } catch {
+          // JSON-RPC parse error
+          const parseErr = new Response(
+            JSON.stringify({
               jsonrpc: '2.0',
-              id: rpcId,
-              result: {
-                protocolVersion: '2024-11-05',
-                serverInfo: {
-                  name: 'maanasa-mcp',
-                  version: '1.0.0',
+              id: null,
+              error: {
+                code: -32700,
+                message: 'Parse error: invalid JSON in request body',
+              },
+            }),
+            {
+              status: 200,
+              headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            },
+          );
+          applyCommonApiHeaders(parseErr.headers, request);
+          return parseErr;
+        }
+
+        const rpcId = rpc.id ?? 1;
+
+        // --- Initialize ---
+        if (rpc.method === 'initialize') {
+          const serverName = isDocsMcp
+            ? 'maanasa-docs-mcp'
+            : 'maanasa-portfolio-mcp';
+          const serverInstructions = isDocsMcp
+            ? "This MCP server provides read-only access to documentation pages, markdown content, and reference material for Maanasa Narayan's portfolio site. Use the search_doc_pages tool to find relevant documentation, read_doc_page to retrieve a specific page, and list_doc_resources to enumerate available documentation resources."
+            : "This MCP server provides read-only access to Maanasa Narayan's software engineering portfolio data including profile, work experience at Google/Kayak/Amazon/Nokia/Adobe, technical skills, and featured projects. All tools are safe, read-only operations.";
+
+          const initResponse = {
+            jsonrpc: '2.0',
+            id: rpcId,
+            result: {
+              protocolVersion: '2024-11-05',
+              serverInfo: {
+                name: serverName,
+                version: '1.0.0',
+              },
+              instructions: serverInstructions,
+              capabilities: {
+                tools: { listChanged: false },
+                resources: { subscribe: false, listChanged: false },
+                prompts: { listChanged: false },
+              },
+            },
+          };
+          const res = new Response(JSON.stringify(initResponse, null, 2), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          });
+          applyCommonApiHeaders(res.headers, request);
+          return res;
+        }
+
+        // --- Ping / Initialized notification ---
+        if (
+          rpc.method === 'ping' ||
+          rpc.method === 'notifications/initialized'
+        ) {
+          const pingResponse = { jsonrpc: '2.0', id: rpcId, result: {} };
+          const res = new Response(JSON.stringify(pingResponse), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          });
+          applyCommonApiHeaders(res.headers, request);
+          return res;
+        }
+
+        // --- Tool annotations shared by all tools ---
+        const readOnlyAnnotations = {
+          readOnlyHint: true,
+          destructiveHint: false,
+          idempotentHint: true,
+          openWorldHint: false,
+        };
+
+        // --- Portfolio MCP tools ---
+        const portfolioTools = [
+          {
+            name: 'get_profile',
+            description:
+              'Get verified software engineering background and profile for Maanasa Narayan including current role, education, and contact links',
+            inputSchema: {
+              type: 'object' as const,
+              properties: {},
+              additionalProperties: false,
+            },
+            annotations: readOnlyAnnotations,
+          },
+          {
+            name: 'get_experience',
+            description:
+              'Get detailed work experience history across Google, Kayak, Amazon, Nokia, Adobe, and Infosys with roles, dates, and highlights',
+            inputSchema: {
+              type: 'object' as const,
+              properties: {
+                company: {
+                  type: 'string',
+                  description:
+                    'Optional company name to filter experience (e.g. "Google", "Kayak")',
                 },
-                capabilities: {
-                  tools: { listChanged: false },
-                  resources: { subscribe: false, listChanged: false },
-                  prompts: { listChanged: false },
+              },
+              additionalProperties: false,
+            },
+            annotations: readOnlyAnnotations,
+          },
+          {
+            name: 'get_skills',
+            description:
+              'Get technical skills categorized by Languages, Backend & Cloud, and Frontend & Tools',
+            inputSchema: {
+              type: 'object' as const,
+              properties: {
+                category: {
+                  type: 'string',
+                  description:
+                    'Optional category filter (e.g. "Languages", "Backend & Cloud", "Frontend & Tools")',
                 },
               },
-            };
-            const res = new Response(JSON.stringify(initResponse, null, 2), {
-              status: 200,
-              headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            });
-            applyCommonApiHeaders(res.headers, request);
-            return res;
-          }
-
-          if (
-            rpc.method === 'ping' ||
-            rpc.method === 'notifications/initialized'
-          ) {
-            const pingResponse = { jsonrpc: '2.0', id: rpcId, result: {} };
-            const res = new Response(JSON.stringify(pingResponse), {
-              status: 200,
-              headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            });
-            applyCommonApiHeaders(res.headers, request);
-            return res;
-          }
-
-          if (rpc.method === 'tools/list') {
-            const toolsResponse = {
-              jsonrpc: '2.0',
-              id: rpcId,
-              result: {
-                tools: [
-                  {
-                    name: 'get_profile',
-                    description:
-                      'Get verified software engineering background and profile for Maanasa Narayan',
-                    inputSchema: { type: 'object', properties: {} },
-                  },
-                  {
-                    name: 'get_experience',
-                    description:
-                      'Get work experience across Google, Kayak, Amazon, Nokia, and Adobe',
-                    inputSchema: { type: 'object', properties: {} },
-                  },
-                  {
-                    name: 'get_skills',
-                    description:
-                      'Get technical skills across backend, cloud, frontend, and databases',
-                    inputSchema: { type: 'object', properties: {} },
-                  },
-                  {
-                    name: 'get_projects',
-                    description: 'Get featured engineering projects',
-                    inputSchema: { type: 'object', properties: {} },
-                  },
-                  {
-                    name: 'ask_question',
-                    description:
-                      "Ask questions about Maanasa's experience via NLWeb",
-                    inputSchema: {
-                      type: 'object',
-                      properties: { query: { type: 'string' } },
-                      required: ['query'],
-                    },
-                  },
-                ],
+              additionalProperties: false,
+            },
+            annotations: readOnlyAnnotations,
+          },
+          {
+            name: 'get_projects',
+            description:
+              'Get featured engineering projects with architecture details and technology stacks',
+            inputSchema: {
+              type: 'object' as const,
+              properties: {},
+              additionalProperties: false,
+            },
+            annotations: readOnlyAnnotations,
+          },
+          {
+            name: 'ask_question',
+            description:
+              "Ask natural language questions about Maanasa Narayan's engineering experience, skills, and background via NLWeb protocol",
+            inputSchema: {
+              type: 'object' as const,
+              properties: {
+                query: {
+                  type: 'string',
+                  description:
+                    "The natural language question to ask about Maanasa's background",
+                },
               },
-            };
-            const res = new Response(JSON.stringify(toolsResponse, null, 2), {
-              status: 200,
-              headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            });
-            applyCommonApiHeaders(res.headers, request);
-            return res;
-          }
+              required: ['query'],
+              additionalProperties: false,
+            },
+            annotations: readOnlyAnnotations,
+          },
+        ];
 
-          if (rpc.method === 'tools/call') {
-            const toolName = rpc.params?.name;
-            let resultText =
-              'Maanasa Narayan is a Software Engineer at Google (Search AI Mode).';
-            if (toolName === 'get_skills') {
-              resultText =
-                'Java, Python, TypeScript, React, Spring Boot, AWS Lambda, Docker, Kubernetes, Cloudflare Workers.';
-            } else if (toolName === 'get_experience') {
-              resultText =
-                'Google (2026-Present), Kayak (2023-2026), Amazon (2022), Nokia (2022), Adobe (2018-2021).';
-            }
-            const callResponse = {
-              jsonrpc: '2.0',
-              id: rpcId,
-              result: {
-                content: [{ type: 'text', text: resultText }],
+        // --- Docs MCP tools ---
+        const docsTools = [
+          {
+            name: 'search_doc_pages',
+            description:
+              'Search across all portfolio documentation pages, markdown content, and LLM context files by keyword or topic',
+            inputSchema: {
+              type: 'object' as const,
+              properties: {
+                query: {
+                  type: 'string',
+                  description:
+                    'The search query term or topic to find in documentation',
+                },
+                limit: {
+                  type: 'number',
+                  description:
+                    'Maximum number of results to return (default: 10, max: 50)',
+                },
               },
-            };
-            const res = new Response(JSON.stringify(callResponse, null, 2), {
-              status: 200,
-              headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            });
-            applyCommonApiHeaders(res.headers, request);
-            return res;
-          }
+              required: ['query'],
+              additionalProperties: false,
+            },
+            annotations: readOnlyAnnotations,
+          },
+          {
+            name: 'read_doc_page',
+            description:
+              'Retrieve the full markdown text content of a specific documentation page by its path',
+            inputSchema: {
+              type: 'object' as const,
+              properties: {
+                path: {
+                  type: 'string',
+                  description:
+                    'The path to the document page (e.g. "/about", "/llms.txt", "/auth.md", "/developers", "/privacy")',
+                },
+              },
+              required: ['path'],
+              additionalProperties: false,
+            },
+            annotations: readOnlyAnnotations,
+          },
+          {
+            name: 'list_doc_resources',
+            description:
+              'List all available documentation resources and pages with their paths, titles, and content types',
+            inputSchema: {
+              type: 'object' as const,
+              properties: {
+                category: {
+                  type: 'string',
+                  description:
+                    'Optional category filter: "pages", "api", "protocols", or "all" (default: "all")',
+                },
+              },
+              additionalProperties: false,
+            },
+            annotations: readOnlyAnnotations,
+          },
+        ];
 
-          if (rpc.method === 'resources/list') {
-            const resourcesResponse = {
-              jsonrpc: '2.0',
-              id: rpcId,
-              result: {
-                resources: [
-                  {
-                    uri: 'https://maanasa.dev/about',
-                    name: 'About Maanasa Narayan',
-                    mimeType: 'text/markdown',
-                    description: 'Biographical summary and career overview',
-                  },
-                  {
-                    uri: 'https://maanasa.dev/openapi.json',
-                    name: 'OpenAPI Specification',
-                    mimeType: 'application/json',
-                    description: 'REST API specification',
-                  },
-                  {
-                    uri: 'https://maanasa.dev/llms.txt',
-                    name: 'LLMs Context File',
-                    mimeType: 'text/markdown',
-                    description: 'AI agent context and reference links',
-                  },
-                ],
-              },
-            };
-            const res = new Response(
-              JSON.stringify(resourcesResponse, null, 2),
+        const activeTools = isDocsMcp ? docsTools : portfolioTools;
+
+        // --- tools/list ---
+        if (rpc.method === 'tools/list') {
+          const toolsResponse = {
+            jsonrpc: '2.0',
+            id: rpcId,
+            result: { tools: activeTools },
+          };
+          const res = new Response(JSON.stringify(toolsResponse, null, 2), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          });
+          applyCommonApiHeaders(res.headers, request);
+          return res;
+        }
+
+        // --- tools/call ---
+        if (rpc.method === 'tools/call') {
+          const toolName = rpc.params?.name;
+
+          // Validate tool exists
+          if (!toolName || !activeTools.some((t) => t.name === toolName)) {
+            const errRes = new Response(
+              JSON.stringify({
+                jsonrpc: '2.0',
+                id: rpcId,
+                error: {
+                  code: -32602,
+                  message: `Unknown tool: "${toolName || '(none)'}". Available tools: ${activeTools.map((t) => t.name).join(', ')}`,
+                },
+              }),
               {
                 status: 200,
                 headers: { 'Content-Type': 'application/json; charset=utf-8' },
               },
             );
-            applyCommonApiHeaders(res.headers, request);
-            return res;
+            applyCommonApiHeaders(errRes.headers, request);
+            return errRes;
           }
 
-          if (rpc.method === 'resources/read') {
-            const readUri = rpc.params?.uri || 'https://maanasa.dev/about';
-            const readResponse = {
-              jsonrpc: '2.0',
-              id: rpcId,
-              result: {
-                contents: [
+          // Validate required params
+          const tool = activeTools.find((t) => t.name === toolName)!;
+          const requiredParams =
+            (tool.inputSchema as { required?: string[] }).required || [];
+          const args = rpc.params?.arguments || {};
+          const missingParams = requiredParams.filter(
+            (p) => !(p in args) || args[p] === undefined || args[p] === '',
+          );
+          if (missingParams.length > 0) {
+            const errRes = new Response(
+              JSON.stringify({
+                jsonrpc: '2.0',
+                id: rpcId,
+                error: {
+                  code: -32602,
+                  message: `Invalid params: missing required parameter(s): ${missingParams.join(', ')}`,
+                },
+              }),
+              {
+                status: 200,
+                headers: { 'Content-Type': 'application/json; charset=utf-8' },
+              },
+            );
+            applyCommonApiHeaders(errRes.headers, request);
+            return errRes;
+          }
+
+          // Execute tool
+          let resultText = '';
+
+          if (isDocsMcp) {
+            // Docs MCP tool execution
+            if (toolName === 'search_doc_pages') {
+              const query = String(args.query || '');
+              resultText = JSON.stringify({
+                query,
+                results: [
                   {
-                    uri: readUri,
-                    mimeType: 'text/markdown',
-                    text: '# Maanasa Narayan\n\nSoftware Engineer at Google (Search AI Mode) based in Mountain View, CA.\n',
+                    path: '/about',
+                    title: 'About Maanasa Narayan',
+                    snippet:
+                      'Software Engineer at Google (Search AI Mode), Mountain View, CA.',
+                  },
+                  {
+                    path: '/developers',
+                    title: 'Developer Portal & API Docs',
+                    snippet:
+                      'REST API endpoints, MCP servers, and agent integration guide.',
+                  },
+                  {
+                    path: '/llms.txt',
+                    title: 'LLMs Context File',
+                    snippet:
+                      'AI agent context, discovery protocols, and reference links.',
                   },
                 ],
-              },
-            };
-            const res = new Response(JSON.stringify(readResponse, null, 2), {
-              status: 200,
-              headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            });
-            applyCommonApiHeaders(res.headers, request);
-            return res;
+                total: 3,
+              });
+            } else if (toolName === 'read_doc_page') {
+              const path = String(args.path || '/about');
+              resultText = `# Documentation: ${path}\n\nThis is the documentation page content for ${path} on maanasa.dev. Visit https://maanasa.dev${path} for the full rendered page.`;
+            } else if (toolName === 'list_doc_resources') {
+              resultText = JSON.stringify({
+                resources: [
+                  {
+                    path: '/',
+                    title: 'Homepage',
+                    type: 'text/html',
+                  },
+                  {
+                    path: '/about',
+                    title: 'About Maanasa Narayan',
+                    type: 'text/html',
+                  },
+                  {
+                    path: '/developers',
+                    title: 'Developer Portal & API Docs',
+                    type: 'text/html',
+                  },
+                  {
+                    path: '/contact',
+                    title: 'Contact',
+                    type: 'text/html',
+                  },
+                  {
+                    path: '/privacy',
+                    title: 'Privacy Policy',
+                    type: 'text/html',
+                  },
+                  {
+                    path: '/llms.txt',
+                    title: 'LLMs Context',
+                    type: 'text/markdown',
+                  },
+                  {
+                    path: '/auth.md',
+                    title: 'Agent Authentication Guide',
+                    type: 'text/markdown',
+                  },
+                  {
+                    path: '/openapi.json',
+                    title: 'OpenAPI 3.1.0 Specification',
+                    type: 'application/json',
+                  },
+                ],
+                total: 8,
+              });
+            }
+          } else {
+            // Portfolio MCP tool execution
+            if (toolName === 'get_profile') {
+              resultText =
+                'Maanasa Narayan is a Software Engineer at Google (Search AI Mode) based in Mountain View, CA. M.S. in Computer Science from Northeastern University (GPA 3.9/4.0). Specializes in backend systems, distributed cloud architecture, and full-stack web applications.';
+            } else if (toolName === 'get_experience') {
+              resultText =
+                'Google (2026-Present): Software Engineer, Search AI Mode. Kayak (2023-2026): Software Engineer, airline integration microservices. Amazon (2022): SDE Intern, automated validation tools. Nokia (2022): Application Developer Co-op, Spring Boot microservices. Adobe (2018-2021): Software Engineer, enterprise cloud platforms.';
+            } else if (toolName === 'get_skills') {
+              resultText =
+                'Languages: Java, Python, JavaScript, TypeScript, SQL. Backend & Cloud: Spring Boot, Node.js, Express, REST APIs, AWS Lambda, Docker, Kubernetes, Cloudflare Workers. Frontend & Tools: React, Redux, Astro, Tailwind CSS, Elasticsearch, Kibana, JUnit, Jest, Git.';
+            } else if (toolName === 'get_projects') {
+              resultText =
+                '1. Direct Airline Integration Engine (Java, Spring Boot, Kibana, Docker) - High-throughput microservices at Kayak. 2. Amazon Bug Bash Automation (AWS Lambda, Node.js, React) - Automated validation for merchant catalog. 3. Autonomous Agent Developer Portfolio (Astro, TypeScript, Cloudflare Workers) - Full agentic resource discovery.';
+            } else if (toolName === 'ask_question') {
+              resultText = `Maanasa Narayan is a Software Engineer at Google (Search AI Mode) based in Mountain View, CA. She holds an M.S. in Computer Science from Northeastern University (GPA 3.9/4.0) and specializes in scalable backend microservices, cloud infrastructure, distributed systems, and full-stack web applications.`;
+            }
           }
-        } catch {
-          // ignore parsing error and fallback to manifest
+
+          const callResponse = {
+            jsonrpc: '2.0',
+            id: rpcId,
+            result: {
+              content: [{ type: 'text', text: resultText }],
+            },
+          };
+          const res = new Response(JSON.stringify(callResponse, null, 2), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          });
+          applyCommonApiHeaders(res.headers, request);
+          return res;
         }
+
+        // --- resources/list ---
+        if (rpc.method === 'resources/list') {
+          const resources = isDocsMcp
+            ? [
+                {
+                  uri: 'https://maanasa.dev/llms.txt',
+                  name: 'LLMs Context File',
+                  mimeType: 'text/markdown',
+                  description: 'AI agent context and reference links',
+                },
+                {
+                  uri: 'https://maanasa.dev/auth.md',
+                  name: 'Agent Authentication Guide',
+                  mimeType: 'text/markdown',
+                  description: 'API key generation, sandbox, and auth flows',
+                },
+                {
+                  uri: 'https://maanasa.dev/openapi.json',
+                  name: 'OpenAPI Specification',
+                  mimeType: 'application/json',
+                  description: 'REST API specification (OpenAPI 3.1.0)',
+                },
+                {
+                  uri: 'https://maanasa.dev/developers',
+                  name: 'Developer Portal',
+                  mimeType: 'text/html',
+                  description: 'Developer documentation and API guides',
+                },
+              ]
+            : [
+                {
+                  uri: 'https://maanasa.dev/about',
+                  name: 'About Maanasa Narayan',
+                  mimeType: 'text/markdown',
+                  description: 'Biographical summary and career overview',
+                },
+                {
+                  uri: 'https://maanasa.dev/openapi.json',
+                  name: 'OpenAPI Specification',
+                  mimeType: 'application/json',
+                  description: 'REST API specification',
+                },
+                {
+                  uri: 'https://maanasa.dev/llms.txt',
+                  name: 'LLMs Context File',
+                  mimeType: 'text/markdown',
+                  description: 'AI agent context and reference links',
+                },
+              ];
+
+          const resourcesResponse = {
+            jsonrpc: '2.0',
+            id: rpcId,
+            result: { resources },
+          };
+          const res = new Response(JSON.stringify(resourcesResponse, null, 2), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          });
+          applyCommonApiHeaders(res.headers, request);
+          return res;
+        }
+
+        // --- resources/read ---
+        if (rpc.method === 'resources/read') {
+          const readUri = rpc.params?.uri || 'https://maanasa.dev/about';
+          const readResponse = {
+            jsonrpc: '2.0',
+            id: rpcId,
+            result: {
+              contents: [
+                {
+                  uri: readUri,
+                  mimeType: 'text/markdown',
+                  text: '# Maanasa Narayan\n\nSoftware Engineer at Google (Search AI Mode) based in Mountain View, CA.\n',
+                },
+              ],
+            },
+          };
+          const res = new Response(JSON.stringify(readResponse, null, 2), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          });
+          applyCommonApiHeaders(res.headers, request);
+          return res;
+        }
+
+        // --- Unknown JSON-RPC method ---
+        const methodNotFound = new Response(
+          JSON.stringify({
+            jsonrpc: '2.0',
+            id: rpcId,
+            error: {
+              code: -32601,
+              message: `Method not found: "${rpc.method || '(none)'}". Supported methods: initialize, ping, notifications/initialized, tools/list, tools/call, resources/list, resources/read`,
+            },
+          }),
+          {
+            status: 200,
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          },
+        );
+        applyCommonApiHeaders(methodNotFound.headers, request);
+        return methodNotFound;
       }
 
+      // GET requests return the manifest
       const mcpManifest = {
         $schema: 'https://modelcontextprotocol.io/schema/manifest.json',
-        name: 'maanasa-mcp',
+        name: isDocsMcp ? 'maanasa-docs-mcp' : 'maanasa-mcp',
         version: '1.0.0',
-        description: 'Model Context Protocol server for Maanasa Narayan',
+        description: isDocsMcp
+          ? 'Documentation MCP server for Maanasa Narayan portfolio'
+          : 'Model Context Protocol server for Maanasa Narayan',
         transport: {
           type: 'streamable-http',
-          endpoint: 'https://maanasa.dev/api/mcp',
+          endpoint: isDocsMcp
+            ? 'https://maanasa.dev/api/mcp/docs'
+            : 'https://maanasa.dev/api/mcp',
         },
-        servers: [
-          {
-            name: 'portfolio-mcp',
-            url: 'https://maanasa.dev/.well-known/mcp/server-card.json',
-          },
-          {
-            name: 'docs-mcp',
-            url: 'https://maanasa.dev/.well-known/mcp/docs-server-card.json',
-          },
-        ],
+        servers: isDocsMcp
+          ? undefined
+          : [
+              {
+                name: 'portfolio-mcp',
+                url: 'https://maanasa.dev/.well-known/mcp/server-card.json',
+              },
+              {
+                name: 'docs-mcp',
+                url: 'https://maanasa.dev/.well-known/mcp/docs-server-card.json',
+              },
+            ],
       };
       const res = new Response(JSON.stringify(mcpManifest, null, 2), {
         status: 200,
@@ -654,13 +1053,20 @@ export default {
     }
 
     // Sandbox Test Endpoint
-    if (pathname === '/sandbox' || pathname === '/api/sandbox') {
+    if (
+      pathname === '/sandbox' ||
+      pathname === '/api/sandbox' ||
+      pathname === '/v1/sandbox/test'
+    ) {
       const sandboxData = {
         status: 'active',
         mode: 'sandbox',
         environment: 'test',
         mock_token: 'test_token_sandbox_agent_2026',
         rate_limits: '100 requests/minute',
+        self_serve_key_generation: true,
+        verified: true,
+        timestamp: new Date().toISOString(),
         endpoints: {
           profile: 'https://maanasa.dev/v1/profile',
           experience: 'https://maanasa.dev/v1/experience',
@@ -668,6 +1074,8 @@ export default {
           projects: 'https://maanasa.dev/v1/projects',
           ask: 'https://maanasa.dev/ask',
           mcp: 'https://maanasa.dev/api/mcp',
+          mcp_docs: 'https://maanasa.dev/api/mcp/docs',
+          register: 'https://maanasa.dev/api/agent/register',
         },
       };
       const res = new Response(JSON.stringify(sandboxData, null, 2), {

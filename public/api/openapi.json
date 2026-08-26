@@ -25,30 +25,65 @@
       "ProblemDetails": {
         "type": "object",
         "properties": {
-          "type": { "type": "string", "format": "uri" },
-          "title": { "type": "string" },
-          "status": { "type": "integer" },
-          "detail": { "type": "string" },
-          "instance": { "type": "string" },
-          "code": { "type": "string" }
+          "type": {
+            "type": "string",
+            "format": "uri"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "instance": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
         },
         "required": ["title", "status", "detail"]
       },
       "ProfileResponse": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "role": { "type": "string" },
-          "location": { "type": "string" },
-          "company": { "type": "string" },
-          "bio": { "type": "string" },
-          "email": { "type": "string", "format": "email" },
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "bio": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
           "links": {
             "type": "object",
             "properties": {
-              "linkedin": { "type": "string", "format": "uri" },
-              "github": { "type": "string", "format": "uri" },
-              "twitter": { "type": "string", "format": "uri" }
+              "linkedin": {
+                "type": "string",
+                "format": "uri"
+              },
+              "github": {
+                "type": "string",
+                "format": "uri"
+              },
+              "twitter": {
+                "type": "string",
+                "format": "uri"
+              }
             }
           }
         },
@@ -57,15 +92,29 @@
       "ExperienceItem": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "company": { "type": "string" },
-          "role": { "type": "string" },
-          "location": { "type": "string" },
-          "startDate": { "type": "string" },
-          "endDate": { "type": "string" },
+          "id": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
           "highlights": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": ["id", "company", "role", "startDate", "endDate"]
@@ -75,21 +124,34 @@
         "properties": {
           "items": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ExperienceItem" }
+            "items": {
+              "$ref": "#/components/schemas/ExperienceItem"
+            }
           },
-          "total": { "type": "integer" },
-          "has_more": { "type": "boolean" },
-          "next_cursor": { "type": "string", "nullable": true }
+          "total": {
+            "type": "integer"
+          },
+          "has_more": {
+            "type": "boolean"
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
         },
         "required": ["items", "total", "has_more"]
       },
       "SkillCategory": {
         "type": "object",
         "properties": {
-          "category": { "type": "string" },
+          "category": {
+            "type": "string"
+          },
           "skills": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": ["category", "skills"]
@@ -99,7 +161,9 @@
         "properties": {
           "categories": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/SkillCategory" }
+            "items": {
+              "$ref": "#/components/schemas/SkillCategory"
+            }
           }
         },
         "required": ["categories"]
@@ -107,14 +171,25 @@
       "ProjectItem": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "title": { "type": "string" },
-          "description": { "type": "string" },
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
           "technologies": {
             "type": "array",
-            "items": { "type": "string" }
+            "items": {
+              "type": "string"
+            }
           },
-          "url": { "type": "string", "format": "uri" }
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
         },
         "required": ["id", "title", "description", "technologies"]
       },
@@ -123,18 +198,29 @@
         "properties": {
           "items": {
             "type": "array",
-            "items": { "$ref": "#/components/schemas/ProjectItem" }
+            "items": {
+              "$ref": "#/components/schemas/ProjectItem"
+            }
           },
-          "total": { "type": "integer" },
-          "has_more": { "type": "boolean" },
-          "next_cursor": { "type": "string", "nullable": true }
+          "total": {
+            "type": "integer"
+          },
+          "has_more": {
+            "type": "boolean"
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
         },
         "required": ["items", "total", "has_more"]
       },
       "AskQuery": {
         "type": "object",
         "properties": {
-          "query": { "type": "string" }
+          "query": {
+            "type": "string"
+          }
         },
         "required": ["query"]
       },
@@ -144,21 +230,35 @@
           "_meta": {
             "type": "object",
             "properties": {
-              "response_type": { "type": "string" },
-              "version": { "type": "string" },
-              "protocol": { "type": "string" }
+              "response_type": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "protocol": {
+                "type": "string"
+              }
             },
             "required": ["response_type", "version"]
           },
-          "query": { "type": "string" },
+          "query": {
+            "type": "string"
+          },
           "answers": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
-                "text": { "type": "string" },
-                "score": { "type": "number" },
-                "source": { "type": "string" }
+                "text": {
+                  "type": "string"
+                },
+                "score": {
+                  "type": "number"
+                },
+                "source": {
+                  "type": "string"
+                }
               },
               "required": ["text", "score"]
             }
@@ -169,48 +269,74 @@
       "AgentRegisterRequest": {
         "type": "object",
         "properties": {
-          "client_name": { "type": "string" },
+          "client_name": {
+            "type": "string"
+          },
           "identity_type": {
             "type": "string",
             "enum": ["anonymous", "identity_assertion"]
           },
-          "assertion": { "type": "string" }
+          "assertion": {
+            "type": "string"
+          }
         },
         "required": ["client_name", "identity_type"]
       },
       "AgentRegisterResponse": {
         "type": "object",
         "properties": {
-          "status": { "type": "string" },
-          "client_id": { "type": "string" },
-          "token": { "type": "string" },
-          "expires_in": { "type": "integer" },
-          "token_type": { "type": "string" }
+          "status": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "expires_in": {
+            "type": "integer"
+          },
+          "token_type": {
+            "type": "string"
+          }
         },
         "required": ["status", "client_id", "token", "expires_in", "token_type"]
       },
       "JobCreationResponse": {
         "type": "object",
         "properties": {
-          "job_id": { "type": "string" },
+          "job_id": {
+            "type": "string"
+          },
           "status": {
             "type": "string",
             "enum": ["queued", "processing", "completed", "failed"]
           },
-          "poll_url": { "type": "string", "format": "uri" },
-          "created_at": { "type": "string", "format": "date-time" }
+          "poll_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
         },
         "required": ["job_id", "status", "poll_url"]
       },
       "JobStatusResponse": {
         "type": "object",
         "properties": {
-          "job_id": { "type": "string" },
+          "job_id": {
+            "type": "string"
+          },
           "status": {
             "type": "string",
             "enum": ["queued", "processing", "completed", "failed"]
           },
-          "result": { "type": "object" }
+          "result": {
+            "type": "object"
+          }
         },
         "required": ["job_id", "status"]
       },
@@ -222,9 +348,16 @@
             "items": {
               "type": "object",
               "properties": {
-                "method": { "type": "string", "enum": ["GET", "POST"] },
-                "path": { "type": "string" },
-                "body": { "type": "object" }
+                "method": {
+                  "type": "string",
+                  "enum": ["GET", "POST"]
+                },
+                "path": {
+                  "type": "string"
+                },
+                "body": {
+                  "type": "object"
+                }
               },
               "required": ["method", "path"]
             }
@@ -240,8 +373,12 @@
             "items": {
               "type": "object",
               "properties": {
-                "status": { "type": "integer" },
-                "body": { "type": "object" }
+                "status": {
+                  "type": "integer"
+                },
+                "body": {
+                  "type": "object"
+                }
               },
               "required": ["status", "body"]
             }
@@ -256,21 +393,29 @@
         "in": "header",
         "description": "Unique key to ensure idempotent execution of write requests.",
         "required": false,
-        "schema": { "type": "string" }
+        "schema": {
+          "type": "string"
+        }
       },
       "Limit": {
         "name": "limit",
         "in": "query",
         "description": "Number of results to return per page.",
         "required": false,
-        "schema": { "type": "integer", "default": 20, "maximum": 100 }
+        "schema": {
+          "type": "integer",
+          "default": 20,
+          "maximum": 100
+        }
       },
       "Cursor": {
         "name": "cursor",
         "in": "query",
         "description": "Pagination cursor for fetching the next page.",
         "required": false,
-        "schema": { "type": "string" }
+        "schema": {
+          "type": "string"
+        }
       }
     },
     "responses": {
@@ -278,7 +423,9 @@
         "description": "Bad Request",
         "content": {
           "application/problem+json": {
-            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
           }
         }
       },
@@ -286,7 +433,9 @@
         "description": "Unauthorized",
         "content": {
           "application/problem+json": {
-            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
           }
         }
       },
@@ -294,7 +443,9 @@
         "description": "Not Found",
         "content": {
           "application/problem+json": {
-            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
           }
         }
       },
@@ -302,7 +453,27 @@
         "description": "Internal Server Error",
         "content": {
           "application/problem+json": {
-            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
+          }
+        }
+      },
+      "429TooManyRequests": {
+        "description": "Rate limit exceeded. Retry after the period indicated in the Retry-After header.",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            }
+          }
+        },
+        "headers": {
+          "Retry-After": {
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Seconds until the rate limit resets"
           }
         }
       }
@@ -319,14 +490,27 @@
             "description": "Profile JSON",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ProfileResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/ProfileResponse"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" },
-          "401": { "$ref": "#/components/responses/401Unauthorized" },
-          "404": { "$ref": "#/components/responses/404NotFound" },
-          "500": { "$ref": "#/components/responses/500InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500InternalServerError"
+          },
+          "429": {
+            "$ref": "#/components/responses/429TooManyRequests"
+          }
         }
       }
     },
@@ -336,22 +520,39 @@
         "description": "Retrieve paginated employment history across Google, Kayak, Amazon, Nokia, and Adobe.",
         "operationId": "getExperienceV1",
         "parameters": [
-          { "$ref": "#/components/parameters/Limit" },
-          { "$ref": "#/components/parameters/Cursor" }
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
         ],
         "responses": {
           "200": {
             "description": "Paginated work experience history",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/PaginatedExperience" }
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedExperience"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" },
-          "401": { "$ref": "#/components/responses/401Unauthorized" },
-          "404": { "$ref": "#/components/responses/404NotFound" },
-          "500": { "$ref": "#/components/responses/500InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500InternalServerError"
+          },
+          "429": {
+            "$ref": "#/components/responses/429TooManyRequests"
+          }
         }
       }
     },
@@ -365,14 +566,27 @@
             "description": "Skills categories",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/SkillsResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/SkillsResponse"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" },
-          "401": { "$ref": "#/components/responses/401Unauthorized" },
-          "404": { "$ref": "#/components/responses/404NotFound" },
-          "500": { "$ref": "#/components/responses/500InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500InternalServerError"
+          },
+          "429": {
+            "$ref": "#/components/responses/429TooManyRequests"
+          }
         }
       }
     },
@@ -382,22 +596,39 @@
         "description": "Retrieve paginated list of featured software engineering and cloud infrastructure projects.",
         "operationId": "getProjectsV1",
         "parameters": [
-          { "$ref": "#/components/parameters/Limit" },
-          { "$ref": "#/components/parameters/Cursor" }
+          {
+            "$ref": "#/components/parameters/Limit"
+          },
+          {
+            "$ref": "#/components/parameters/Cursor"
+          }
         ],
         "responses": {
           "200": {
             "description": "Paginated featured projects list",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/PaginatedProjects" }
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedProjects"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" },
-          "401": { "$ref": "#/components/responses/401Unauthorized" },
-          "404": { "$ref": "#/components/responses/404NotFound" },
-          "500": { "$ref": "#/components/responses/500InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500InternalServerError"
+          },
+          "429": {
+            "$ref": "#/components/responses/429TooManyRequests"
+          }
         }
       }
     },
@@ -411,7 +642,9 @@
             "name": "q",
             "in": "query",
             "required": true,
-            "schema": { "type": "string" },
+            "schema": {
+              "type": "string"
+            },
             "description": "The natural language question."
           }
         ],
@@ -420,29 +653,50 @@
             "description": "NLWeb answer response",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/AskResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/AskResponse"
+                }
               },
               "text/event-stream": {
-                "schema": { "type": "string" }
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" },
-          "401": { "$ref": "#/components/responses/401Unauthorized" },
-          "404": { "$ref": "#/components/responses/404NotFound" },
-          "500": { "$ref": "#/components/responses/500InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500InternalServerError"
+          },
+          "429": {
+            "$ref": "#/components/responses/429TooManyRequests"
+          }
         }
       },
       "post": {
         "summary": "Natural Language Query (NLWeb POST)",
         "description": "Submit natural language question per Microsoft NLWeb protocol with optional streaming.",
         "operationId": "askPost",
-        "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/AskQuery" }
+              "schema": {
+                "$ref": "#/components/schemas/AskQuery"
+              }
             }
           }
         },
@@ -451,17 +705,32 @@
             "description": "NLWeb answer or SSE stream",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/AskResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/AskResponse"
+                }
               },
               "text/event-stream": {
-                "schema": { "type": "string" }
+                "schema": {
+                  "type": "string"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" },
-          "401": { "$ref": "#/components/responses/401Unauthorized" },
-          "404": { "$ref": "#/components/responses/404NotFound" },
-          "500": { "$ref": "#/components/responses/500InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500InternalServerError"
+          },
+          "429": {
+            "$ref": "#/components/responses/429TooManyRequests"
+          }
         }
       }
     },
@@ -470,12 +739,18 @@
         "summary": "Agent Registration",
         "description": "WorkOS auth.md agent registration endpoint.",
         "operationId": "agentRegisterV1",
-        "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/AgentRegisterRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/AgentRegisterRequest"
+              }
             }
           }
         },
@@ -490,10 +765,21 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" },
-          "401": { "$ref": "#/components/responses/401Unauthorized" },
-          "404": { "$ref": "#/components/responses/404NotFound" },
-          "500": { "$ref": "#/components/responses/500InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500InternalServerError"
+          },
+          "429": {
+            "$ref": "#/components/responses/429TooManyRequests"
+          }
         }
       }
     },
@@ -502,20 +788,37 @@
         "summary": "Create Async Job",
         "description": "Trigger an asynchronous portfolio analysis or document indexing job.",
         "operationId": "createAsyncJob",
-        "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
         "responses": {
           "202": {
             "description": "Job Accepted",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/JobCreationResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/JobCreationResponse"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" },
-          "401": { "$ref": "#/components/responses/401Unauthorized" },
-          "404": { "$ref": "#/components/responses/404NotFound" },
-          "500": { "$ref": "#/components/responses/500InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500InternalServerError"
+          },
+          "429": {
+            "$ref": "#/components/responses/429TooManyRequests"
+          }
         }
       }
     },
@@ -529,7 +832,9 @@
             "name": "job_id",
             "in": "path",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -537,14 +842,27 @@
             "description": "Job Status",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/JobStatusResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/JobStatusResponse"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" },
-          "401": { "$ref": "#/components/responses/401Unauthorized" },
-          "404": { "$ref": "#/components/responses/404NotFound" },
-          "500": { "$ref": "#/components/responses/500InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500InternalServerError"
+          },
+          "429": {
+            "$ref": "#/components/responses/429TooManyRequests"
+          }
         }
       }
     },
@@ -553,12 +871,18 @@
         "summary": "Execute Batch Operations",
         "description": "Execute multiple read operations in a single HTTP request.",
         "operationId": "executeBatch",
-        "parameters": [{ "$ref": "#/components/parameters/IdempotencyKey" }],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
-              "schema": { "$ref": "#/components/schemas/BatchRequest" }
+              "schema": {
+                "$ref": "#/components/schemas/BatchRequest"
+              }
             }
           }
         },
@@ -567,14 +891,27 @@
             "description": "Batch responses",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/BatchResponse" }
+                "schema": {
+                  "$ref": "#/components/schemas/BatchResponse"
+                }
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" },
-          "401": { "$ref": "#/components/responses/401Unauthorized" },
-          "404": { "$ref": "#/components/responses/404NotFound" },
-          "500": { "$ref": "#/components/responses/500InternalServerError" }
+          "400": {
+            "$ref": "#/components/responses/400BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/401Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/404NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/500InternalServerError"
+          },
+          "429": {
+            "$ref": "#/components/responses/429TooManyRequests"
+          }
         }
       }
     }
