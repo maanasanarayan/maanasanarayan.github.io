@@ -5,7 +5,9 @@
   "description": "Agentic discovery catalog for Maanasa Narayan's developer APIs, MCP servers, and skills.",
   "entries": [
     {
+      "identifier": "urn:air:maanasa.dev:mcp:portfolio",
       "id": "urn:air:maanasa.dev:mcp:portfolio",
+      "displayName": "Maanasa Narayan Portfolio MCP Server",
       "name": "Maanasa Narayan Portfolio MCP Server",
       "description": "Model Context Protocol server for Maanasa Narayan's developer portfolio, projects, and skills.",
       "mediaType": "application/json",
@@ -16,7 +18,9 @@
       }
     },
     {
+      "identifier": "urn:air:maanasa.dev:mcp:docs",
       "id": "urn:air:maanasa.dev:mcp:docs",
+      "displayName": "Maanasa Narayan Docs MCP Server",
       "name": "Maanasa Narayan Docs MCP Server",
       "description": "Documentation search MCP server for Maanasa Narayan.",
       "mediaType": "application/json",
@@ -27,18 +31,22 @@
       }
     },
     {
+      "identifier": "urn:air:maanasa.dev:api:openapi",
       "id": "urn:air:maanasa.dev:api:openapi",
+      "displayName": "Maanasa Narayan OpenAPI Specification",
       "name": "Maanasa Narayan OpenAPI Specification",
       "description": "OpenAPI 3.1.0 specification for Maanasa Narayan's REST API.",
       "mediaType": "application/vnd.oai.openapi+json;version=3.1.0",
-      "url": "https://maanasa.dev/api/openapi.json",
+      "url": "https://maanasa.dev/openapi.json",
       "trustManifest": {
         "identity": "https://maanasa.dev",
         "issuer": "https://maanasa.dev"
       }
     },
     {
+      "identifier": "urn:air:maanasa.dev:api:nlweb",
       "id": "urn:air:maanasa.dev:api:nlweb",
+      "displayName": "Maanasa Narayan NLWeb Ask Endpoint",
       "name": "Maanasa Narayan NLWeb Ask Endpoint",
       "description": "Natural language query answering endpoint following Microsoft NLWeb protocol.",
       "mediaType": "application/json",

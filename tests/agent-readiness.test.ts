@@ -389,7 +389,7 @@ describe('8. REST v1 Endpoints & API Usability', () => {
     expect(content.skills[0].digest).toContain('sha256:');
   });
 
-  it('ensures ARD ai-catalog.json has specVersion and valid entries', () => {
+  it('ensures ARD ai-catalog.json has specVersion and valid entries with identifier and displayName', () => {
     const content = JSON.parse(
       readFileSync(
         join(process.cwd(), 'public/.well-known/ai-catalog.json'),
@@ -399,7 +399,45 @@ describe('8. REST v1 Endpoints & API Usability', () => {
     expect(content.specVersion).toBe('1.0');
     expect(Array.isArray(content.entries)).toBe(true);
     expect(content.entries.length).toBeGreaterThan(0);
-    expect(content.entries[0].id).toContain('urn:air:');
+    expect(content.entries[0].identifier).toContain('urn:air:');
+    expect(content.entries[0].displayName).toBeDefined();
+    expect(content.entries[0].mediaType).toBeDefined();
     expect(content.entries[0].trustManifest).toBeDefined();
+  });
+
+  it('ensures root public/openapi.json exists', () => {
+    expect(existsSync(join(process.cwd(), 'public/openapi.json'))).toBe(true);
+  });
+
+  it('handles MCP JSON-RPC protocol handshake and tools/list', async () => {
+    const initReq = new Request('https://maanasa.dev/api/mcp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'initialize' }),
+    });
+    const initRes = await worker.fetch(initReq, {});
+    expect(initRes.status).toBe(200);
+    const initData = await initRes.json();
+    expect(initData.result.protocolVersion).toBe('2024-11-05');
+    expect(initData.result.serverInfo.name).toBe('maanasa-mcp');
+
+    const toolsReq = new Request('https://maanasa.dev/api/mcp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 2, method: 'tools/list' }),
+    });
+    const toolsRes = await worker.fetch(toolsReq, {});
+    expect(toolsRes.status).toBe(200);
+    const toolsData = await toolsRes.json();
+    expect(toolsData.result.tools.length).toBeGreaterThan(0);
+  });
+
+  it('serves sandbox endpoint with test credentials', async () => {
+    const req = new Request('https://maanasa.dev/api/sandbox');
+    const res = await worker.fetch(req, {});
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.mode).toBe('sandbox');
+    expect(data.mock_token).toBeDefined();
   });
 });
