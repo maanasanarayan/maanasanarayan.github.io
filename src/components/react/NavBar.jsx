@@ -82,7 +82,7 @@ function NavBar({ name, isHome = false, currentPath = '/' }) {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:gap-4 sm:px-6 lg:px-10">
           <a
             href="/"
-            aria-label="Home"
+            aria-label={`${name} - Home`}
             className="group inline-flex min-w-0 items-center gap-2 sm:gap-3"
           >
             <span className="bg-neo-accent grid h-10 w-10 shrink-0 -rotate-3 place-items-center border-4 border-black shadow-[3px_3px_0_0_#000] transition-transform duration-200 group-hover:rotate-3 sm:h-12 sm:w-12 sm:shadow-[4px_4px_0_0_#000]">

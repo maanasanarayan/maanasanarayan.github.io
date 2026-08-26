@@ -14,10 +14,10 @@ const { contact } = Astro.props as { contact: ContactData };
 
 <div>
   <SectionHeader kicker="05 · Say hello" title="Contact." />
-  <ContactCard contact={contact} client:load />
+  <ContactCard contact={contact} client:visible />
   <form
-    action="mailto:mnsnryn@gmail.com"
-    method="GET"
+    action="/contact"
+    method="POST"
     class="sr-only"
     {...{
       toolname: 'contact_maanasa',

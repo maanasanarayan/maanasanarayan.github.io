@@ -85,10 +85,10 @@ function Tile({ as: Tag = 'a', tone, icon, label, value, copyHint, ...rest }) {
   const tones = {
     accent: {
       bg: 'bg-neo-accent',
-      text: 'text-white',
-      iconBg: 'bg-black',
-      iconBorder: 'border-neo-bg',
-      labelOpacity: 'opacity-90',
+      text: 'text-black',
+      iconBg: 'bg-white',
+      iconBorder: 'border-black',
+      labelOpacity: 'opacity-80',
     },
     secondary: {
       bg: 'bg-neo-secondary',
@@ -189,9 +189,8 @@ export default function ContactCard({ contact }) {
               as="button"
               type="button"
               onClick={handleCopy}
-              aria-label={`Copy email address ${contact.email}`}
               tone="accent"
-              icon={<Mail className="h-5 w-5 stroke-[3px] text-white" />}
+              icon={<Mail className="h-5 w-5 stroke-[3px] text-black" />}
               label="Email · click to copy"
               value={contact.email}
               copyHint

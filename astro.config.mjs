@@ -44,6 +44,9 @@ export default defineConfig({
   site: SITE,
   output: 'static',
   session: false,
+  build: {
+    inlineStylesheets: 'always',
+  },
 
   integrations: [
     react(),

@@ -56,9 +56,10 @@ User-agent: Diffbot
 Disallow: /
 
 # Content Signals
-Content-Signal: search=yes, ai-train=no, ai-input=yes
+# Content-Signal: search=yes, ai-train=no, ai-input=yes
 
 # Sitemaps & Schema Feeds
 Sitemap: https://maanasa.dev/sitemap-index.xml
-Schemamap: https://maanasa.dev/schemamap.xml
-Schemamap: https://maanasa.dev/schemamap.json
+Sitemap: https://maanasa.dev/sitemap.xml
+# Schemamap: https://maanasa.dev/schemamap.xml
+# Schemamap: https://maanasa.dev/schemamap.json
