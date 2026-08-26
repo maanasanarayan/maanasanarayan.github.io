@@ -1,5 +1,5 @@
 {
-  "name": "maanasa-portfolio",
+  "name": "maanasanarayan",
   "main": "@astrojs/cloudflare/entrypoints/server",
   "compatibility_date": "2026-05-20",
   "compatibility_flags": ["global_fetch_strictly_public"],

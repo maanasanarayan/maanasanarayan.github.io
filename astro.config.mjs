@@ -43,6 +43,7 @@ const isDevCommand = process.argv.includes('dev');
 export default defineConfig({
   site: SITE,
   output: 'static',
+  session: false,
 
   integrations: [
     react(),
