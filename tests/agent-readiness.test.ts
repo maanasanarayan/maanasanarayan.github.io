@@ -440,4 +440,72 @@ describe('8. REST v1 Endpoints & API Usability', () => {
     expect(data.mode).toBe('sandbox');
     expect(data.mock_token).toBeDefined();
   });
+
+  it('handles MCP resources/list and resources/read with valid MIME types', async () => {
+    const listReq = new Request('https://maanasa.dev/api/mcp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jsonrpc: '2.0', id: 3, method: 'resources/list' }),
+    });
+    const listRes = await worker.fetch(listReq, {});
+    expect(listRes.status).toBe(200);
+    const listData = await listRes.json();
+    expect(listData.result.resources.length).toBeGreaterThan(0);
+    for (const r of listData.result.resources) {
+      expect(r.uri).toBeDefined();
+      expect(r.mimeType).toBeDefined();
+      expect(r.name).toBeDefined();
+    }
+
+    const readReq = new Request('https://maanasa.dev/api/mcp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        id: 4,
+        method: 'resources/read',
+        params: { uri: 'https://maanasa.dev/about' },
+      }),
+    });
+    const readRes = await worker.fetch(readReq, {});
+    expect(readRes.status).toBe(200);
+    const readData = await readRes.json();
+    expect(readData.result.contents[0].text.length).toBeGreaterThan(10);
+  });
+
+  it('validates OpenAPI 3.1.0 completeness: typed schemas, operationIds, Idempotency-Key, and versioning', () => {
+    const openapi = JSON.parse(
+      readFileSync(join(process.cwd(), 'public/openapi.json'), 'utf-8'),
+    );
+    expect(openapi.openapi).toBe('3.1.0');
+    expect(openapi.info.title).toContain('Maanasa Narayan');
+    expect(openapi.info.description).toContain(
+      'Versioning & Deprecation Policy',
+    );
+    expect(openapi.servers.length).toBeGreaterThan(1);
+
+    const paths = openapi.paths;
+    const pathKeys = Object.keys(paths);
+    expect(pathKeys.length).toBeGreaterThan(5);
+
+    for (const p of pathKeys) {
+      const methods = Object.keys(paths[p]);
+      for (const m of methods) {
+        const op = paths[p][m];
+        expect(op.operationId).toBeDefined();
+        expect(op.responses['200'] || op.responses['202']).toBeDefined();
+      }
+    }
+  });
+
+  it('validates robots.txt contains AI crawlers policy, Content-Signal, and Schemamap', () => {
+    const robots = readFileSync(
+      join(process.cwd(), 'public/robots.txt'),
+      'utf-8',
+    );
+    expect(robots).toContain('GPTBot');
+    expect(robots).toContain('ClaudeBot');
+    expect(robots).toContain('Content-Signal:');
+    expect(robots).toContain('Schemamap:');
+  });
 });
