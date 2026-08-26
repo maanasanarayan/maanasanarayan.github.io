@@ -1021,6 +1021,14 @@ export default {
       }
     }
 
+    // 7. Direct static asset bypass (including static specs and assets under /api/)
+    if (STATIC_EXT.test(url.pathname) && env.ASSETS) {
+      const staticRes = await env.ASSETS.fetch(request);
+      if (staticRes.status === 200) {
+        return staticRes;
+      }
+    }
+
     // Handle unknown /api/* or /v1/* paths with structured Problem Details
     if (pathname.startsWith('/api/') || pathname.startsWith('/v1/')) {
       const problemRes = new Response(
@@ -1044,13 +1052,6 @@ export default {
       );
       applyCommonApiHeaders(problemRes.headers, request);
       return problemRes;
-    }
-
-    // 7. Direct static asset bypass (excluding root or custom routes)
-    if (STATIC_EXT.test(url.pathname)) {
-      return env.ASSETS
-        ? env.ASSETS.fetch(request)
-        : new Response('Not Found', { status: 404 });
     }
 
     // 8. Markdown Fallback Handling on explicit .md requests

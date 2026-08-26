@@ -7,6 +7,7 @@ const wranglerPath = join(distClient, 'wrangler.json');
 try {
   if (existsSync(wranglerPath)) {
     const content = JSON.parse(readFileSync(wranglerPath, 'utf-8'));
+    delete content.legacy_env;
     content.main = '_worker.js';
     content.assets = {
       directory: '.',

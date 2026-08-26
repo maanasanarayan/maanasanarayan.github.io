@@ -783,6 +783,14 @@ export const onRequest: PagesFunction = async (context) => {
     }
   }
 
+  // 7. Direct static asset bypass (including static specs and assets under /api/)
+  if (STATIC_EXT.test(url.pathname)) {
+    const staticRes = await next();
+    if (staticRes.status === 200) {
+      return staticRes;
+    }
+  }
+
   // Handle unknown /api/* or /v1/* paths with structured Problem Details
   if (pathname.startsWith('/api/') || pathname.startsWith('/v1/')) {
     const problemRes = new Response(
@@ -806,11 +814,6 @@ export const onRequest: PagesFunction = async (context) => {
     );
     applyCommonApiHeaders(problemRes.headers, request);
     return problemRes;
-  }
-
-  // 7. Direct static asset bypass (excluding explicit markdown requests)
-  if (STATIC_EXT.test(url.pathname)) {
-    return next();
   }
 
   // 8. Markdown Fallback Handling on explicit .md requests
