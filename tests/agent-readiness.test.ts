@@ -508,4 +508,27 @@ describe('8. REST v1 Endpoints & API Usability', () => {
     expect(robots).toContain('Content-Signal:');
     expect(robots).toContain('Schemamap:');
   });
+
+  it('serves heading-led markdown representations for arbitrary .md requests matching static resources', async () => {
+    const mockAssets = {
+      async fetch(r: Request | string) {
+        const url = typeof r === 'string' ? new URL(r) : new URL(r.url);
+        if (url.pathname === '/.well-known/api-catalog') {
+          return new Response('{"linkset":[]}', {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+        return new Response('Not Found', { status: 404 });
+      },
+    };
+
+    const req = new Request('https://maanasa.dev/.well-known/api-catalog.md');
+    const res = await worker.fetch(req, { ASSETS: mockAssets });
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Content-Type')).toContain('text/markdown');
+    const text = await res.text();
+    expect(text.startsWith('# api-catalog')).toBe(true);
+    expect(text).toContain('```json');
+  });
 });

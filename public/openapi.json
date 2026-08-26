@@ -297,6 +297,14 @@
             "schema": { "$ref": "#/components/schemas/ProblemDetails" }
           }
         }
+      },
+      "500InternalServerError": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+          }
+        }
       }
     }
   },
@@ -315,7 +323,10 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" }
+          "400": { "$ref": "#/components/responses/400BadRequest" },
+          "401": { "$ref": "#/components/responses/401Unauthorized" },
+          "404": { "$ref": "#/components/responses/404NotFound" },
+          "500": { "$ref": "#/components/responses/500InternalServerError" }
         }
       }
     },
@@ -337,7 +348,10 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" }
+          "400": { "$ref": "#/components/responses/400BadRequest" },
+          "401": { "$ref": "#/components/responses/401Unauthorized" },
+          "404": { "$ref": "#/components/responses/404NotFound" },
+          "500": { "$ref": "#/components/responses/500InternalServerError" }
         }
       }
     },
@@ -354,7 +368,11 @@
                 "schema": { "$ref": "#/components/schemas/SkillsResponse" }
               }
             }
-          }
+          },
+          "400": { "$ref": "#/components/responses/400BadRequest" },
+          "401": { "$ref": "#/components/responses/401Unauthorized" },
+          "404": { "$ref": "#/components/responses/404NotFound" },
+          "500": { "$ref": "#/components/responses/500InternalServerError" }
         }
       }
     },
@@ -375,7 +393,11 @@
                 "schema": { "$ref": "#/components/schemas/PaginatedProjects" }
               }
             }
-          }
+          },
+          "400": { "$ref": "#/components/responses/400BadRequest" },
+          "401": { "$ref": "#/components/responses/401Unauthorized" },
+          "404": { "$ref": "#/components/responses/404NotFound" },
+          "500": { "$ref": "#/components/responses/500InternalServerError" }
         }
       }
     },
@@ -405,7 +427,10 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" }
+          "400": { "$ref": "#/components/responses/400BadRequest" },
+          "401": { "$ref": "#/components/responses/401Unauthorized" },
+          "404": { "$ref": "#/components/responses/404NotFound" },
+          "500": { "$ref": "#/components/responses/500InternalServerError" }
         }
       },
       "post": {
@@ -433,7 +458,10 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" }
+          "400": { "$ref": "#/components/responses/400BadRequest" },
+          "401": { "$ref": "#/components/responses/401Unauthorized" },
+          "404": { "$ref": "#/components/responses/404NotFound" },
+          "500": { "$ref": "#/components/responses/500InternalServerError" }
         }
       }
     },
@@ -462,7 +490,10 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" }
+          "400": { "$ref": "#/components/responses/400BadRequest" },
+          "401": { "$ref": "#/components/responses/401Unauthorized" },
+          "404": { "$ref": "#/components/responses/404NotFound" },
+          "500": { "$ref": "#/components/responses/500InternalServerError" }
         }
       }
     },
@@ -480,7 +511,11 @@
                 "schema": { "$ref": "#/components/schemas/JobCreationResponse" }
               }
             }
-          }
+          },
+          "400": { "$ref": "#/components/responses/400BadRequest" },
+          "401": { "$ref": "#/components/responses/401Unauthorized" },
+          "404": { "$ref": "#/components/responses/404NotFound" },
+          "500": { "$ref": "#/components/responses/500InternalServerError" }
         }
       }
     },
@@ -506,7 +541,10 @@
               }
             }
           },
-          "404": { "$ref": "#/components/responses/404NotFound" }
+          "400": { "$ref": "#/components/responses/400BadRequest" },
+          "401": { "$ref": "#/components/responses/401Unauthorized" },
+          "404": { "$ref": "#/components/responses/404NotFound" },
+          "500": { "$ref": "#/components/responses/500InternalServerError" }
         }
       }
     },
@@ -533,7 +571,10 @@
               }
             }
           },
-          "400": { "$ref": "#/components/responses/400BadRequest" }
+          "400": { "$ref": "#/components/responses/400BadRequest" },
+          "401": { "$ref": "#/components/responses/401Unauthorized" },
+          "404": { "$ref": "#/components/responses/404NotFound" },
+          "500": { "$ref": "#/components/responses/500InternalServerError" }
         }
       }
     }

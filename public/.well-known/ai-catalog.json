@@ -10,7 +10,10 @@
       "displayName": "Maanasa Narayan Portfolio MCP Server",
       "name": "Maanasa Narayan Portfolio MCP Server",
       "description": "Model Context Protocol server for Maanasa Narayan's developer portfolio, projects, and skills.",
+      "type": "application/json",
       "mediaType": "application/json",
+      "media_type": "application/json",
+      "contentType": "application/json",
       "url": "https://maanasa.dev/.well-known/mcp/server-card.json",
       "trustManifest": {
         "identity": "https://maanasa.dev",
@@ -23,7 +26,10 @@
       "displayName": "Maanasa Narayan Docs MCP Server",
       "name": "Maanasa Narayan Docs MCP Server",
       "description": "Documentation search MCP server for Maanasa Narayan.",
+      "type": "application/json",
       "mediaType": "application/json",
+      "media_type": "application/json",
+      "contentType": "application/json",
       "url": "https://maanasa.dev/.well-known/mcp/docs-server-card.json",
       "trustManifest": {
         "identity": "https://maanasa.dev",
@@ -36,7 +42,10 @@
       "displayName": "Maanasa Narayan OpenAPI Specification",
       "name": "Maanasa Narayan OpenAPI Specification",
       "description": "OpenAPI 3.1.0 specification for Maanasa Narayan's REST API.",
+      "type": "application/vnd.oai.openapi+json;version=3.1.0",
       "mediaType": "application/vnd.oai.openapi+json;version=3.1.0",
+      "media_type": "application/vnd.oai.openapi+json;version=3.1.0",
+      "contentType": "application/vnd.oai.openapi+json;version=3.1.0",
       "url": "https://maanasa.dev/openapi.json",
       "trustManifest": {
         "identity": "https://maanasa.dev",
@@ -49,7 +58,10 @@
       "displayName": "Maanasa Narayan NLWeb Ask Endpoint",
       "name": "Maanasa Narayan NLWeb Ask Endpoint",
       "description": "Natural language query answering endpoint following Microsoft NLWeb protocol.",
+      "type": "application/json",
       "mediaType": "application/json",
+      "media_type": "application/json",
+      "contentType": "application/json",
       "url": "https://maanasa.dev/ask",
       "trustManifest": {
         "identity": "https://maanasa.dev",

@@ -1068,9 +1068,35 @@ export default {
         return res;
       }
 
+      // Check if base resource without .md exists in static assets
+      const basePath = url.pathname.slice(0, -3);
+      if (basePath && basePath !== '') {
+        const baseReq = new Request(new URL(basePath, url).toString(), {
+          headers: { Accept: '*/*' },
+        });
+        const baseRes = await env.ASSETS.fetch(baseReq);
+        if (baseRes.status === 200) {
+          const rawText = await baseRes.text();
+          const baseName =
+            basePath.split('/').filter(Boolean).pop() || 'Resource';
+          const mdBody =
+            rawText.trim().startsWith('{') || rawText.trim().startsWith('[')
+              ? `# ${baseName}\n\n\`\`\`json\n${rawText}\n\`\`\`\n`
+              : `# ${baseName}\n\n${rawText}\n`;
+          const res = new Response(mdBody, {
+            status: 200,
+            headers: {
+              'Content-Type': 'text/markdown; charset=utf-8',
+            },
+          });
+          appendVaryAccept(res.headers);
+          return res;
+        }
+      }
+
       // If .md doesn't exist, return structured markdown 404 with leading heading
       const cleanPath = url.pathname;
-      const notFoundBody = `# 404 Not Found\n\nThe requested Markdown document \`${cleanPath}\` does not exist on https://maanasa.dev.\n\n## Available Markdown Resources\n\n- [Homepage](https://maanasa.dev/index.md)\n- [About Maanasa](https://maanasa.dev/about/index.md)\n- [Developer Portal & API Docs](https://maanasa.dev/developers.md)\n- [Contact](https://maanasa.dev/contact/index.md)\n- [Privacy Policy](https://maanasa.dev/privacy/index.md)\n- [Agent Authentication Guide (auth.md)](https://maanasa.dev/auth.md)\n- [LLMs Context Index](https://maanasa.dev/llms.txt)\n- [OpenAPI Specification](https://maanasa.dev/api/openapi.json)\n`;
+      const notFoundBody = `# 404 Not Found\n\nThe requested Markdown document \`${cleanPath}\` does not exist on https://maanasa.dev.\n\n## Available Markdown Resources\n\n- [Homepage](https://maanasa.dev/index.md)\n- [About Maanasa](https://maanasa.dev/about/index.md)\n- [Developer Portal & API Docs](https://maanasa.dev/developers.md)\n- [Contact](https://maanasa.dev/contact/index.md)\n- [Privacy Policy](https://maanasa.dev/privacy/index.md)\n- [Agent Authentication Guide (auth.md)](https://maanasa.dev/auth.md)\n- [LLMs Context Index](https://maanasa.dev/llms.txt)\n- [OpenAPI Specification](https://maanasa.dev/openapi.json)\n`;
 
       const md404Res = new Response(notFoundBody, {
         status: 404,
