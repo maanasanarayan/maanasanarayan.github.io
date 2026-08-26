@@ -1,6 +1,6 @@
 ---
 import SectionHeader from './SectionHeader.astro';
-import ContactCard from './react/ContactCard.jsx';
+import ContactCard from './ContactCard.astro';
 
 interface ContactData {
   email: string;
@@ -14,7 +14,7 @@ const { contact } = Astro.props as { contact: ContactData };
 
 <div>
   <SectionHeader kicker="05 · Say hello" title="Contact." />
-  <ContactCard contact={contact} client:visible />
+  <ContactCard contact={contact} />
   <form
     action="/contact"
     method="POST"
