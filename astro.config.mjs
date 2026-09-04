@@ -4,7 +4,6 @@ import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import markdoc from '@astrojs/markdoc';
 import sitemap from '@astrojs/sitemap';
-import partytown from '@astrojs/partytown';
 import tailwindcss from '@tailwindcss/vite';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -77,11 +76,6 @@ export default defineConfig({
           item.priority = 0.8;
         else if (url.pathname.startsWith('/lifestyle/')) item.priority = 0.8;
         return item;
-      },
-    }),
-    partytown({
-      config: {
-        forward: ['dataLayer.push'],
       },
     }),
     draftToolbar(),

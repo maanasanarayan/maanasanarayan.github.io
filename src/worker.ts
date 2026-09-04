@@ -170,6 +170,14 @@ export default {
       });
     }
 
+    // 0. Fast-path static assets (fonts, images, CSS/JS, docs) — serve
+    // directly from ASSETS without running API/MCP/content-negotiation
+    // logic. Keeps TTFB minimal for LCP-critical resources (webfonts,
+    // hero image). HTML pages fall through to content negotiation below.
+    if (method === 'GET' && STATIC_EXT.test(pathname) && env.ASSETS) {
+      return env.ASSETS.fetch(request);
+    }
+
     // 1. Agent Mode View (?mode=agent)
     if (url.searchParams.get('mode') === 'agent') {
       const agentData = {
@@ -1603,7 +1611,8 @@ export default {
       return fallback404;
     }
 
-    // HTML representation path
+    // HTML representation path — stream directly from ASSETS without
+    // buffering so TTFB stays minimal (critical for LCP/FCP).
     const htmlRes = env.ASSETS
       ? await env.ASSETS.fetch(request)
       : new Response('Not Found', { status: 404 });
@@ -1629,8 +1638,7 @@ export default {
       }
     }
 
-    const body = await htmlRes.arrayBuffer();
-    const res = new Response(body, {
+    const res = new Response(htmlRes.body, {
       status: htmlRes.status,
       statusText: htmlRes.statusText,
       headers: new Headers(htmlRes.headers),

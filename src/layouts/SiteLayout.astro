@@ -336,60 +336,6 @@ const markdownAlternateURL =
         ],
       })}
     />
-    <script is:inline>
-      // WebMCP browser-resident AI agent tool registration (W3C draft)
-      (function () {
-        function registerWebMcpTools() {
-          const mc =
-            typeof document !== 'undefined' && document.modelContext
-              ? document.modelContext
-              : typeof navigator !== 'undefined' && navigator.modelContext
-                ? navigator.modelContext
-                : null;
-          if (mc && typeof mc.registerTool === 'function') {
-            try {
-              mc.registerTool({
-                name: 'get_portfolio_profile',
-                description:
-                  'Query verified profile, roles, and education for Maanasa Narayan',
-                parameters: { type: 'object', properties: {} },
-                handler: async () => {
-                  const res = await fetch('/api/profile');
-                  return res.json();
-                },
-              });
-              mc.registerTool({
-                name: 'ask_maanasa_ai',
-                description:
-                  'Ask natural language questions about Maanasa Narayan via NLWeb',
-                parameters: {
-                  type: 'object',
-                  properties: { query: { type: 'string' } },
-                  required: ['query'],
-                },
-                handler: async ({ query }) => {
-                  const res = await fetch('/ask', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ query }),
-                  });
-                  return res.json();
-                },
-              });
-            } catch (err) {
-              console.debug('WebMCP registration:', err);
-            }
-          }
-        }
-        if (typeof document !== 'undefined') {
-          if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', registerWebMcpTools);
-          } else {
-            registerWebMcpTools();
-          }
-        }
-      })();
-    </script>
     <slot name="head" />
   </head>
 
@@ -405,5 +351,59 @@ const markdownAlternateURL =
     </main>
 
     <Footer name={content.profile.name} />
+
+    <script is:inline type="module">
+      // WebMCP browser-resident AI agent tool registration (W3C draft)
+      // Deferred as a module (non-render-blocking) + idle scheduling so it
+      // never delays FCP/LCP. Only runs if the WebMCP API exists.
+      const registerWebMcpTools = async () => {
+        const mc =
+          typeof document !== 'undefined' && document.modelContext
+            ? document.modelContext
+            : typeof navigator !== 'undefined' && navigator.modelContext
+              ? navigator.modelContext
+              : null;
+        if (!mc || typeof mc.registerTool !== 'function') return;
+        try {
+          mc.registerTool({
+            name: 'get_portfolio_profile',
+            description:
+              'Query verified profile, roles, and education for Maanasa Narayan',
+            parameters: { type: 'object', properties: {} },
+            handler: async () => {
+              const res = await fetch('/api/profile');
+              return res.json();
+            },
+          });
+          mc.registerTool({
+            name: 'ask_maanasa_ai',
+            description:
+              'Ask natural language questions about Maanasa Narayan via NLWeb',
+            parameters: {
+              type: 'object',
+              properties: { query: { type: 'string' } },
+              required: ['query'],
+            },
+            handler: async ({ query }) => {
+              const res = await fetch('/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query }),
+              });
+              return res.json();
+            },
+          });
+        } catch (err) {
+          console.debug('WebMCP registration:', err);
+        }
+      };
+      const schedule =
+        typeof requestIdleCallback !== 'undefined'
+          ? (fn) => requestIdleCallback(fn, { timeout: 3000 })
+          : (fn) => setTimeout(fn, 1);
+      schedule(() => {
+        registerWebMcpTools();
+      });
+    </script>
   </body>
 </html>

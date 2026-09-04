@@ -201,7 +201,7 @@ const { contact } = Astro.props;
   <span id="toast-message">Email copied!</span>
 </div>
 
-<script is:inline>
+<script is:inline type="module">
   (function () {
     const btn = document.getElementById('copy-email-btn');
     const toast = document.getElementById('email-toast');
