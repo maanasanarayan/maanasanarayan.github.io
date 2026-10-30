@@ -10,12 +10,9 @@ const { email, linkedin, github, twitter } = content.contact;
 ---
 
 <footer class="no-print bg-neo-secondary border-t-4 border-black">
-  <div
-    class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:px-6 lg:px-10"
-  >
+  <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-8 sm:flex-row sm:px-6 lg:px-10">
     <p class="text-sm font-bold tracking-widest uppercase">
-      © {year}{' '}
-      {name}. All rights reserved.
+      © {year} {name}. All rights reserved.
     </p>
     <nav
       aria-label="Site links"
@@ -24,54 +21,63 @@ const { email, linkedin, github, twitter } = content.contact;
       <a
         href="/about"
         class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
-        >About</a
       >
+        About
+      </a>
       <a
         href="/contact"
         class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
-        >Contact</a
       >
+        Contact
+      </a>
       <a
         href="/privacy"
         class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
-        >Privacy</a
       >
+        Privacy
+      </a>
       <a
         href="/developers"
         class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
-        >Developers / API</a
       >
+        Developers / API
+      </a>
       <a
         href="/llms.txt"
         class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
-        >LLMs.txt</a
       >
+        LLMs.txt
+      </a>
       <a
         href={`mailto:${email}`}
         class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
-        >Email</a
       >
+        Email
+      </a>
       <a
         href={linkedin}
         target="_blank"
         rel="noopener noreferrer"
         class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
-        >LinkedIn</a
       >
+        LinkedIn
+      </a>
       <a
         href={github}
         target="_blank"
         rel="noopener noreferrer"
         class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
-        >GitHub</a
       >
+        GitHub
+      </a>
       <a
         href={twitter}
         target="_blank"
         rel="noopener noreferrer"
         class="hover:bg-neo-mint border-2 border-black bg-white px-2.5 py-1 shadow-[2px_2px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5"
-        >X</a
       >
+        X
+      </a>
     </nav>
   </div>
 </footer>

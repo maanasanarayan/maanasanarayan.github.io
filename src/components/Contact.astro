@@ -33,7 +33,10 @@ const { contact } = Astro.props as { contact: ContactData };
       placeholder="Inquiry subject"
     />
     <label for="agent-body">Message</label>
-    <textarea id="agent-body" name="body" placeholder="Message content"
+    <textarea
+      id="agent-body"
+      name="body"
+      placeholder="Message content"
     ></textarea>
     <button type="submit">Send Message</button>
   </form>

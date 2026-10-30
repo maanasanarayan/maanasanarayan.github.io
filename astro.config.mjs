@@ -1,6 +1,5 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
-import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import markdoc from '@astrojs/markdoc';
 import sitemap from '@astrojs/sitemap';
@@ -48,7 +47,6 @@ export default defineConfig({
   },
 
   integrations: [
-    react(),
     mdx(),
     markdoc(),
     sitemap({

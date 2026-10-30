@@ -20,24 +20,16 @@ const HOME_LINKS = [
 
 <header class="no-print fixed top-0 right-0 left-0 z-50">
   <div class="bg-neo-bg border-b-4 border-black">
-    <div
-      class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:gap-4 sm:px-6 lg:px-10"
-    >
+    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-20 sm:gap-4 sm:px-6 lg:px-10">
       <a
         href="/"
         aria-label={`${name} - Home`}
         class="group inline-flex min-w-0 items-center gap-2 sm:gap-3"
       >
-        <span
-          class="bg-neo-accent grid h-10 w-10 shrink-0 -rotate-3 place-items-center border-4 border-black shadow-[3px_3px_0_0_#000] transition-transform duration-200 group-hover:rotate-3 sm:h-12 sm:w-12 sm:shadow-[4px_4px_0_0_#000]"
-        >
-          <Star
-            class="h-5 w-5 fill-black stroke-[3px] text-black sm:h-6 sm:w-6"
-          />
+        <span class="bg-neo-accent grid h-10 w-10 shrink-0 -rotate-3 place-items-center border-4 border-black shadow-[3px_3px_0_0_#000] transition-transform duration-200 group-hover:rotate-3 sm:h-12 sm:w-12 sm:shadow-[4px_4px_0_0_#000]">
+          <Star class="h-5 w-5 fill-black stroke-[3px] text-black sm:h-6 sm:w-6" />
         </span>
-        <span
-          class="font-display truncate text-base tracking-tight uppercase sm:text-xl"
-        >
+        <span class="font-display truncate text-base tracking-tight uppercase sm:text-xl">
           {name}
         </span>
       </a>
@@ -46,28 +38,26 @@ const HOME_LINKS = [
         aria-label="Main navigation"
         class="hidden items-center gap-1 md:flex"
       >
-        {
-          HOME_LINKS.map((link) => {
-            const active =
-              (link.href === '/blog' && currentPath.startsWith('/blog')) ||
-              (link.href === '/lifestyle' &&
-                currentPath.startsWith('/lifestyle'));
-            return (
-              <a
-                href={link.href}
-                data-nav-id={link.id}
-                class:list={[
-                  'nav-link border-2 px-3 py-2 text-sm font-bold tracking-widest uppercase transition-all duration-150',
-                  active
-                    ? 'text-neo-bg border-black bg-black shadow-[4px_4px_0_0_#FFD93D]'
-                    : 'hover:bg-neo-secondary border-transparent hover:border-black hover:shadow-[3px_3px_0_0_#000]',
-                ]}
-              >
-                {link.label}
-              </a>
-            );
-          })
-        }
+        {HOME_LINKS.map((link) => {
+          const active =
+            (link.href === '/blog' && currentPath.startsWith('/blog')) ||
+            (link.href === '/lifestyle' &&
+              currentPath.startsWith('/lifestyle'));
+          return (
+            <a
+              href={link.href}
+              data-nav-id={link.id}
+              class:list={[
+                'nav-link border-2 px-3 py-2 text-sm font-bold tracking-widest uppercase transition-all duration-150',
+                active
+                  ? 'text-neo-bg border-black bg-black shadow-[4px_4px_0_0_#FFD93D]'
+                  : 'hover:bg-neo-secondary border-transparent hover:border-black hover:shadow-[3px_3px_0_0_#000]',
+              ]}
+            >
+              {link.label}
+            </a>
+          );
+        })}
       </nav>
 
       <div class="flex items-center gap-2">
@@ -97,8 +87,7 @@ const HOME_LINKS = [
         id="scroll-bar"
         class="bg-neo-accent h-full origin-left scale-x-0 transition-transform duration-75"
         aria-hidden="true"
-      >
-      </div>
+      ></div>
     </div>
   </div>
 
@@ -107,20 +96,18 @@ const HOME_LINKS = [
     class="bg-neo-muted hidden border-b-4 border-black shadow-[0_8px_0_0_#000] md:hidden"
   >
     <div class="mx-auto grid max-w-7xl gap-2 px-4 py-4">
-      {
-        HOME_LINKS.map((link, i) => (
-          <a
-            href={link.href}
-            data-mobile-nav-id={link.id}
-            class:list={[
-              'mobile-nav-link block border-4 border-black bg-white px-4 py-3 text-sm font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 active:translate-x-1 active:translate-y-1 active:shadow-none',
-              i % 2 === 0 ? 'rotate-[-0.5deg]' : 'rotate-[0.5deg]',
-            ]}
-          >
-            {link.label}
-          </a>
-        ))
-      }
+      {HOME_LINKS.map((link, i) => (
+        <a
+          href={link.href}
+          data-mobile-nav-id={link.id}
+          class:list={[
+            'mobile-nav-link block border-4 border-black bg-white px-4 py-3 text-sm font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 active:translate-x-1 active:translate-y-1 active:shadow-none',
+            i % 2 === 0 ? 'rotate-[-0.5deg]' : 'rotate-[0.5deg]',
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
       <a
         href="/documents/MaanasaNarayan.pdf"
         download="MaanasaNarayan_Resume.pdf"
