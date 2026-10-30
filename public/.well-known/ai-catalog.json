@@ -10,6 +10,11 @@
       "displayName": "Maanasa Narayan Portfolio MCP Server",
       "name": "Maanasa Narayan Portfolio MCP Server",
       "description": "Model Context Protocol server for Maanasa Narayan's developer portfolio, projects, and skills.",
+      "representativeQueries": [
+        "What projects has Maanasa Narayan built?",
+        "What are Maanasa Narayan's technical skills?",
+        "Summarize Maanasa Narayan's work experience"
+      ],
       "type": "application/json",
       "mediaType": "application/json",
       "media_type": "application/json",
@@ -26,6 +31,11 @@
       "displayName": "Maanasa Narayan Docs MCP Server",
       "name": "Maanasa Narayan Docs MCP Server",
       "description": "Documentation search MCP server for Maanasa Narayan.",
+      "representativeQueries": [
+        "Search Maanasa Narayan's documentation",
+        "How do I connect to Maanasa Narayan's MCP server?",
+        "What APIs does maanasa.dev expose?"
+      ],
       "type": "application/json",
       "mediaType": "application/json",
       "media_type": "application/json",
@@ -42,6 +52,11 @@
       "displayName": "Maanasa Narayan OpenAPI Specification",
       "name": "Maanasa Narayan OpenAPI Specification",
       "description": "OpenAPI 3.1.0 specification for Maanasa Narayan's REST API.",
+      "representativeQueries": [
+        "What REST endpoints does maanasa.dev provide?",
+        "Get the OpenAPI spec for Maanasa Narayan's API",
+        "How do I fetch Maanasa Narayan's profile as JSON?"
+      ],
       "type": "application/vnd.oai.openapi+json;version=3.1.0",
       "mediaType": "application/vnd.oai.openapi+json;version=3.1.0",
       "media_type": "application/vnd.oai.openapi+json;version=3.1.0",
@@ -58,6 +73,11 @@
       "displayName": "Maanasa Narayan NLWeb Ask Endpoint",
       "name": "Maanasa Narayan NLWeb Ask Endpoint",
       "description": "Natural language query answering endpoint following Microsoft NLWeb protocol.",
+      "representativeQueries": [
+        "Ask a question about Maanasa Narayan",
+        "What does Maanasa Narayan work on?",
+        "How can I contact Maanasa Narayan?"
+      ],
       "type": "application/json",
       "mediaType": "application/json",
       "media_type": "application/json",

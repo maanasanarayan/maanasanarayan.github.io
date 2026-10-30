@@ -263,6 +263,7 @@ describe('7. RFC 9727 API Catalog & Discovery Metadata', () => {
 
   it('ensures all well-known discovery documents exist', () => {
     const docs = [
+      'public/.well-known/ard.json',
       'public/.well-known/ai-catalog.json',
       'public/.well-known/agent-skills/index.json',
       'public/.well-known/agent-card.json',
@@ -403,6 +404,23 @@ describe('8. REST v1 Endpoints & API Usability', () => {
     expect(content.entries[0].displayName).toBeDefined();
     expect(content.entries[0].mediaType).toBeDefined();
     expect(content.entries[0].trustManifest).toBeDefined();
+  });
+
+  it('ensures ARD ard.json matches the legacy ai-catalog.json and every entry has 2-5 representativeQueries', () => {
+    const ard = readFileSync(
+      join(process.cwd(), 'public/.well-known/ard.json'),
+      'utf-8',
+    );
+    const legacy = readFileSync(
+      join(process.cwd(), 'public/.well-known/ai-catalog.json'),
+      'utf-8',
+    );
+    expect(ard).toBe(legacy);
+    for (const entry of JSON.parse(ard).entries) {
+      expect(Array.isArray(entry.representativeQueries)).toBe(true);
+      expect(entry.representativeQueries.length).toBeGreaterThanOrEqual(2);
+      expect(entry.representativeQueries.length).toBeLessThanOrEqual(5);
+    }
   });
 
   it('ensures root public/openapi.json exists', () => {

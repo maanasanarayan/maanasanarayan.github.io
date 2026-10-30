@@ -385,6 +385,10 @@ export const onRequest: PagesFunction = async (context) => {
           ],
           'service-meta': [
             {
+              href: 'https://maanasa.dev/.well-known/ard.json',
+              type: 'application/json',
+            },
+            {
               href: 'https://maanasa.dev/.well-known/ai-catalog.json',
               type: 'application/json',
             },

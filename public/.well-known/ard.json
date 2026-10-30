@@ -1,0 +1,92 @@
+{
+  "$schema": "https://agenticresourcediscovery.org/schema/v1/ai-catalog.json",
+  "specVersion": "1.0",
+  "name": "Maanasa Narayan Developer & Agentic Resources",
+  "description": "Agentic discovery catalog for Maanasa Narayan's developer APIs, MCP servers, and skills.",
+  "entries": [
+    {
+      "identifier": "urn:air:maanasa.dev:mcp:portfolio",
+      "id": "urn:air:maanasa.dev:mcp:portfolio",
+      "displayName": "Maanasa Narayan Portfolio MCP Server",
+      "name": "Maanasa Narayan Portfolio MCP Server",
+      "description": "Model Context Protocol server for Maanasa Narayan's developer portfolio, projects, and skills.",
+      "representativeQueries": [
+        "What projects has Maanasa Narayan built?",
+        "What are Maanasa Narayan's technical skills?",
+        "Summarize Maanasa Narayan's work experience"
+      ],
+      "type": "application/json",
+      "mediaType": "application/json",
+      "media_type": "application/json",
+      "contentType": "application/json",
+      "url": "https://maanasa.dev/.well-known/mcp/server-card.json",
+      "trustManifest": {
+        "identity": "https://maanasa.dev",
+        "issuer": "https://maanasa.dev"
+      }
+    },
+    {
+      "identifier": "urn:air:maanasa.dev:mcp:docs",
+      "id": "urn:air:maanasa.dev:mcp:docs",
+      "displayName": "Maanasa Narayan Docs MCP Server",
+      "name": "Maanasa Narayan Docs MCP Server",
+      "description": "Documentation search MCP server for Maanasa Narayan.",
+      "representativeQueries": [
+        "Search Maanasa Narayan's documentation",
+        "How do I connect to Maanasa Narayan's MCP server?",
+        "What APIs does maanasa.dev expose?"
+      ],
+      "type": "application/json",
+      "mediaType": "application/json",
+      "media_type": "application/json",
+      "contentType": "application/json",
+      "url": "https://maanasa.dev/.well-known/mcp/docs-server-card.json",
+      "trustManifest": {
+        "identity": "https://maanasa.dev",
+        "issuer": "https://maanasa.dev"
+      }
+    },
+    {
+      "identifier": "urn:air:maanasa.dev:api:openapi",
+      "id": "urn:air:maanasa.dev:api:openapi",
+      "displayName": "Maanasa Narayan OpenAPI Specification",
+      "name": "Maanasa Narayan OpenAPI Specification",
+      "description": "OpenAPI 3.1.0 specification for Maanasa Narayan's REST API.",
+      "representativeQueries": [
+        "What REST endpoints does maanasa.dev provide?",
+        "Get the OpenAPI spec for Maanasa Narayan's API",
+        "How do I fetch Maanasa Narayan's profile as JSON?"
+      ],
+      "type": "application/vnd.oai.openapi+json;version=3.1.0",
+      "mediaType": "application/vnd.oai.openapi+json;version=3.1.0",
+      "media_type": "application/vnd.oai.openapi+json;version=3.1.0",
+      "contentType": "application/vnd.oai.openapi+json;version=3.1.0",
+      "url": "https://maanasa.dev/openapi.json",
+      "trustManifest": {
+        "identity": "https://maanasa.dev",
+        "issuer": "https://maanasa.dev"
+      }
+    },
+    {
+      "identifier": "urn:air:maanasa.dev:api:nlweb",
+      "id": "urn:air:maanasa.dev:api:nlweb",
+      "displayName": "Maanasa Narayan NLWeb Ask Endpoint",
+      "name": "Maanasa Narayan NLWeb Ask Endpoint",
+      "description": "Natural language query answering endpoint following Microsoft NLWeb protocol.",
+      "representativeQueries": [
+        "Ask a question about Maanasa Narayan",
+        "What does Maanasa Narayan work on?",
+        "How can I contact Maanasa Narayan?"
+      ],
+      "type": "application/json",
+      "mediaType": "application/json",
+      "media_type": "application/json",
+      "contentType": "application/json",
+      "url": "https://maanasa.dev/ask",
+      "trustManifest": {
+        "identity": "https://maanasa.dev",
+        "issuer": "https://maanasa.dev"
+      }
+    }
+  ]
+}

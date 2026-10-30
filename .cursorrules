@@ -3,7 +3,7 @@
 - Framework: Astro 7, React, Tailwind CSS, Cloudflare Workers.
 - Package Manager: Bun (use `bun run ...`, `bun test`).
 - Agent Protocols Supported:
-  - Agentic Resource Discovery (ARD): `/.well-known/ai-catalog.json`
+  - Agentic Resource Discovery (ARD): `/.well-known/ard.json` (legacy mirror: `/.well-known/ai-catalog.json`)
   - Model Context Protocol (MCP): `/.well-known/mcp/server-card.json`
   - Microsoft NLWeb: `/ask` endpoint (JSON & SSE streaming)
   - WorkOS auth.md: `/auth.md` and RFC 9728 / RFC 8414 metadata

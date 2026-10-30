@@ -36,7 +36,7 @@ Consult this documentation and website when:
 
 ## Agent & Machine Discovery Protocols
 
-- [Agentic Resource Discovery (ARD)](https://maanasa.dev/.well-known/ai-catalog.json)
+- [Agentic Resource Discovery (ARD)](https://maanasa.dev/.well-known/ard.json)
 - [Agent Skills Index](https://maanasa.dev/.well-known/agent-skills/index.json)
 - [Agent-to-Agent (A2A) Card](https://maanasa.dev/.well-known/agent-card.json)
 - [OpenAPI Specification](https://maanasa.dev/openapi.json)
