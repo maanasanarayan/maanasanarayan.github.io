@@ -4,6 +4,7 @@ description: 'Why I rebuilt my portfolio on Astro and started writing things dow
 pubDate: 2026-05-19
 tags: ['meta', 'astro', 'portfolio']
 heroEmoji: '✏️'
+draft: true
 ---
 
 Hi — I'm Maanasa. This corner of the internet is new, and so is the habit

@@ -4,6 +4,7 @@ description: 'Thick borders, hard shadows, and a refusal to be invisible — the
 pubDate: 2026-03-04
 tags: ['design', 'ui', 'frontend']
 heroEmoji: '⚡'
+draft: true
 ---
 
 Most portfolios I see look the same. Frosted-glass panels, gradient blobs,

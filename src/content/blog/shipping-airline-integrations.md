@@ -4,6 +4,7 @@ description: 'Six endpoints, JUnit, Kibana dashboards, and the discipline of sta
 pubDate: 2026-04-12
 tags: ['java', 'apis', 'kayak', 'observability']
 heroEmoji: '✈️'
+draft: true
 ---
 
 Booking a flight on Kayak looks like a single click. Behind that click are six

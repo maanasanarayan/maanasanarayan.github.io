@@ -15,6 +15,8 @@ const HOME_LINKS = [
   { id: 'projects', label: 'Projects', href: '/#projects' },
   { id: 'recommendations', label: 'Recs', href: '/#recommendations' },
   { id: 'contact', label: 'Contact', href: '/#contact' },
+  { id: 'blog', label: 'Blog', href: '/blog/' },
+  { id: 'art', label: 'Art', href: '/art/' },
 ];
 ---
 
@@ -40,9 +42,9 @@ const HOME_LINKS = [
       >
         {HOME_LINKS.map((link) => {
           const active =
-            (link.href === '/blog' && currentPath.startsWith('/blog')) ||
-            (link.href === '/lifestyle' &&
-              currentPath.startsWith('/lifestyle'));
+            link.href.startsWith('/') &&
+            !link.href.startsWith('/#') &&
+            currentPath.startsWith(link.href.replace(/\/$/, ''));
           return (
             <a
               href={link.href}
