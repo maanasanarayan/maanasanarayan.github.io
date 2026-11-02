@@ -20,8 +20,7 @@
     "format:check": "prettier --check .",
     "prepare": "husky",
     "generate-types": "wrangler types",
-    "deploy": "bun run build && wrangler deploy",
-    "import:instagram": "node scripts/import-instagram.mjs"
+    "deploy": "bun run build && wrangler deploy"
   },
   "lint-staged": {
     "*.{js,jsx,mjs,astro}": [
@@ -41,7 +40,6 @@
     "@astrojs/markdoc": "^2.1.2",
     "@astrojs/markdown-remark": "^7.3.5",
     "@astrojs/mdx": "^8.1.2",
-    "@astrojs/partytown": "^2.1.9",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
@@ -54,8 +52,8 @@
     "@astrojs/check": "^0.9.12",
     "@commitlint/cli": "^21.2.4",
     "@commitlint/config-conventional": "^21.2.4",
+    "@commitlint/types": "^21.2.3",
     "@eslint/js": "^10.0.1",
-    "@pagefind/default-ui": "^1.5.2",
     "@typescript-eslint/parser": "^8.72.1",
     "eslint": "^10.13.0",
     "eslint-plugin-astro": "^3.2.1",

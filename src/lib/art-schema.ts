@@ -4,7 +4,7 @@
  */
 const SITE = 'https://maanasa.dev';
 export const PERSON_ID = `${SITE}/#person`;
-export const WEBSITE_ID = `${SITE}/#website`;
+const WEBSITE_ID = `${SITE}/#website`;
 export const ART_COLLECTION_ID = `${SITE}/art/#collection`;
 
 export const absolute = (path: string) => new URL(path, SITE).toString();

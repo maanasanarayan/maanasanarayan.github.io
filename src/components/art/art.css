@@ -113,6 +113,9 @@
     max-width: 100%;
     max-height: 100%;
     min-height: 0;
+    /* The border makes the clamped box round a pixel or two off the image's
+     * ratio; contain keeps the artwork undistorted inside it. */
+    object-fit: contain;
   }
 
   /* Tiles drop into place as they scroll in. Transform only: opacity is

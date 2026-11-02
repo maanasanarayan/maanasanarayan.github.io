@@ -28,7 +28,7 @@ that is a good outcome.
 ## How this blog is built
 
 The site is built with Astro. Each post is a Markdown file in the repository,
-so publishing is just a commit:
+so publishing is a commit:
 
 ```sh
 git add src/content/blog/hello-world.md

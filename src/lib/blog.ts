@@ -13,7 +13,7 @@ export const BLOG_DESCRIPTION =
  * links straight to them); production builds, RSS, the sitemap, search and the
  * markdown twins only ever see public posts because they all read from here.
  */
-export function isPublic(post: Post, now = Date.now()): boolean {
+function isPublic(post: Post, now = Date.now()): boolean {
   return !post.data.draft && post.data.pubDate.valueOf() <= now;
 }
 
@@ -41,7 +41,7 @@ export function groupByYear(posts: Post[]): { year: number; posts: Post[] }[] {
 }
 
 /** URL-safe tag slug: "Cloud Native" -> "cloud-native". */
-export function tagSlug(tag: string): string {
+function tagSlug(tag: string): string {
   return tag
     .toLowerCase()
     .trim()
