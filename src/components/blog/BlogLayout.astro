@@ -1,0 +1,51 @@
+---
+/**
+ * Thin wrapper around SiteLayout for every /blog/ page: adds the RSS
+ * alternate link, page-specific JSON-LD, and opt-in cross-document view
+ * transitions (pure CSS, no ClientRouter, so no JavaScript cost).
+ */
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+  /** Extra schema.org nodes, emitted as one @graph next to SiteLayout's. */
+  schema?: Record<string, unknown>[];
+}
+
+const { schema = [], ...layoutProps } = Astro.props;
+---
+
+<SiteLayout {...layoutProps}>
+  <Fragment slot="head">
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Maanasa Narayan — Blog"
+      href="/rss.xml"
+    />
+    {schema.length > 0 && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify({
+          '@context': 'https://schema.org',
+          '@graph': schema,
+        })}
+      />
+    )}
+    <slot name="head" />
+  </Fragment>
+  <slot />
+</SiteLayout>
+
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    @view-transition {
+      navigation: auto;
+    }
+  }
+</style>

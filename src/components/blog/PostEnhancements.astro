@@ -1,0 +1,85 @@
+---
+/**
+ * Small, deferred progressive enhancements for a post page:
+ * - copy buttons on code blocks (markup from PostBody),
+ * - aria-current scroll-spy for the table-of-contents rail,
+ * - Mermaid diagrams, imported from a CDN only when the post has one.
+ * Everything here is optional; the page reads fine without it.
+ */
+---
+
+<p class="sr-only" role="status" aria-live="polite" data-copy-status></p>
+
+<script>
+  const status = document.querySelector<HTMLElement>('[data-copy-status]');
+
+  // ---- Copy buttons
+  if (navigator.clipboard?.writeText) {
+    for (const btn of document.querySelectorAll<HTMLButtonElement>(
+      '[data-copy-code]',
+    )) {
+      btn.hidden = false;
+      btn.addEventListener('click', async () => {
+        const code = btn.parentElement?.querySelector('pre')?.innerText ?? '';
+        try {
+          await navigator.clipboard.writeText(code.replace(/\n$/, ''));
+          btn.textContent = 'Copied';
+          btn.dataset.copied = 'true';
+          if (status) status.textContent = 'Code copied to clipboard.';
+        } catch {
+          btn.textContent = 'Failed';
+          if (status) status.textContent = 'Could not copy code.';
+        }
+        window.setTimeout(() => {
+          btn.textContent = 'Copy';
+          delete btn.dataset.copied;
+          if (status) status.textContent = '';
+        }, 1600);
+      });
+    }
+  }
+
+  // ---- Table-of-contents scroll-spy (rail only)
+  const links = new Map<string, HTMLAnchorElement>();
+  for (const link of document.querySelectorAll<HTMLAnchorElement>(
+    '[data-toc-link]',
+  )) {
+    if (link.dataset.tocLink) links.set(link.dataset.tocLink, link);
+  }
+  if (links.size > 0 && 'IntersectionObserver' in window) {
+    const targets = [...links.keys()]
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    let current = '';
+    const update = () => {
+      const line = window.innerHeight * 0.3;
+      let id = '';
+      for (const target of targets) {
+        if (target.getBoundingClientRect().top <= line) id = target.id;
+        else break;
+      }
+      if (id === current) return;
+      links.get(current)?.removeAttribute('aria-current');
+      if (id) links.get(id)?.setAttribute('aria-current', 'true');
+      current = id;
+    };
+    const observer = new IntersectionObserver(update, {
+      rootMargin: '0px 0px -70% 0px',
+    });
+    for (const target of targets) observer.observe(target);
+  }
+
+  // ---- Mermaid (only on posts that use it)
+  if (document.querySelector('pre.mermaid')) {
+    const src =
+      'https://cdn.jsdelivr.net/npm/mermaid@12.2.0/dist/mermaid.esm.min.mjs';
+    import(/* @vite-ignore */ src)
+      .then(({ default: mermaid }) => {
+        mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
+        return mermaid.run({ querySelector: 'pre.mermaid' });
+      })
+      .catch(() => {
+        /* Leave the diagram source visible. */
+      });
+  }
+</script>

@@ -703,3 +703,56 @@ describe('8. REST v1 Endpoints & API Usability', () => {
     expect(data.endpoints.agent).toBeDefined();
   });
 });
+
+describe('9. Blog markdown twins', () => {
+  const twin =
+    '---\ntitle: "Hello, world"\n---\n\n# Hello, world\n\nFirst post.';
+  const mockAssets = {
+    async fetch(r: Request | string) {
+      const url = typeof r === 'string' ? new URL(r) : new URL(r.url);
+      if (url.pathname === '/blog/hello-world/index.md') {
+        return new Response(twin, {
+          status: 200,
+          headers: { 'Content-Type': 'text/plain' },
+        });
+      }
+      if (url.pathname === '/blog/hello-world/') {
+        return new Response('<!doctype html><title>x</title>', {
+          status: 200,
+          headers: { 'Content-Type': 'text/html' },
+        });
+      }
+      return new Response('Not Found', { status: 404 });
+    },
+  };
+
+  it('negotiates Accept: text/markdown on a post URL to its index.md twin', async () => {
+    const req = new Request('https://maanasa.dev/blog/hello-world/', {
+      headers: { Accept: 'text/markdown' },
+    });
+    const res = await worker.fetch(req, { ASSETS: mockAssets });
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Content-Type')).toContain('text/markdown');
+    expect(await res.text()).toBe(twin);
+  });
+
+  it('serves /blog/<slug>.md from the generated /blog/<slug>/index.md twin', async () => {
+    const req = new Request('https://maanasa.dev/blog/hello-world.md');
+    const res = await worker.fetch(req, { ASSETS: mockAssets });
+    expect(res.status).toBe(200);
+    expect(res.headers.get('Content-Type')).toContain('text/markdown');
+    expect(res.headers.get('Link')).toContain(
+      '<https://maanasa.dev/blog/hello-world/>; rel="canonical"',
+    );
+    expect(await res.text()).toBe(twin);
+  });
+
+  it('lists the blog in public/llms.txt', () => {
+    const content = readFileSync(
+      join(process.cwd(), 'public/llms.txt'),
+      'utf-8',
+    );
+    expect(content).toContain('https://maanasa.dev/blog/');
+    expect(content).toContain('https://maanasa.dev/rss.xml');
+  });
+});

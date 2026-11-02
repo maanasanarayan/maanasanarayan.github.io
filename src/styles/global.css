@@ -253,6 +253,94 @@ body {
   letter-spacing: 0.05em;
   font-size: 0.85em;
 }
+/* Headings sit under a fixed nav; keep anchor targets clear of it. */
+.neo-prose :is(h2, h3, h4)[id] {
+  scroll-margin-top: 7rem;
+}
+/* Heading self-links (added by PostBody). The "#" is decorative: the empty
+   alt text after the slash keeps it out of the accessible name. */
+.neo-prose a.heading-anchor {
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  font-weight: inherit;
+}
+.neo-prose a.heading-anchor::after {
+  content: '#' / '';
+  margin-left: 0.3em;
+  opacity: 0;
+  transition: opacity 100ms ease-out;
+}
+.neo-prose a.heading-anchor:hover,
+.neo-prose a.heading-anchor:focus-visible {
+  background: none;
+}
+.neo-prose a.heading-anchor:hover::after,
+.neo-prose a.heading-anchor:focus-visible::after {
+  opacity: 1;
+}
+.neo-prose a:focus-visible,
+.neo-prose pre:focus-visible {
+  outline: 3px solid #000;
+  outline-offset: 3px;
+}
+/* Code blocks: language label + copy button (added by PostBody). */
+.neo-prose .code-block {
+  position: relative;
+}
+.neo-prose .code-block > pre {
+  padding-top: 2.75rem;
+}
+.neo-prose .code-block > pre[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  padding: 0.15rem 0.6rem;
+  background: #000;
+  color: var(--color-neo-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.neo-prose .copy-code {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  min-height: 2rem;
+  padding: 0.2rem 0.75rem;
+  border: 2px solid #000;
+  background: var(--color-neo-secondary);
+  box-shadow: 2px 2px 0 0 #000;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.neo-prose .copy-code:hover {
+  background: var(--color-neo-mint);
+}
+.neo-prose .copy-code:active {
+  translate: 2px 2px;
+  box-shadow: none;
+}
+.neo-prose .copy-code[data-copied] {
+  background: var(--color-neo-mint);
+}
+.neo-prose pre.mermaid {
+  background: #fff;
+  text-align: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  .neo-prose a,
+  .neo-prose a.heading-anchor::after {
+    transition: none;
+  }
+}
 
 /* Skip rendering work for below-the-fold homepage sections until scrolled
    into view. contain-intrinsic-size reserves space to avoid layout shift. */

@@ -1,0 +1,83 @@
+---
+/**
+ * Shared header for the blog index and tag pages: title, intro, search,
+ * RSS, and a tag filter row. Filtering is plain links to the static tag
+ * pages, so it works without JavaScript.
+ */
+import { Rss, Tags } from 'lucide-astro';
+import SectionHeader from '../SectionHeader.astro';
+import BlogSearch from './BlogSearch.astro';
+
+interface Props {
+  kicker: string;
+  title: string;
+  /** All tags with counts, for the filter row. */
+  tags: { tag: string; slug: string; count: number }[];
+  /** Slug of the tag being viewed, or undefined for "All". */
+  activeTag?: string;
+}
+
+const { kicker, title, tags, activeTag } = Astro.props;
+
+const chip =
+  'inline-flex min-h-9 items-center gap-1.5 border-2 border-black px-3 py-1 text-xs font-bold tracking-widest uppercase transition-transform duration-100';
+const idle =
+  'bg-white shadow-[3px_3px_0_0_#000] hover:-translate-y-0.5 hover:bg-neo-mint';
+const current =
+  'bg-black text-neo-bg shadow-[3px_3px_0_0_var(--color-neo-secondary)]';
+---
+
+<header>
+  <SectionHeader kicker={kicker} title={title} as="h1" />
+  <div class="-mt-4 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <div class="max-w-2xl text-base leading-snug font-medium sm:text-lg">
+      <slot />
+    </div>
+    <div class="no-print flex flex-wrap items-center gap-3">
+      <BlogSearch />
+      <a
+        href="/rss.xml"
+        class="bg-neo-secondary inline-flex h-12 items-center gap-2 border-4 border-black px-4 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000] active:translate-x-1 active:translate-y-1 active:shadow-none"
+      >
+        <Rss class="h-4 w-4 stroke-[3px]" aria-hidden="true" />
+        RSS feed
+      </a>
+    </div>
+  </div>
+
+  {tags.length > 0 && (
+    <nav aria-label="Filter posts by tag" class="no-print mt-10">
+      <ul class="flex flex-wrap items-center gap-3">
+        <li>
+          <a
+            href="/blog/"
+            class:list={[chip, activeTag ? idle : current]}
+            aria-current={activeTag ? undefined : 'page'}
+          >
+            All posts
+          </a>
+        </li>
+        {tags.map(({ tag, slug, count }) => (
+          <li>
+            <a
+              href={`/blog/tags/${slug}/`}
+              class:list={[chip, activeTag === slug ? current : idle]}
+              aria-current={activeTag === slug ? 'page' : undefined}
+            >
+              <span aria-hidden="true">#</span>
+              {tag}
+              <span class="sr-only">,</span>
+              <span class="opacity-80">({count})</span>
+            </a>
+          </li>
+        ))}
+        <li>
+          <a href="/blog/tags/" class:list={[chip, idle]}>
+            <Tags class="h-3.5 w-3.5 stroke-[3px]" aria-hidden="true" />
+            All tags
+          </a>
+        </li>
+      </ul>
+    </nav>
+  )}
+</header>

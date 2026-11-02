@@ -1,0 +1,67 @@
+---
+import { Calendar, Clock } from 'lucide-astro';
+import TagList from './TagList.astro';
+import {
+  formatDate,
+  getReadingTime,
+  postHref,
+  type Post,
+} from '../../lib/blog';
+
+interface Props {
+  post: Post;
+  /** Heading level for the title; h3 under a year h2, h2 when standalone. */
+  as?: 'h2' | 'h3';
+  /** Background accent, cycled by the caller for a bit of rhythm. */
+  tone?: 'white' | 'secondary' | 'muted' | 'mint' | 'sky';
+}
+
+const { post, as: Heading = 'h3', tone = 'white' } = Astro.props;
+const minutes = await getReadingTime(post);
+const toneClass = {
+  white: 'bg-white',
+  secondary: 'bg-neo-secondary',
+  muted: 'bg-neo-muted',
+  mint: 'bg-neo-mint',
+  sky: 'bg-neo-sky',
+}[tone];
+---
+
+<article
+  class:list={[
+    'relative flex h-full flex-col border-4 border-black p-5 shadow-[6px_6px_0_0_#000] transition-[translate,box-shadow] duration-150 focus-within:-translate-y-1 focus-within:shadow-[9px_9px_0_0_#000] hover:-translate-y-1 hover:shadow-[9px_9px_0_0_#000] motion-reduce:transition-none sm:p-6',
+    toneClass,
+  ]}
+>
+  <p class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-bold tracking-widest uppercase">
+    <span class="inline-flex items-center gap-1.5">
+      <Calendar class="h-3.5 w-3.5 stroke-[3px]" aria-hidden="true" />
+      <time datetime={post.data.pubDate.toISOString()}>
+        {formatDate(post.data.pubDate)}
+      </time>
+    </span>
+    {minutes && (
+      <span class="inline-flex items-center gap-1.5">
+        <Clock class="h-3.5 w-3.5 stroke-[3px]" aria-hidden="true" />
+        {minutes}
+      </span>
+    )}
+  </p>
+
+  <Heading class="font-display mt-3 text-2xl leading-tight tracking-tight uppercase sm:text-3xl">
+    <a
+      href={postHref(post)}
+      class="decoration-4 underline-offset-4 hover:underline focus-visible:underline"
+    >
+      {post.data.title}
+    </a>
+  </Heading>
+
+  <p class="mt-3 text-base leading-snug font-medium">{post.data.description}</p>
+
+  <TagList
+    tags={post.data.tags}
+    label={`Tags for ${post.data.title}`}
+    class="mt-auto pt-5"
+  />
+</article>

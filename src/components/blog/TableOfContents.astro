@@ -1,0 +1,95 @@
+---
+/**
+ * "On this page" built from the `headings` that `render()` returns, so nothing
+ * re-parses Markdown. Two presentations of the same list:
+ * - `variant="inline"`: a collapsed <details> above the post on small screens.
+ * - `variant="rail"`: a sticky sidebar on lg+.
+ * Each is hidden at the other breakpoint (display:none), so only one is ever
+ * in the accessibility tree. Both work without JavaScript; the scroll-spy in
+ * PostEnhancements only adds aria-current.
+ */
+import { List } from 'lucide-astro';
+
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+  variant: 'inline' | 'rail';
+}
+
+const { headings, variant } = Astro.props;
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{items.length > 1 &&
+  (variant === 'inline' ? (
+    <details
+      class="toc group no-print mt-8 border-4 border-black bg-white shadow-[6px_6px_0_0_#000] lg:hidden"
+      data-pagefind-ignore
+    >
+      <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-bold tracking-widest uppercase [&::-webkit-details-marker]:hidden">
+        <span class="inline-flex items-center gap-2">
+          <List class="h-4 w-4 stroke-[3px]" aria-hidden="true" />
+          On this page
+        </span>
+        <span
+          aria-hidden="true"
+          class="font-display text-xl leading-none transition-transform group-open:rotate-45 motion-reduce:transition-none"
+        >
+          +
+        </span>
+      </summary>
+      <nav aria-label="Table of contents" class="border-t-4 border-black">
+        <ol class="flex flex-col py-2">
+          {items.map((h) => (
+            <li>
+              <a
+                href={`#${h.slug}`}
+                class:list={[
+                  'hover:bg-neo-mint block px-4 py-2 font-bold',
+                  h.depth === 3 && 'pl-8 text-sm font-medium',
+                ]}
+              >
+                {h.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </details>
+  ) : (
+    <nav
+      aria-labelledby="toc-rail-heading"
+      class="toc no-print sticky top-28 hidden border-4 border-black bg-white shadow-[6px_6px_0_0_#000] lg:block"
+      data-pagefind-ignore
+    >
+      <h2
+        id="toc-rail-heading"
+        class="bg-neo-secondary flex items-center gap-2 border-b-4 border-black px-4 py-2 text-xs font-bold tracking-widest uppercase"
+      >
+        <List class="h-4 w-4 stroke-[3px]" aria-hidden="true" />
+        On this page
+      </h2>
+      <ol class="flex max-h-[calc(100dvh-12rem)] flex-col overflow-y-auto py-2">
+        {items.map((h) => (
+          <li>
+            <a
+              href={`#${h.slug}`}
+              data-toc-link={h.slug}
+              class:list={[
+                'toc-link hover:bg-neo-mint block border-l-4 border-transparent px-4 py-1.5 text-sm leading-snug font-bold',
+                h.depth === 3 && 'pl-7 font-medium',
+              ]}
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  ))}
+
+<style>
+  .toc-link[aria-current='true'] {
+    border-left-color: #000;
+    background: var(--color-neo-secondary);
+  }
+</style>
