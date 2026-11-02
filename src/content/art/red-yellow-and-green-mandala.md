@@ -10,5 +10,4 @@ gallery:
     alt: 'The same mandala at the line-art stage: black outline rings of open petals, a ring of small circles and an eight-petal flower in the middle, with a fineliner resting at the top left, signed MN.'
 medium: 'Fineliner and felt-tip pens on paper'
 tags: ['fineliner', 'marker', 'colour-blocking', 'floral', 'work-in-progress']
-source: 'https://www.instagram.com/p/CAQjchCjziK/'
 ---

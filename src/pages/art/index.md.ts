@@ -21,7 +21,7 @@ export const GET: APIRoute = async () => {
     canonical: 'https://maanasa.dev/art/',
   });
   body += '# Art by Maanasa Narayan\n\n';
-  body += `${formsSentence(counts)}, first shared on Instagram as @doodles.by.maanasa.\n\n`;
+  body += `${formsSentence(counts)}.\n\n`;
   body += '## Forms\n\n';
   body += counts.map(({ type, count }) => typeLine(type, count)).join('\n');
   body += '\n\n## Pieces (newest first)\n\n';

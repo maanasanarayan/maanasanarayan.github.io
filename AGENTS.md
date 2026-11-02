@@ -31,7 +31,6 @@ dimensions: 30 × 30 cm
 tags: [fineliner, gel-pen, floral]
 featured: false # true pins it to the spread at the top of /art/
 draft: false # true hides it from production builds (still visible in `bun run dev`)
-source: https://www.instagram.com/p/XXXXXXXXXXX/
 ---
 
 What prompted it, what you tried, what you would do differently. A few short paragraphs is plenty.

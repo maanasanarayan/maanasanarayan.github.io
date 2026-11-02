@@ -21,7 +21,6 @@ gallery:
 medium: 'Fineliner and watercolour on paper'
 tags: ['mixed-media', 'silhouette', 'deity', 'shiva', 'work-in-progress']
 featured: true
-source: 'https://www.instagram.com/p/CBYI0CmjoxX/'
 ---
 
-Om namah Shivaya. This piece was inspired by @rkrishnappa_.
+Om namah Shivaya.

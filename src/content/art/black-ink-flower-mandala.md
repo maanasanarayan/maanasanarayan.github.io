@@ -7,7 +7,6 @@ image: '../../assets/art/black-ink-flower-mandala.jpg'
 imageAlt: 'Open sketchbook with a black fineliner mandala of pointed stippled petals around a plain round centre and scalloped outer layers of fine hatching, signed MN; a purple cord with a hot air balloon charm lies beside it.'
 medium: 'Fineliner on paper'
 tags: ['fineliner', 'monochrome', 'floral', 'zentangle']
-source: 'https://www.instagram.com/p/CFmdhuPjvuc/'
 ---
 
 This was my 50th post.

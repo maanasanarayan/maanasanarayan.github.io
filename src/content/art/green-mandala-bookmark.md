@@ -7,5 +7,4 @@ image: '../../assets/art/green-mandala-bookmark.jpg'
 imageAlt: 'Green paper bookmark lying at an angle on a white surface, filled with seven black ink mandalas drawn as half and partial circles, several cropped by its black-edged sides.'
 medium: 'Black fineliner on green paper'
 tags: ['fineliner', 'half-mandala', 'coloured-paper', 'bookmark']
-source: 'https://www.instagram.com/p/CDrANTij1eR/'
 ---

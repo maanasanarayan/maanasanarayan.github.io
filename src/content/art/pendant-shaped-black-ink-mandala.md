@@ -12,5 +12,4 @@ gallery:
     alt: 'The same mandala turned sideways in a grey-toned black and white photo: curved bands of scallops and leaves at lower left meet the leaf-ringed medallion and teardrop motifs at upper right, signed MN.'
 medium: 'Black fineliner on paper'
 tags: ['fineliner', 'monochrome', 'floral']
-source: 'https://www.instagram.com/p/B_p4HhpjQF5/'
 ---

@@ -7,7 +7,6 @@ image: '../../assets/art/arrow-through-an-orange-mandala.jpg'
 imageAlt: 'Sketchbook page with a round mandala in red and orange line work whose centre swirls into an S-curve, crossed top to bottom by a black arrow with patterned head and fletching, signed MN; a purple cord with a silver charm lies beside the book.'
 medium: 'Artline Yoodle fineliners on paper'
 tags: ['fineliner', 'zentangle', 'arrow']
-source: 'https://www.instagram.com/p/CB8Z1ZoD7qI/'
 ---
 
 We have to aim above the mark to hit the mark.

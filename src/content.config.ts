@@ -64,7 +64,7 @@ const art = defineCollection({
       tags: z.array(z.string()).default([]),
       featured: z.boolean().default(false),
       draft: z.boolean().default(false),
-      /** Original post, e.g. the Instagram permalink. */
+      /** Where the piece was first published, if anywhere else. */
       source: z.url().optional(),
     }),
 });

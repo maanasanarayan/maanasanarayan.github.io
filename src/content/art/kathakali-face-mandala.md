@@ -20,7 +20,6 @@ medium: 'Fineliner, felt-tip pens and coloured pencil on paper'
 tags:
   ['fineliner', 'coloured-pencil', 'kathakali', 'zentangle', 'work-in-progress']
 featured: true
-source: 'https://www.instagram.com/p/CA0HhtZDKHB/'
 ---
 
 Expressions have the special power of voice without words.

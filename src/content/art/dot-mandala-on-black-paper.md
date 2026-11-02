@@ -8,5 +8,4 @@ imageAlt: 'Square black spiral sketchbook on a marble surface, painted with a do
 medium: 'Acrylic dot painting on black paper'
 tags: ['acrylic', 'dot-art', 'black-paper']
 featured: true
-source: 'https://www.instagram.com/p/CEerM-Yjfgl/'
 ---

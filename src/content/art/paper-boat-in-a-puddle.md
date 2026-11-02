@@ -8,7 +8,6 @@ imageAlt: 'Watercolour on a spiral sketchbook of an orange paper boat with a gre
 medium: 'Watercolour on paper'
 tags: ['watercolour', 'rain', 'monsoon-mania-2020']
 featured: true
-source: 'https://www.instagram.com/p/CCeHIrvj2xB/'
 ---
 
-When life throws you a rainy day, play in the puddles. I painted this for prompt 8 of 8, "Puddle", in the #monsoonmania2020 challenge.
+When life throws you a rainy day, play in the puddles. I painted this for prompt 8 of 8, "Puddle", in the Monsoon Mania 2020 challenge.

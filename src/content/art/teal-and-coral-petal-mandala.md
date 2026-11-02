@@ -10,7 +10,6 @@ gallery:
     alt: 'The same teal and coral mandala with a coral and a teal Gelly Roll Moonlight gel pen laid over its left edge.'
 medium: 'Gel pen on black paper'
 tags: ['gel-pen', 'floral', 'black-paper']
-source: 'https://www.instagram.com/p/CCyMzHbjzc2/'
 ---
 
 There is beauty in simplicity.

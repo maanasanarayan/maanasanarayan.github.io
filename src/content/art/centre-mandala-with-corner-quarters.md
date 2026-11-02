@@ -10,5 +10,4 @@ gallery:
     alt: 'The same page photographed at an angle on an orange wooden table, showing the round centre mandala and the four corner quarter mandalas with leaf and triangle bands, signed MN.'
 medium: 'Black ink pen on paper'
 tags: ['fineliner', 'quarter-mandala', 'monochrome', 'zentangle']
-source: 'https://www.instagram.com/p/B_IOghQDrOd/'
 ---

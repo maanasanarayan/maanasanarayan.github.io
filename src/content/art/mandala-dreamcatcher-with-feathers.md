@@ -11,7 +11,6 @@ gallery:
 medium: 'White gel pen on a wooden disc'
 tags: ['gel-pen', 'wood', 'dreamcatcher']
 featured: true
-source: 'https://www.instagram.com/p/CShrm7Nqias/'
 ---
 
 Keep calm and dream on.

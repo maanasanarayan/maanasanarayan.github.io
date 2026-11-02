@@ -6,5 +6,4 @@ date: 2020-06-21
 image: '../../assets/art/money-heist-dali-mask.jpg'
 imageAlt: 'Flat graphic illustration of a white Dalí mask with black moustache and eyebrows framed by a red hood on a black background, with "Bella ciao" in pale blue script lettering at the bottom.'
 tags: ['watercolour', 'colour-blocking', 'pop-culture']
-source: 'https://www.instagram.com/p/CBs7zWWjKmr/'
 ---

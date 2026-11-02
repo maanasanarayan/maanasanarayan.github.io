@@ -7,7 +7,6 @@ image: '../../assets/art/orange-sunset-over-hills.jpg'
 imageAlt: 'Open sketchbook page painted in watercolour with an orange-to-yellow sky, a pale cream sun, five small dark birds and overlapping red-brown hills, with two brushes resting on the book beside a potted succulent on a dark wooden table.'
 medium: 'Watercolour on sketchbook paper'
 tags: ['watercolour', 'sunset', 'landscape']
-source: 'https://www.instagram.com/p/CPyDRJ7Dq9x/'
 ---
 
 There's beauty in simplicity.

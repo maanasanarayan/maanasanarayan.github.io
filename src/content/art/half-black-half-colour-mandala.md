@@ -16,7 +16,6 @@ gallery:
     alt: 'Most rings completed in black on the left and in orange, red and purple on the right, with the outermost blue and black petals still empty outlines.'
 medium: 'Artline fineliners on paper'
 tags: ['fineliner', 'floral', 'work-in-progress']
-source: 'https://www.instagram.com/p/CB_GvQujX_O/'
 ---
 
 Life is black and white; it's up to you to paint the colours.

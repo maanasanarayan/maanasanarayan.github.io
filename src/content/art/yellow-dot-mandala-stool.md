@@ -12,5 +12,4 @@ gallery:
     alt: 'Overhead view of the round yellow seat with a plain centre, rows of dark green dots radiating outward and an outer ring of large red dots edged with small red dots.'
 medium: 'Acrylic paint on a stool'
 tags: ['acrylic', 'dot-art', 'furniture']
-source: 'https://www.instagram.com/p/CHDAUe_j-uQ/'
 ---

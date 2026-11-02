@@ -10,5 +10,4 @@ gallery:
     alt: 'The same black page with a pink and a white Gelly Roll Moonlight gel pen laid diagonally across the left-hand border.'
 medium: 'Gel pen on black paper'
 tags: ['gel-pen', 'half-mandala', 'black-paper']
-source: 'https://www.instagram.com/p/CDEPvwAjy-E/'
 ---

@@ -23,7 +23,6 @@ tags:
     'work-in-progress',
   ]
 featured: true
-source: 'https://www.instagram.com/p/CBqco6nj1G8/'
 ---
 
 Jai Sri Krishna.

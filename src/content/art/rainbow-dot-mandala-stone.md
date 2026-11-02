@@ -12,7 +12,6 @@ gallery:
     alt: 'The painted stone held in a hand against a blurred marble background, its raised dots catching the light.'
 medium: 'Acrylic paint on stone'
 tags: ['acrylic', 'dot-art', 'stone']
-source: 'https://www.instagram.com/p/CDWkdVzj-t6/'
 ---
 
 This was my first try at a dot mandala.

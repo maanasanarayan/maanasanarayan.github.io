@@ -7,7 +7,6 @@ image: '../../assets/art/scarecrow-against-a-blue-moon.jpg'
 imageAlt: 'Watercolour card on a dark wooden table of a black scarecrow silhouette in a crooked pointed hat with yellow eyes and a jagged grin, set against a pale blue moon and deep blue sky with a bare tree, gravestones and a bat; two brushes lie beside it.'
 medium: 'Watercolour on paper'
 tags: ['watercolour', 'silhouette', 'moon', 'night-sky', 'spooktober-2020']
-source: 'https://www.instagram.com/p/CGvLIIXDfDI/'
 ---
 
 I painted this for prompt 4, Scarecrow, in the Spooktober art challenge.

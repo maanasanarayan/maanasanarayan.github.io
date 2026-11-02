@@ -11,5 +11,4 @@ gallery:
 medium: 'Black fineliner with pencil shading on paper'
 tags: ['fineliner', 'pencil', 'zentangle', 'monochrome', 'moon', 'animal']
 featured: true
-source: 'https://www.instagram.com/p/B_ZITwAD2Sb/'
 ---

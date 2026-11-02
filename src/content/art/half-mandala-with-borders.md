@@ -10,7 +10,6 @@ gallery:
     alt: 'Straight-on view of the sketchbook page with the half mandala along the left edge, scalloped red-edged petals at its rim, and black and red patterned borders on the top, bottom and right, signed MN.'
 medium: 'Black and red pens on paper'
 tags: ['fineliner', 'half-mandala', 'zentangle']
-source: 'https://www.instagram.com/p/CATB7vkjVfx/'
 ---
 
 I find peace in sketching.

@@ -10,5 +10,4 @@ gallery:
     alt: 'The same card laid on a bed of artificial red flowers and green leaves, its half mandala and purple checked wash in focus inside a blurred border.'
 medium: 'Technical pen, white gel pen and watercolour on paper'
 tags: ['mixed-media', 'gel-pen', 'half-mandala']
-source: 'https://www.instagram.com/p/CCLhVbtjKOu/'
 ---

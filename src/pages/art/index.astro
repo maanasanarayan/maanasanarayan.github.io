@@ -41,10 +41,16 @@ const showSpread = art.length >= 6;
 const featured = showSpread ? pickFeatured(art, 3) : [];
 
 const forms = formsSentence(counts);
+const made =
+  years.length === 0
+    ? ''
+    : Math.min(...years) === Math.max(...years)
+      ? `, made in ${years[0]}`
+      : `, made between ${Math.min(...years)} and ${Math.max(...years)}`;
 const title = 'Art — Maanasa Narayan';
 const description =
   art.length > 0
-    ? `${forms} by Maanasa Narayan: ${pluralPieces(art.length)}, each with its date, medium and the original post.`
+    ? `${forms} by Maanasa Narayan: ${pluralPieces(art.length)}, each with its date and medium.`
     : 'Handmade artwork by Maanasa Narayan.';
 const pageUrl = absolute('/art/');
 const schema = jsonLd(
@@ -70,7 +76,8 @@ const schema = jsonLd(
       </div>
       <div class="space-y-5">
         <p class="text-lg leading-snug font-medium sm:text-xl">
-          {forms}, first shared on Instagram as @doodles.by.maanasa.
+          {forms}
+          {made}.
         </p>
         {art.length > 0 && (
           <dl class="text-neo-bg grid w-fit grid-cols-3 border-4 border-black bg-black tabular-nums text-xs uppercase shadow-[4px_4px_0_0_#FFD93D]">

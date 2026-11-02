@@ -7,5 +7,4 @@ image: '../../assets/art/three-tulips-on-purple.jpg'
 imageAlt: 'Tall sketchbook spread on a dark wooden table with three white tulips and long curling leaves drawn in fine black hatching over a flat purple painted rectangle, signed MN; two Brustro paintbrushes lie to the right and an orange ribbon marker hangs from the spine.'
 medium: 'Fineliner over an acrylic background'
 tags: ['fineliner', 'acrylic', 'mixed-media', 'tulip', 'floral']
-source: 'https://www.instagram.com/p/CNh8AKkjPue/'
 ---
