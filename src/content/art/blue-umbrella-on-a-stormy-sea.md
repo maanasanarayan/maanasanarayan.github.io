@@ -1,12 +1,12 @@
 ---
 title: 'Blue umbrella on a stormy sea'
-excerpt: 'A turquoise umbrella tilts on a dark blue sea under heavy storm clouds.'
+excerpt: 'Watercolour of an open turquoise umbrella tipped sideways into a dark blue sea, under heavy indigo storm clouds.'
 type: painting
 date: 2020-07-10
 image: '../../assets/art/blue-umbrella-on-a-stormy-sea.jpg'
-imageAlt: 'Watercolour of an open turquoise umbrella tipped at an angle on a dark blue sea under grey-blue storm clouds; signed MN, held up in a hand against trees and sky.'
+imageAlt: 'Spiral sketchbook held up in a hand against trees and a grey sky, showing a watercolour of an open turquoise umbrella tipped into a dark blue sea under indigo storm clouds, signed MN.'
 medium: 'Watercolour on paper'
-tags: ['monsoon', 'watercolor', 'umbrella', 'rain']
+tags: ['watercolour', 'seascape', 'storm', 'still-life', 'monsoon-mania-2020']
 source: 'https://www.instagram.com/p/CCcztZDDnuY/'
 ---
 

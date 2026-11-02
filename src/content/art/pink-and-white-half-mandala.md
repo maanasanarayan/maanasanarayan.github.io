@@ -1,14 +1,14 @@
 ---
 title: 'Pink and white half mandala'
-excerpt: 'A half mandala in white and pink gel pen on black paper, set against a rectangular patterned border.'
+excerpt: 'A half mandala in white and magenta gel pen on black paper, beside a nested rectangular border of spirals and petals around an empty panel.'
 type: mandala
 date: 2020-07-25
 image: '../../assets/art/pink-and-white-half-mandala.jpg'
-imageAlt: 'Black spiral sketchbook page with a half mandala on the right in white and magenta gel pen, framed by spiral and petal borders around an empty black panel; signed MN.'
+imageAlt: 'Square black spiral sketchbook page with a half mandala on the right edge in white and magenta gel pen, beside nested rectangular borders of spirals, hexagons and petals that frame an empty black panel; signed MN.'
 gallery:
   - src: '../../assets/art/pink-and-white-half-mandala-2.jpg'
-    alt: 'The same page with a pink and a white Gelly Roll Moonlight pen laid across the left border.'
+    alt: 'The same black page with a pink and a white Gelly Roll Moonlight gel pen laid diagonally across the left-hand border.'
 medium: 'Gel pen on black paper'
-tags: ['half-mandala', 'gel-pen', 'black-paper']
+tags: ['gel-pen', 'half-mandala', 'black-paper']
 source: 'https://www.instagram.com/p/CDEPvwAjy-E/'
 ---

@@ -1,11 +1,11 @@
 ---
 title: 'Overlapping colourful half mandalas'
-excerpt: 'A sketchbook page filled with overlapping half and quarter mandalas drawn in red, orange, pink, blue, green and brown ink.'
+excerpt: 'Overlapping half and quarter mandalas fill a sketchbook page in red, orange, pink, purple, blue, green and brown fineliner.'
 type: mandala
 date: 2020-10-09
 image: '../../assets/art/overlapping-colourful-half-mandalas.jpg'
-imageAlt: 'Sketchbook page of overlapping half and quarter mandalas in red, orange, pink, purple, blue, green and brown fineliner, each layered with petals, dots and fine patterns, with a hand holding a pen at the right edge.'
+imageAlt: 'Sketchbook page filled edge to edge with overlapping half and quarter mandalas in red, orange, pink, purple, blue, green and brown fineliner, each built from bands of petals, dots and fine line patterns, with a hand holding a pen at the lower right.'
 medium: 'Coloured fineliners on paper'
-tags: ['colourful-mandala', 'zentangle', 'fineliner']
+tags: ['fineliner', 'half-mandala', 'quarter-mandala']
 source: 'https://www.instagram.com/p/CGIAFRmDZ2E/'
 ---

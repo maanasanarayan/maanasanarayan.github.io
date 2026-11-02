@@ -1,6 +1,6 @@
 ---
 title: 'Kathakali face mandala'
-excerpt: "A Kathakali dancer's green-painted face under a crown drawn as a red, green and yellow mandala."
+excerpt: "A Kathakali dancer's green face under a towering crown drawn as a red, green and yellow mandala, in fineliner and coloured pencil."
 type: mandala
 date: 2020-05-30
 image: '../../assets/art/kathakali-face-mandala.jpg'
@@ -13,11 +13,12 @@ gallery:
   - src: '../../assets/art/kathakali-face-mandala-4.jpg'
     alt: 'The crown is now fully inked as a red, green and yellow mandala with yellow flower discs at each side, while the face below is still in pencil.'
   - src: '../../assets/art/kathakali-face-mandala-5.jpg'
-    alt: 'Crown and ear ornaments complete and the eyes inked in black, with red and green accents on the forehead and nose; the lower face is still pencil.'
+    alt: 'Crown and ear ornaments complete and the eyes outlined in black, with a red mark on the forehead and a green line along the nose; the cheeks and chin are still in pencil.'
   - src: '../../assets/art/kathakali-face-mandala-6.jpg'
     alt: 'Finished drawing: a green Kathakali face with red lips and a yellow forehead under a detailed red, green and yellow mandala crown, signed MN.'
 medium: 'Fineliner, felt-tip pens and coloured pencil on paper'
-tags: ['kathakali', 'indian-dance', 'zentangle']
+tags:
+  ['fineliner', 'coloured-pencil', 'kathakali', 'zentangle', 'work-in-progress']
 featured: true
 source: 'https://www.instagram.com/p/CA0HhtZDKHB/'
 ---

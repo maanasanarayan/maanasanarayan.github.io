@@ -1,10 +1,10 @@
 ---
 title: 'Money Heist Dalí mask'
-excerpt: 'A bold illustration of the Dalí mask from Money Heist inside a red hood on black, with "Bella ciao" lettered below.'
+excerpt: 'The Dalí mask from Money Heist framed by a flat red hood on a black ground, with "Bella ciao" hand-lettered in pale blue below.'
 type: painting
 date: 2020-06-21
-image: '../../assets/art/money-heist-dal-mask.jpg'
+image: '../../assets/art/money-heist-dali-mask.jpg'
 imageAlt: 'Flat graphic illustration of a white Dalí mask with black moustache and eyebrows framed by a red hood on a black background, with "Bella ciao" in pale blue script lettering at the bottom.'
-tags: ['money-heist', 'dali-mask', 'hand-lettering', 'fan-art']
+tags: ['watercolour', 'colour-blocking', 'pop-culture']
 source: 'https://www.instagram.com/p/CBs7zWWjKmr/'
 ---

@@ -1,12 +1,12 @@
 ---
 title: 'Orange sunset over hills'
-excerpt: 'A watercolour sunset with a pale sun above layered red-brown hills and a few birds in an orange sky.'
+excerpt: 'A pale sun sinks behind layered red-brown hills under an orange and yellow sky, with five birds in flight, in watercolour.'
 type: painting
 date: 2021-06-06
 image: '../../assets/art/orange-sunset-over-hills.jpg'
-imageAlt: 'Sketchbook page painted in watercolour with an orange-to-yellow sky, a pale cream sun, five dark birds and overlapping red-brown hill silhouettes; two brushes rest on the open book next to a potted succulent.'
+imageAlt: 'Open sketchbook page painted in watercolour with an orange-to-yellow sky, a pale cream sun, five small dark birds and overlapping red-brown hills, with two brushes resting on the book beside a potted succulent on a dark wooden table.'
 medium: 'Watercolour on sketchbook paper'
-tags: ['watercolor', 'sunset', 'landscape']
+tags: ['watercolour', 'sunset', 'landscape']
 source: 'https://www.instagram.com/p/CPyDRJ7Dq9x/'
 ---
 

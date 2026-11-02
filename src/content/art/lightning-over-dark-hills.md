@@ -6,7 +6,7 @@ date: 2020-07-05
 image: '../../assets/art/lightning-over-dark-hills.jpg'
 imageAlt: 'Watercolour in a spiral sketchbook of branching white lightning over a deep indigo sky with a pink glow, dark hills and water below, with a watercolour palette and two brushes beside it.'
 medium: 'Watercolour on watercolour paper'
-tags: ['watercolour', 'monsoon-mania-2020', 'lightning', 'night-sky']
+tags: ['watercolour', 'storm', 'night-sky', 'landscape', 'monsoon-mania-2020']
 source: 'https://www.instagram.com/p/CCQnDoIjkMG/'
 ---
 

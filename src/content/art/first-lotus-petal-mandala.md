@@ -1,12 +1,12 @@
 ---
 title: 'First lotus-petal mandala'
-excerpt: 'A simple black ink mandala of layered pointed petals around a ringed centre, tagged as a first mandala drawing.'
+excerpt: 'A simple black ink mandala of two layers of large outlined lotus petals around a striped ring, with dotted arcs and solid black leaf shapes.'
 type: mandala
 date: 2020-04-14
 image: '../../assets/art/first-lotus-petal-mandala.jpg'
-imageAlt: 'Black ink mandala on white paper with two layers of large pointed petals, rows of dotted circles and solid black leaf shapes around a striped central ring, signed Maanasa Narayan.'
+imageAlt: 'Black ink mandala on white paper with two layers of large outlined pointed petals, rows of dotted arcs and solid black leaf shapes around a striped central ring, signed Maanasa Narayan.'
 medium: 'Black ink pen on paper'
-tags: ['mandala', 'first-mandala', 'lotus', 'pen-and-ink']
+tags: ['fineliner', 'line-art', 'monochrome', 'lotus']
 source: 'https://www.instagram.com/p/B-4iyQbF-id/'
 ---
 

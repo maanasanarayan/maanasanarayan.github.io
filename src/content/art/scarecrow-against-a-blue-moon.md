@@ -1,12 +1,12 @@
 ---
 title: 'Scarecrow against a blue moon'
-excerpt: 'Watercolour of a black scarecrow silhouette with glowing eyes in front of a pale moon on a deep blue sky.'
+excerpt: 'A watercolour night scene of a black scarecrow silhouette with glowing yellow eyes and grin, standing in a graveyard before a large pale moon.'
 type: painting
 date: 2020-10-24
 image: '../../assets/art/scarecrow-against-a-blue-moon.jpg'
-imageAlt: 'Watercolour card of a black scarecrow silhouette in a pointed hat with yellow eyes, set against a pale blue moon and deep blue sky with a bare tree, gravestones and a bat.'
+imageAlt: 'Watercolour card on a dark wooden table of a black scarecrow silhouette in a crooked pointed hat with yellow eyes and a jagged grin, set against a pale blue moon and deep blue sky with a bare tree, gravestones and a bat; two brushes lie beside it.'
 medium: 'Watercolour on paper'
-tags: ['watercolour', 'halloween', 'spooktober', 'scarecrow']
+tags: ['watercolour', 'silhouette', 'moon', 'night-sky', 'spooktober-2020']
 source: 'https://www.instagram.com/p/CGvLIIXDfDI/'
 ---
 

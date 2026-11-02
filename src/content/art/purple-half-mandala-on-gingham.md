@@ -1,14 +1,14 @@
 ---
 title: 'Purple half mandala on gingham'
-excerpt: 'A small half mandala in black, purple and pink line work set against a purple and pink gingham-style wash.'
+excerpt: 'A half mandala in black ink with purple and pink fills and white gel-pen dots, set on the left edge of a purple and pink gingham watercolour wash.'
 type: mandala
 date: 2020-07-03
 image: '../../assets/art/purple-half-mandala-on-gingham.jpg'
-imageAlt: 'The same half mandala card shown flat on a wooden table beside a Brustro 0.4 technical pen and a Sakura Gelly Roll 08 white pen.'
+imageAlt: 'Small white-bordered card on a wooden table with a half mandala in black, purple and pink anchored to its left edge over a purple and pink checked wash, beside a Brustro 0.4 technical pen and a Sakura Gelly Roll 08 white pen.'
 gallery:
   - src: '../../assets/art/purple-half-mandala-on-gingham-2.jpg'
-    alt: 'Small card with a half mandala on its left edge, drawn in black ink with purple and pink fills and white gel-pen dots, over a purple and pink checked wash; framed by artificial red flowers and leaves with a blurred border.'
-medium: 'Brustro technical pen and Sakura Gelly Roll white pen on paper'
-tags: ['mandala', 'half-mandala', 'purple', 'gingham']
+    alt: 'The same card laid on a bed of artificial red flowers and green leaves, its half mandala and purple checked wash in focus inside a blurred border.'
+medium: 'Technical pen, white gel pen and watercolour on paper'
+tags: ['mixed-media', 'gel-pen', 'half-mandala']
 source: 'https://www.instagram.com/p/CCLhVbtjKOu/'
 ---

@@ -1,12 +1,12 @@
 ---
 title: 'Chai and pakodas on a wall'
-excerpt: 'A red cup of chai and a plate of pakodas sit on a brick wall under a tree and a dark blue rain sky.'
+excerpt: 'Watercolour of a red cup of chai and a plate of golden pakodas on a brick wall, under a leafy green tree and a deep blue cloudy sky.'
 type: painting
 date: 2020-07-07
 image: '../../assets/art/chai-and-pakodas-on-a-wall.jpg'
-imageAlt: 'Watercolour of a steaming red cup and a plate of golden pakodas on a brick wall, with a dark green tree and deep blue cloudy sky behind; signed MN, photographed among potted plants.'
+imageAlt: 'Spiral sketchbook propped among potted plants, showing a watercolour of a red cup and a plate of golden pakodas on a brick wall, with a dark green tree and deep blue cloudy sky behind, signed MN.'
 medium: 'Watercolour on paper'
-tags: ['monsoon', 'watercolor', 'chai', 'pakoda']
+tags: ['watercolour', 'still-life', 'monsoon-mania-2020']
 source: 'https://www.instagram.com/p/CCVpx1sjToR/'
 ---
 

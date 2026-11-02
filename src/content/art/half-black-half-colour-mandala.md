@@ -1,21 +1,21 @@
 ---
 title: 'Half black, half colour mandala'
-excerpt: 'A layered petal mandala drawn half in black ink and half in orange, red, purple and blue, shown from outline to finish.'
+excerpt: 'A layered petal mandala split down the middle, black on the left and green, orange, red, purple and blue fineliner on the right, shown in stages.'
 type: mandala
 date: 2020-06-28
 image: '../../assets/art/half-black-half-colour-mandala.jpg'
-imageAlt: 'The finished split mandala on white paper with Artline 0.3 drawing pen and Artline Yoodle pen at the lower right and the MN signature.'
+imageAlt: 'Finished split petal mandala on white paper, the left half in black line work and the right half moving from green and orange at the centre through red and purple to blue, with an Artline 0.3 drawing pen and an Artline Yoodle pen at the lower right, signed MN.'
 gallery:
   - src: '../../assets/art/half-black-half-colour-mandala-2.jpg'
-    alt: 'Finished petal mandala split down the middle, the left half in black line work and the right half in green, orange, red, purple and blue, above a bunch of artificial roses edited grey on the left and pink on the right.'
+    alt: 'The finished split mandala above a bunch of artificial roses, the roses edited grey on the left and pink on the right to match the black and colour halves, signed MN.'
   - src: '../../assets/art/half-black-half-colour-mandala-3.jpg'
-    alt: "Early stage: the mandala's petal outlines drawn in black on the left and in coloured lines on the right, with Artline drawing pen and Yoodle pen resting on the page."
+    alt: 'Early stage: rows of petal outlines drawn in black on the left and in green, orange, red, purple and blue on the right around a half-black, half-blue centre, with two Artline pens resting on the page.'
   - src: '../../assets/art/half-black-half-colour-mandala-4.jpg'
-    alt: 'Inner rings filled in: black feathered petals on the left, orange, green and brown petals on the right, with the outer petals still only outlined.'
+    alt: 'Inner rings filled in: black feathered petals on the left and green, orange and brown petals on the right, with the outer rows still only outlined.'
   - src: '../../assets/art/half-black-half-colour-mandala-5.jpg'
-    alt: 'Most rings completed in black on the left and orange, red and purple on the right, with the outermost blue petals still empty.'
+    alt: 'Most rings completed in black on the left and in orange, red and purple on the right, with the outermost blue and black petals still empty outlines.'
 medium: 'Artline fineliners on paper'
-tags: ['mandala', 'split-mandala', 'black-and-colour', 'fineliner']
+tags: ['fineliner', 'floral', 'work-in-progress']
 source: 'https://www.instagram.com/p/CB_GvQujX_O/'
 ---
 

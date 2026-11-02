@@ -1,17 +1,17 @@
 ---
 title: 'Rainbow dot mandala stone'
-excerpt: 'A dot mandala painted on a black stone in rings of white, red, yellow, orange, green, blue and purple dots.'
+excerpt: 'A dot mandala on a smooth black stone, with a white centre and rings of red, yellow, orange, green, blue and purple dots edged in white and gold.'
 type: mandala
 date: 2020-08-01
 image: '../../assets/art/rainbow-dot-mandala-stone.jpg'
-imageAlt: 'Rounded black stone on a dark wooden stand, painted with a dot mandala: a white centre ringed by red, yellow, orange, green, blue and purple dots with small white dots between.'
+imageAlt: 'Rounded black stone propped on a dark wooden stand against a white marble wall, painted with a white centre ringed by red, yellow, orange, green, blue and purple dots with tiny white and gold dots between.'
 gallery:
   - src: '../../assets/art/rainbow-dot-mandala-stone-2.jpg'
-    alt: 'Top-down view of the painted stone on a speckled marble surface, showing the full ring layout of the coloured dots.'
+    alt: 'Top-down view of the painted stone on a speckled cream surface, showing the full ring layout from the white centre out to the purple dots at the edge.'
   - src: '../../assets/art/rainbow-dot-mandala-stone-3.jpg'
-    alt: 'The painted stone held in a hand against a blurred marble background.'
-medium: 'Paint on stone'
-tags: ['dot-mandala', 'painted-stone', 'mandala']
+    alt: 'The painted stone held in a hand against a blurred marble background, its raised dots catching the light.'
+medium: 'Acrylic paint on stone'
+tags: ['acrylic', 'dot-art', 'stone']
 source: 'https://www.instagram.com/p/CDWkdVzj-t6/'
 ---
 

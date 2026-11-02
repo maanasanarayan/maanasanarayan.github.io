@@ -1,12 +1,12 @@
 ---
 title: 'Haunted house on a hill'
-excerpt: "Watercolour of a black haunted house with lit windows on a hill, a winding path and two jack-o'-lanterns."
+excerpt: "Watercolour of a black turreted haunted house on a brown hill under a purple and pink sky, with a winding path and two jack-o'-lanterns."
 type: painting
 date: 2020-10-24
 image: '../../assets/art/haunted-house-on-a-hill.jpg'
-imageAlt: "Watercolour card of a black turreted house with yellow windows on a brown hill, a grey winding path, a bare tree and two orange jack-o'-lanterns under a purple and pink sky."
+imageAlt: "Watercolour card of a black turreted house with yellow windows on top of a brown hill, a smaller lit house below it, a grey winding path, a bare black tree and two orange jack-o'-lanterns under a purple and pink sky; two paintbrushes lie beside it."
 medium: 'Watercolour on paper'
-tags: ['watercolour', 'halloween', 'spooktober', 'haunted-house']
+tags: ['watercolour', 'silhouette', 'landscape', 'spooktober-2020']
 source: 'https://www.instagram.com/p/CGNislWDWdu/'
 ---
 
