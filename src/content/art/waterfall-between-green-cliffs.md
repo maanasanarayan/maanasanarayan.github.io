@@ -1,0 +1,13 @@
+---
+title: 'Waterfall between green cliffs'
+excerpt: 'A watercolour of a pale yellow waterfall pouring between two mossy green cliffs under a blue cloudy sky.'
+type: painting
+date: 2020-07-04
+image: '../../assets/art/waterfall-between-green-cliffs.jpg'
+imageAlt: 'Watercolour in a spiral sketchbook of a pale yellow-green waterfall falling between deep green cliffs under a mottled blue sky, held up by a hand against a textured wall with money plant leaves.'
+medium: 'Watercolour on paper'
+tags: ['watercolour', 'monsoon-mania-2020', 'waterfall', 'landscape']
+source: 'https://www.instagram.com/p/CCNw3KXDv9O/'
+---
+
+Go with the flow. This was prompt 1 of 8, "Waterfall", in the Monsoon Mania 2020 challenge, and the YouTube tutorials were really helpful for a beginner like me.
