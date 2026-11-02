@@ -1,0 +1,184 @@
+---
+/**
+ * Native <dialog> lightbox. Triggers are plain links to the full-size image
+ * (`a[data-lightbox]`), so without JS they still open the big picture. With
+ * JS the dialog opens instead: Escape closes (native), arrow keys step
+ * through the images, clicking the image toggles 1:1 zoom.
+ */
+import './art.css';
+---
+
+<dialog
+  id="art-lightbox"
+  class="art-lightbox"
+  aria-label="Image viewer"
+  closedby="any"
+>
+  <div class="flex items-center justify-between gap-2 border-b-4 border-black bg-white px-3 py-2 sm:px-5">
+    <p
+      class="min-w-0 truncate tabular-nums text-xs font-bold tracking-wider uppercase"
+      aria-live="polite"
+    >
+      <span data-lb-count></span>
+    </p>
+    <div class="flex shrink-0 items-center gap-2">
+      <button type="button" data-lb-prev class="art-lb-btn">
+        <span aria-hidden="true">&larr;</span>
+        <span class="sr-only sm:not-sr-only">Prev</span>
+      </button>
+      <button type="button" data-lb-next class="art-lb-btn">
+        <span class="sr-only sm:not-sr-only">Next</span>
+        <span aria-hidden="true">&rarr;</span>
+      </button>
+      <button
+        type="button"
+        data-lb-zoom
+        class="art-lb-btn"
+        aria-pressed="false"
+      >
+        Zoom
+      </button>
+      <button type="button" data-lb-close class="art-lb-btn bg-neo-accent">
+        Close <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+  <div class="art-lightbox__stage" data-lb-stage>
+    <img data-lb-img alt="" decoding="async" />
+  </div>
+  <p
+    data-lb-caption
+    class="border-t-4 border-black bg-white px-4 py-2 text-center text-sm font-medium"
+  ></p>
+</dialog>
+
+<style>
+  .art-lb-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 2.5rem;
+    min-width: 2.5rem;
+    justify-content: center;
+    border: 3px solid #000;
+    background: #fff;
+    padding: 0 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 3px 3px 0 0 #000;
+  }
+  .art-lb-btn.bg-neo-accent {
+    background: var(--color-neo-accent);
+  }
+  .art-lb-btn:hover {
+    background: var(--color-neo-secondary);
+  }
+  .art-lb-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: none;
+  }
+  .art-lb-btn:focus-visible {
+    outline: 4px dashed #000;
+    outline-offset: 2px;
+  }
+  .art-lb-btn[aria-pressed='true'] {
+    background: #000;
+    color: var(--color-neo-bg);
+  }
+  .art-lb-btn[hidden] {
+    display: none;
+  }
+</style>
+
+<script>
+  const dialog = document.getElementById(
+    'art-lightbox',
+  ) as HTMLDialogElement | null;
+  const triggers = [
+    ...document.querySelectorAll<HTMLAnchorElement>('a[data-lightbox]'),
+  ];
+
+  if (dialog && triggers.length && typeof dialog.showModal === 'function') {
+    const img = dialog.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const caption = dialog.querySelector<HTMLElement>('[data-lb-caption]')!;
+    const count = dialog.querySelector<HTMLElement>('[data-lb-count]')!;
+    const prev = dialog.querySelector<HTMLButtonElement>('[data-lb-prev]')!;
+    const next = dialog.querySelector<HTMLButtonElement>('[data-lb-next]')!;
+    const zoom = dialog.querySelector<HTMLButtonElement>('[data-lb-zoom]')!;
+    const close = dialog.querySelector<HTMLButtonElement>('[data-lb-close]')!;
+    const stage = dialog.querySelector<HTMLElement>('[data-lb-stage]')!;
+    let current = 0;
+
+    const setZoom = (on: boolean) => {
+      dialog.toggleAttribute('data-zoomed', on);
+      zoom.setAttribute('aria-pressed', String(on));
+      if (!on) stage.scrollTo(0, 0);
+    };
+
+    const show = (index: number) => {
+      current = (index + triggers.length) % triggers.length;
+      const link = triggers[current];
+      setZoom(false);
+      img.src = link.href;
+      img.width = Number(link.dataset.width) || 0;
+      img.height = Number(link.dataset.height) || 0;
+      img.alt = link.dataset.alt ?? '';
+      caption.textContent = link.dataset.alt ?? '';
+      count.textContent =
+        triggers.length > 1
+          ? `Image ${current + 1} of ${triggers.length}`
+          : 'Image';
+    };
+
+    const many = triggers.length > 1;
+    prev.hidden = !many;
+    next.hidden = !many;
+
+    triggers.forEach((link, i) => {
+      link.addEventListener('click', (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+        event.preventDefault();
+        show(i);
+        dialog.showModal();
+        close.focus();
+      });
+    });
+
+    prev.addEventListener('click', () => show(current - 1));
+    next.addEventListener('click', () => show(current + 1));
+    close.addEventListener('click', () => dialog.close());
+    zoom.addEventListener('click', () =>
+      setZoom(!dialog.hasAttribute('data-zoomed')),
+    );
+    img.addEventListener('click', () =>
+      setZoom(!dialog.hasAttribute('data-zoomed')),
+    );
+
+    dialog.addEventListener('keydown', (event) => {
+      if (!many) return;
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        show(current + 1);
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        show(current - 1);
+      }
+    });
+
+    // Clicking the empty area around the image closes, like a backdrop.
+    dialog.addEventListener('click', (event) => {
+      const onEmpty =
+        event.target === dialog ||
+        (event.target === stage && !dialog.hasAttribute('data-zoomed'));
+      if (onEmpty) dialog.close();
+    });
+
+    dialog.addEventListener('close', () => {
+      setZoom(false);
+      img.removeAttribute('src');
+      triggers[current]?.focus();
+    });
+  }
+</script>

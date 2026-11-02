@@ -1,0 +1,73 @@
+---
+import { Picture } from 'astro:assets';
+import { ArrowLeft, ArrowRight } from 'lucide-astro';
+import {
+  ART_HEX,
+  artUrl,
+  containFit,
+  formatArtDate,
+  responsive,
+  typeById,
+  type ArtEntry,
+  type ArtType,
+} from '../../lib/art';
+
+interface Props {
+  entry: ArtEntry;
+  types: ArtType[];
+  direction: 'newer' | 'older';
+}
+
+const { entry, types, direction } = Astro.props;
+const type = typeById(types, entry.data.type.id);
+const isOlder = direction === 'older';
+---
+
+<a
+  href={artUrl(entry)}
+  rel={isOlder ? 'next' : 'prev'}
+  class:list={[
+    'group flex items-center gap-4 border-4 border-black bg-white p-3 shadow-[6px_6px_0_0_#000] transition-[translate,box-shadow] duration-150 outline-none hover:-translate-y-1 hover:shadow-[10px_10px_0_0_#000] focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-black focus-visible:outline-dashed sm:p-4',
+    isOlder && 'flex-row-reverse text-right',
+  ]}
+>
+  <div
+    class="art-mat art-contain aspect-square w-20 shrink-0 border-[3px] border-black p-1.5 sm:w-24"
+    style={`--art-color:${ART_HEX[type?.data.color ?? 'secondary']}`}
+  >
+    <Picture
+      src={entry.data.image}
+      alt=""
+      formats={['avif']}
+      fallbackFormat="webp"
+      {...responsive(entry.data.image, [96, 160, 240])}
+      sizes="(min-width: 640px) 84px, 68px"
+      quality={58}
+      loading="lazy"
+      decoding="async"
+      class:list={[containFit(entry.data.image, 1), 'border-2 border-black']}
+      pictureAttributes={{ class: 'art-pic' }}
+    />
+  </div>
+  <div class="min-w-0 flex-1">
+    <span
+      class:list={[
+        'inline-flex items-center gap-1.5 text-[11px] font-bold tracking-widest uppercase',
+        isOlder && 'flex-row-reverse',
+      ]}
+    >
+      {isOlder ? (
+        <ArrowRight class="h-3.5 w-3.5 stroke-[3px] transition-transform group-hover:translate-x-1" />
+      ) : (
+        <ArrowLeft class="h-3.5 w-3.5 stroke-[3px] transition-transform group-hover:-translate-x-1" />
+      )}
+      {isOlder ? 'Older piece' : 'Newer piece'}
+    </span>
+    <span class="font-display mt-1 block truncate text-lg leading-tight tracking-tight uppercase sm:text-xl">
+      {entry.data.title}
+    </span>
+    <span class="mt-0.5 block tabular-nums text-[11px] font-medium tracking-wider text-black/70 uppercase">
+      {type?.data.name} · {formatArtDate(entry.data.date)}
+    </span>
+  </div>
+</a>

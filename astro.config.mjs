@@ -40,6 +40,34 @@ try {
   /* fine to skip if dir missing */
 }
 
+// Same for art: piece dates become <lastmod>, and art-type pages with no
+// published pieces yet are left out of the sitemap.
+const artLastmod = new Map();
+const artTypesInUse = new Set();
+try {
+  const files = readdirSync('./src/content/art', { recursive: true });
+  for (const file of files.map(String)) {
+    if (!/\.(md|mdx)$/.test(file)) continue;
+    const raw = readFileSync(join('./src/content/art', file), 'utf-8');
+    const fm = raw.match(/^---\s*([\s\S]*?)\s*---/)?.[1] ?? '';
+    if (/^draft:\s*true/m.test(fm)) continue;
+    const type = fm.match(/^type:\s*['"]?([\w-]+)/m)?.[1];
+    if (type) artTypesInUse.add(type);
+    const slug =
+      fm.match(/^slug:\s*['"]?([^'"\n]+)/m)?.[1] ??
+      file
+        .replace(/\.(md|mdx)$/, '')
+        .replace(/(^|\/)index$/, '')
+        .toLowerCase()
+        .replace(/[^\w/ -]/g, '')
+        .replace(/ /g, '-');
+    const date = fm.match(/^date:\s*['"]?([\d-]+)/m)?.[1];
+    if (date) artLastmod.set(`/art/${slug}/`, new Date(date).toISOString());
+  }
+} catch {
+  /* no art yet */
+}
+
 const isDevCommand = process.argv.includes('dev');
 
 export default defineConfig({
@@ -55,13 +83,21 @@ export default defineConfig({
     markdoc(),
     sitemap({
       // Drafts and future-dated posts never reach the sitemap: their pages
-      // are not generated in production (see src/lib/blog.ts).
-      filter: (page) => !page.endsWith('/404.html') && !page.endsWith('/404/'),
+      // are not generated in production (see src/lib/blog.ts). Art-type
+      // pages with no published pieces yet are left out too.
+      filter: (page) =>
+        !page.endsWith('/404.html') &&
+        !page.endsWith('/404/') &&
+        !(
+          /\/art\/type\/[^/]+\/$/.test(page) &&
+          !artTypesInUse.has(page.split('/').at(-2))
+        ),
       changefreq: 'monthly',
       priority: 0.7,
       serialize(item) {
         const url = new URL(item.url);
-        const lastmod = blogLastmod.get(url.pathname);
+        const lastmod =
+          blogLastmod.get(url.pathname) ?? artLastmod.get(url.pathname);
         if (lastmod) item.lastmod = lastmod;
         if (url.pathname === '/') item.priority = 1.0;
         else if (
@@ -76,7 +112,8 @@ export default defineConfig({
         else if (url.pathname === '/blog/') item.priority = 0.8;
         else if (url.pathname.startsWith('/blog/tags/')) item.priority = 0.4;
         else if (url.pathname.startsWith('/blog/')) item.priority = 0.8;
-        else if (url.pathname.startsWith('/lifestyle/')) item.priority = 0.8;
+        else if (url.pathname === '/art/') item.priority = 0.8;
+        else if (url.pathname.startsWith('/art/type/')) item.priority = 0.6;
         return item;
       },
     }),

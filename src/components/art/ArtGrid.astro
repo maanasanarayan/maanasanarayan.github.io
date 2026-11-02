@@ -1,0 +1,90 @@
+---
+import ArtTile from './ArtTile.astro';
+import {
+  groupByYear,
+  pluralPieces,
+  typeById,
+  type ArtEntry,
+  type ArtType,
+} from '../../lib/art';
+
+interface Props {
+  entries: ArtEntry[];
+  types: ArtType[];
+  /** Split into year sections with a big year marker. */
+  byYear?: boolean;
+  /** How many leading tiles are above the fold (loaded eagerly). */
+  eager?: number;
+  /** Give the first tile fetchpriority=high (when it is the LCP candidate). */
+  prioritiseFirst?: boolean;
+  /** Heading level of each year marker; tile titles sit one level below. */
+  yearHeading?: 'h2' | 'h3';
+  /** Heading level of tile titles when not grouped by year. */
+  tileHeading?: 'h2' | 'h3' | 'h4';
+  label?: string;
+  /** Row height; defaults to large rows when there are only a few pieces. */
+  size?: 'default' | 'large';
+  /** Scroll-in drop animation (off for short grids at the page bottom). */
+  reveal?: boolean;
+}
+
+const {
+  entries,
+  types,
+  byYear = true,
+  eager = 0,
+  prioritiseFirst = false,
+  yearHeading: YearHeading = 'h2',
+  tileHeading: flatTileHeading = 'h3',
+  label = 'Artwork',
+  size: sizeProp,
+  reveal = true,
+} = Astro.props;
+
+// Few pieces look lost in short rows, so let them breathe.
+const size = sizeProp ?? (entries.length <= 4 ? 'large' : 'default');
+const groups = byYear ? groupByYear(entries) : [{ year: 0, entries: entries }];
+const tileHeading = byYear
+  ? YearHeading === 'h2'
+    ? 'h3'
+    : 'h4'
+  : flatTileHeading;
+let index = 0;
+const priorityFor = () => {
+  const i = index++;
+  if (i === 0 && prioritiseFirst) return 'high' as const;
+  return i < eager ? ('eager' as const) : ('lazy' as const);
+};
+---
+
+<div class="space-y-14 sm:space-y-20">
+  {groups.map((group) => (
+    <section
+      aria-label={byYear ? `${label} from ${group.year}` : label}
+      class="art-cv relative"
+    >
+      {byYear && (
+        <div class="mb-6 flex items-end justify-between gap-4 border-b-4 border-black pb-3 sm:mb-8">
+          <YearHeading class="font-display text-5xl leading-none tracking-tight text-white [-webkit-text-stroke:2px_#000] sm:text-7xl lg:text-8xl">
+            {group.year}
+          </YearHeading>
+          <span class="text-neo-bg mb-1 border-2 border-black bg-black px-2 py-0.5 tabular-nums text-xs font-bold tracking-wider uppercase">
+            {pluralPieces(group.entries.length)}
+          </span>
+        </div>
+      )}
+      <ul class="art-rows" data-size={size} role="list">
+        {group.entries.map((entry) => (
+          <ArtTile
+            entry={entry}
+            type={typeById(types, entry.data.type.id)}
+            priority={priorityFor()}
+            size={size}
+            headingLevel={tileHeading}
+            reveal={reveal}
+          />
+        ))}
+      </ul>
+    </section>
+  ))}
+</div>

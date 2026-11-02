@@ -1,0 +1,123 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { ArrowLeft } from 'lucide-astro';
+import SiteLayout from '../../../layouts/SiteLayout.astro';
+import SectionHeader from '../../../components/SectionHeader.astro';
+import ArtGrid from '../../../components/art/ArtGrid.astro';
+import ArtTypeFilter from '../../../components/art/ArtTypeFilter.astro';
+import ArtEmpty from '../../../components/art/ArtEmpty.astro';
+import ArtViewTransitions from '../../../components/art/ArtViewTransitions.astro';
+import {
+  ART_BG,
+  ART_URL,
+  artTypeUrl,
+  artUrl,
+  getArt,
+  getArtTypeCounts,
+  getArtTypes,
+  pluralPieces,
+} from '../../../lib/art';
+import {
+  ART_COLLECTION_ID,
+  absolute,
+  breadcrumbList,
+  collectionPage,
+  jsonLd,
+} from '../../../lib/art-schema';
+import '../../../components/art/art.css';
+
+export const getStaticPaths = (async () => {
+  const types = await getArtTypes();
+  return types.map((type) => ({ params: { type: type.id }, props: { type } }));
+}) satisfies GetStaticPaths;
+
+const { type } = Astro.props;
+const [all, types] = await Promise.all([getArt(), getArtTypes()]);
+const counts = await getArtTypeCounts(all);
+const entries = all.filter((e) => e.data.type.id === type.id);
+const name = type.data.name;
+const lower = name.toLowerCase();
+
+const title = `${name} — Art by Maanasa Narayan`;
+const description =
+  entries.length > 0
+    ? `${type.data.description} ${pluralPieces(entries.length)} by Maanasa Narayan.`
+    : `${type.data.description} Pieces by Maanasa Narayan.`;
+const pageUrl = absolute(artTypeUrl(type.id));
+const schema = jsonLd(
+  collectionPage({
+    pageUrl,
+    name: `${name} by Maanasa Narayan`,
+    description,
+    items: entries.map((e) => ({ url: artUrl(e), name: e.data.title })),
+    isPartOf: ART_COLLECTION_ID,
+  }),
+  breadcrumbList(pageUrl, [
+    { name: 'Home', path: '/' },
+    { name: 'Art', path: ART_URL },
+    { name, path: artTypeUrl(type.id) },
+  ]),
+);
+---
+
+<SiteLayout title={title} description={description}>
+  <script is:inline slot="head" type="application/ld+json" set:html={schema} />
+  <div class="mx-auto max-w-7xl px-4 pt-28 pb-20 sm:px-6 sm:pt-36 sm:pb-24 lg:px-10">
+    <div class="mb-8">
+      <a
+        href={ART_URL}
+        class="inline-flex items-center gap-2 border-2 border-black bg-white px-3 py-1.5 text-xs font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-black focus-visible:outline-dashed"
+      >
+        <ArrowLeft class="h-4 w-4 stroke-[3px]" />
+        All art
+      </a>
+    </div>
+
+    <header class="mb-10 grid grid-cols-1 items-end gap-6 sm:mb-14 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:gap-12">
+      <div class="[&>div]:mb-0">
+        <SectionHeader as="h1" kicker="Art · by form" title={`${name}.`} />
+      </div>
+      <div
+        class:list={[
+          'border-4 border-black p-5 shadow-[6px_6px_0_0_#000] sm:p-6',
+          ART_BG[type.data.color],
+        ]}
+      >
+        <p class="text-base leading-snug font-medium sm:text-lg">
+          {type.data.description}
+        </p>
+        <p class="mt-3 tabular-nums text-xs font-bold tracking-widest uppercase">
+          {pluralPieces(entries.length)}
+        </p>
+      </div>
+    </header>
+
+    {all.length > 0 && (
+      <div class="mb-10 sm:mb-14">
+        <ArtTypeFilter counts={counts} total={all.length} active={type.id} />
+      </div>
+    )}
+
+    {entries.length === 0 ? (
+      <ArtEmpty
+        title={`No ${lower} up yet`}
+        message={`There is no ${lower} work on the wall yet. It will show up here as soon as the first piece is in.`}
+        link={
+          all.length > 0
+            ? { href: ART_URL, label: 'See everything else' }
+            : undefined
+        }
+      />
+    ) : (
+      <ArtGrid
+        entries={entries}
+        types={types}
+        yearHeading="h2"
+        label={name}
+        eager={2}
+        prioritiseFirst
+      />
+    )}
+  </div>
+  <ArtViewTransitions />
+</SiteLayout>

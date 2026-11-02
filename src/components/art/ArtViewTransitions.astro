@@ -1,0 +1,81 @@
+---
+/**
+ * Grid -> piece image morph for cross-document View Transitions.
+ *
+ * The piece page gives its main image `view-transition-name: art-hero`. Here,
+ * on the gallery side, the same name is put on exactly one thumbnail: the one
+ * that was clicked (on the way out) or the one for the piece we came back
+ * from (on the way in). Naming 60 thumbnails up front would make the browser
+ * snapshot all of them. No-ops where the API or motion preference is absent.
+ */
+---
+
+<script>
+  const NAME = 'art-hero';
+  const motionOk = window.matchMedia(
+    '(prefers-reduced-motion: no-preference)',
+  ).matches;
+
+  const slugFromUrl = (url: string | undefined | null) => {
+    if (!url) return null;
+    const match = new URL(url).pathname.match(/^\/art\/(?!type\/)(.+?)\/?$/);
+    return match ? match[1] : null;
+  };
+
+  const inViewport = (el: Element) => {
+    const r = el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < window.innerHeight;
+  };
+
+  let lastClicked: HTMLElement | null = null;
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element | null;
+    lastClicked = target?.closest<HTMLElement>('[data-art-link]') ?? null;
+  });
+
+  const imageFor = (slug: string, preferred?: HTMLElement | null) => {
+    if (preferred?.dataset.artLink === slug) {
+      return preferred.querySelector<HTMLElement>('img');
+    }
+    const images = [
+      ...document.querySelectorAll<HTMLElement>(`[data-art-image]`),
+    ].filter((img) => img.dataset.artImage === slug);
+    return images.find(inViewport) ?? null;
+  };
+
+  type VTEvent = Event & {
+    viewTransition?: { finished: Promise<void> } | null;
+    activation?: { entry?: { url?: string } } | null;
+  };
+
+  if (motionOk) {
+    window.addEventListener('pageswap', (e) => {
+      const event = e as VTEvent;
+      if (!event.viewTransition) return;
+      const slug = slugFromUrl(event.activation?.entry?.url);
+      const img = slug ? imageFor(slug, lastClicked) : null;
+      if (!img) return;
+      img.style.viewTransitionName = NAME;
+      event.viewTransition.finished.finally(() => {
+        img.style.viewTransitionName = '';
+      });
+    });
+
+    window.addEventListener('pagereveal', (e) => {
+      const event = e as VTEvent;
+      if (!event.viewTransition) return;
+      const nav = (
+        window as unknown as {
+          navigation?: { activation?: { from?: { url?: string } } };
+        }
+      ).navigation;
+      const slug = slugFromUrl(nav?.activation?.from?.url);
+      const img = slug ? imageFor(slug) : null;
+      if (!img) return;
+      img.style.viewTransitionName = NAME;
+      event.viewTransition.finished.finally(() => {
+        img.style.viewTransitionName = '';
+      });
+    });
+  }
+</script>

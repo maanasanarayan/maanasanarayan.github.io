@@ -1,0 +1,227 @@
+/*
+ * Art section styles. Imported by the art components only, so none of this
+ * ships on the rest of the site. Rules live in the `components` layer so
+ * Tailwind utilities on the same element still win.
+ */
+
+@layer components {
+  /* ---------- Justified rows (Flickr / Unsplash style, CSS only) ----------
+   * Each tile grows in proportion to its aspect ratio, so every tile in a row
+   * ends up the same height without measuring anything in JS. Source order
+   * is the reading order (left to right), unlike CSS columns. */
+  .art-rows {
+    --row-h: 7.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .art-rows[data-size='large'] {
+    --row-h: 12rem;
+  }
+  @media (min-width: 640px) {
+    .art-rows {
+      --row-h: 13rem;
+    }
+    .art-rows[data-size='large'] {
+      --row-h: 22rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .art-rows {
+      --row-h: 16rem;
+      gap: 2.25rem 1.75rem;
+    }
+    .art-rows[data-size='large'] {
+      --row-h: 26rem;
+    }
+  }
+  /* Soaks up the free space on the last row so it is not stretched. */
+  .art-rows::after {
+    content: '';
+    flex: 1e4 1 0;
+  }
+  .art-tile {
+    /* Off-screen tiles skip rendering, so their lazy images wait until the
+     * reader is close instead of all loading with the first screen. Width
+     * comes from flex-basis, not content; the height estimate is a row plus
+     * the caption and is refined once rendered (`auto`). */
+    content-visibility: auto;
+    contain-intrinsic-size: auto calc(var(--ar) * var(--row-h)) auto
+      calc(var(--row-h) * 1.2 + 3.25rem);
+    /* That implies paint containment, which would clip the hard shadow,
+     * hover lift and focus ring. Pad the box out and cancel the padding with
+     * negative margins; the padding is added to the basis (not the grow
+     * share), so every image in a row still lands on the same height. */
+    --pad-x: 1.25rem;
+    padding: 0.5rem 0.75rem 0.75rem 0.5rem;
+    margin: -0.5rem -0.75rem -0.75rem -0.5rem;
+    flex: var(--ar) 1 calc(var(--ar) * var(--row-h) + var(--pad-x));
+    min-width: 0;
+    max-width: calc(100% + var(--pad-x));
+  }
+
+  /* Sections below the fold skip layout and paint (and so their lazy
+   * images) until the reader gets near them. */
+  .art-cv {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1100px;
+    /* Paint containment clips at the padding box; leave room for the hard
+     * shadows, hover lift and the scroll-in drop of the last row. */
+    margin: -0.75rem -0.75rem -3.5rem;
+    padding: 0.75rem 0.75rem 3.5rem;
+  }
+
+  /* Same idea for the tail of a piece page (neighbours, related). Padding
+   * keeps the hard shadows inside the paint-containment clip. */
+  .art-cv-tail {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 420px;
+    padding-right: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+
+  /* Halftone mat in the piece's type colour; doubles as the placeholder. */
+  .art-mat {
+    background-color: var(--art-color, var(--color-neo-secondary));
+    background-image: radial-gradient(
+      rgba(0, 0, 0, 0.22) 1.25px,
+      transparent 1.5px
+    );
+    background-size: 14px 14px;
+  }
+
+  /* <picture> should not create a box; the <img> is the layout item. */
+  .art-pic {
+    display: contents;
+  }
+  /* ...and its <source>s must not become (empty) grid items once it does. */
+  .art-pic > source {
+    display: none;
+  }
+
+  /* Contained image inside a fixed-ratio mat: never crop the artwork. */
+  .art-contain {
+    display: grid;
+    /* Definite tracks so a 100% height on the image resolves pre-load. */
+    grid-template: 100% / 100%;
+    place-items: center;
+  }
+  .art-contain img {
+    max-width: 100%;
+    max-height: 100%;
+    min-height: 0;
+  }
+
+  /* Tiles drop into place as they scroll in. Transform only: opacity is
+   * never touched, so nothing is ever invisible and LCP is unaffected. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .art-reveal {
+        animation: art-settle linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 90%;
+      }
+      .art-reveal:nth-child(3n + 2) {
+        --art-tilt: 1.5deg;
+      }
+      .art-reveal:nth-child(3n) {
+        --art-tilt: -0.75deg;
+      }
+    }
+  }
+
+  /* The piece page image carries a fixed name; the grid gives the same name
+   * to the clicked tile just before navigating (see ArtViewTransitions). */
+  .art-hero-image {
+    view-transition-name: art-hero;
+  }
+
+  /* ---------- Lightbox ---------- */
+  .art-lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #000;
+  }
+  .art-lightbox::backdrop {
+    background-color: rgba(255, 253, 245, 0.97);
+    background-image: radial-gradient(
+      rgba(0, 0, 0, 0.1) 1.25px,
+      transparent 1.5px
+    );
+    background-size: 26px 26px;
+  }
+  .art-lightbox[open] {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+  }
+  .art-lightbox__stage {
+    overflow: auto;
+    display: grid;
+    grid-template: 100% / 100%;
+    place-items: center;
+    padding: 0.5rem 1rem 1rem;
+    overscroll-behavior: contain;
+  }
+  .art-lightbox__stage img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    cursor: zoom-in;
+  }
+  .art-lightbox[data-zoomed] .art-lightbox__stage {
+    place-items: start;
+  }
+  .art-lightbox[data-zoomed] .art-lightbox__stage img {
+    max-width: none;
+    max-height: none;
+    cursor: zoom-out;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .art-lightbox[open] .art-lightbox__stage img {
+      animation: art-pop 180ms ease-out;
+    }
+  }
+}
+
+/* Cross-document View Transitions: the thumbnail morphs into the piece. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  ::view-transition-group(art-hero) {
+    animation-duration: 380ms;
+    animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 220ms;
+  }
+}
+
+@keyframes art-settle {
+  from {
+    transform: translateY(2rem) rotate(var(--art-tilt, -1.5deg));
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes art-pop {
+  from {
+    transform: scale(0.96);
+  }
+  to {
+    transform: none;
+  }
+}

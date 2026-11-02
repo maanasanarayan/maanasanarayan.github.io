@@ -1,0 +1,133 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import ArtFeatured from '../../components/art/ArtFeatured.astro';
+import ArtFormsIndex from '../../components/art/ArtFormsIndex.astro';
+import ArtGrid from '../../components/art/ArtGrid.astro';
+import ArtTypeFilter from '../../components/art/ArtTypeFilter.astro';
+import ArtEmpty from '../../components/art/ArtEmpty.astro';
+import ArtViewTransitions from '../../components/art/ArtViewTransitions.astro';
+import {
+  artUrl,
+  getArt,
+  getArtTypeCounts,
+  getArtTypes,
+  pickFeatured,
+  pluralPieces,
+} from '../../lib/art';
+import {
+  absolute,
+  breadcrumbList,
+  collectionPage,
+  jsonLd,
+} from '../../lib/art-schema';
+import '../../components/art/art.css';
+
+const [art, types] = await Promise.all([getArt(), getArtTypes()]);
+const counts = await getArtTypeCounts(art);
+const formsInUse = counts.filter((c) => c.count > 0).length;
+const years = art.map((e) => e.data.date.getUTCFullYear());
+const span =
+  years.length === 0
+    ? ''
+    : Math.min(...years) === Math.max(...years)
+      ? String(years[0])
+      : `${Math.min(...years)} – ${Math.max(...years)}`;
+
+// The editorial spread only earns its place once there is enough work that
+// repeating three pieces in the archive below does not feel padded.
+const showSpread = art.length >= 6;
+const featured = showSpread ? pickFeatured(art, 3) : [];
+
+const title = 'Art — Maanasa Narayan';
+const description =
+  art.length > 0
+    ? `Mandala, lippan, doodles, paintings and sketches by Maanasa Narayan: ${pluralPieces(art.length)}, each with a short note on where it came from.`
+    : 'Mandala, lippan, doodles, paintings and sketches by Maanasa Narayan, each with a short note on where it came from.';
+const pageUrl = absolute('/art/');
+const schema = jsonLd(
+  collectionPage({
+    pageUrl,
+    name: 'Art by Maanasa Narayan',
+    description,
+    items: art.map((e) => ({ url: artUrl(e), name: e.data.title })),
+  }),
+  breadcrumbList(pageUrl, [
+    { name: 'Home', path: '/' },
+    { name: 'Art', path: '/art/' },
+  ]),
+);
+---
+
+<SiteLayout title={title} description={description}>
+  <script is:inline slot="head" type="application/ld+json" set:html={schema} />
+  <div class="mx-auto max-w-7xl px-4 pt-28 pb-20 sm:px-6 sm:pt-36 sm:pb-24 lg:px-10">
+    <header class="mb-12 grid grid-cols-1 items-end gap-6 sm:mb-16 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:gap-12">
+      <div class="[&>div]:mb-0">
+        <SectionHeader as="h1" kicker="Away from the keyboard" title="Art." />
+      </div>
+      <div class="space-y-5">
+        <p class="text-lg leading-snug font-medium sm:text-xl">
+          Mandalas, lippan, doodles, paintings and sketches, mostly made in the
+          evenings. Every piece has a short note on where it came from.
+        </p>
+        {art.length > 0 && (
+          <dl class="text-neo-bg grid w-fit grid-cols-3 border-4 border-black bg-black tabular-nums text-xs uppercase shadow-[4px_4px_0_0_#FFD93D]">
+            <div class="border-r-2 border-white/30 px-3 py-2">
+              <dt class="text-[10px] tracking-widest text-white/80">Pieces</dt>
+              <dd class="text-lg font-bold">{art.length}</dd>
+            </div>
+            <div class="border-r-2 border-white/30 px-3 py-2">
+              <dt class="text-[10px] tracking-widest text-white/80">Forms</dt>
+              <dd class="text-lg font-bold">{formsInUse}</dd>
+            </div>
+            <div class="px-3 py-2">
+              <dt class="text-[10px] tracking-widest text-white/80">Years</dt>
+              <dd class="text-lg font-bold whitespace-nowrap">{span}</dd>
+            </div>
+          </dl>
+        )}
+      </div>
+    </header>
+
+    {art.length === 0 ? (
+      <ArtEmpty link={{ href: '/blog/', label: 'Read the blog meanwhile' }} />
+    ) : (
+      <>
+        {showSpread && (
+          <div class="mb-16 sm:mb-24">
+            <ArtFeatured entries={featured} types={types}>
+              <ArtFormsIndex counts={counts} />
+            </ArtFeatured>
+          </div>
+        )}
+
+        <section aria-labelledby="art-archive-title">
+          <div class="mb-8 flex flex-col gap-6 sm:mb-12">
+            <div class="[&>div]:mb-0">
+              <span class="text-neo-bg inline-block border-4 border-black bg-black px-3 py-1 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#FFD93D]">
+                Everything, newest first
+              </span>
+              <h2
+                id="art-archive-title"
+                class="font-display mt-4 text-4xl leading-none tracking-tight uppercase sm:text-5xl md:text-6xl"
+              >
+                The archive.
+              </h2>
+            </div>
+            <ArtTypeFilter counts={counts} total={art.length} />
+          </div>
+          <ArtGrid
+            entries={art}
+            types={types}
+            yearHeading="h3"
+            label="Artwork"
+            eager={showSpread ? 0 : 3}
+            prioritiseFirst={!showSpread}
+          />
+        </section>
+      </>
+    )}
+  </div>
+  <ArtViewTransitions />
+</SiteLayout>

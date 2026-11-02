@@ -1,0 +1,431 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import { Picture, getImage } from 'astro:assets';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Maximize2 } from 'lucide-astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ArtMiniGrid from '../../components/art/ArtMiniGrid.astro';
+import ArtLightbox from '../../components/art/ArtLightbox.astro';
+import ArtNeighbour from '../../components/art/ArtNeighbour.astro';
+import {
+  ART_BG,
+  ART_HEX,
+  ART_URL,
+  artTypeUrl,
+  artUrl,
+  formatArtDate,
+  getArt,
+  getArtTypes,
+  isoDate,
+  responsive,
+  typeById,
+  type ArtEntry,
+} from '../../lib/art';
+import {
+  ART_COLLECTION_ID,
+  PERSON_ID,
+  absolute,
+  breadcrumbList,
+  jsonLd,
+} from '../../lib/art-schema';
+import '../../components/art/art.css';
+
+export const getStaticPaths = (async () => {
+  const art = await getArt();
+  return art.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      newer: art[i - 1] as ArtEntry | undefined,
+      older: art[i + 1] as ArtEntry | undefined,
+      related: art
+        .filter(
+          (e) =>
+            e.id !== entry.id &&
+            e.id !== art[i - 1]?.id &&
+            e.id !== art[i + 1]?.id &&
+            e.data.type.id === entry.data.type.id,
+        )
+        .slice(0, 4),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry, newer, older, related } = Astro.props;
+const { data } = entry;
+const types = await getArtTypes();
+const type = typeById(types, data.type.id);
+const typeName = type?.data.name ?? data.type.id;
+const color = ART_HEX[type?.data.color ?? 'secondary'];
+const { Content } = await render(entry);
+const hasNotes = Boolean(entry.body?.trim());
+
+// Full-size views for the lightbox (and the no-JS fallback link).
+const fullSize = async (src: typeof data.image) =>
+  getImage({
+    src,
+    width: Math.min(2000, src.width),
+    format: 'webp',
+    quality: 82,
+  });
+const views = await Promise.all(
+  [{ src: data.image, alt: data.imageAlt }, ...data.gallery].map(
+    async (view) => ({ ...view, full: await fullSize(view.src) }),
+  ),
+);
+const [mainView, ...detailViews] = views;
+
+// Social card (cropped to the 1200x630 the layout declares) and a plain
+// 1200px rendition for structured data.
+const ogImage = await getImage({
+  src: data.image,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpg',
+  quality: 80,
+});
+const schemaImage = await getImage({
+  src: data.image,
+  width: Math.min(1200, data.image.width),
+  format: 'jpg',
+  quality: 80,
+});
+
+// The hero is as wide as its column, or 75vh tall, whichever is smaller.
+const ratio = data.image.width / data.image.height;
+const tallCap = (vh: number) => `calc(${vh}vh * ${ratio.toFixed(4)})`;
+const heroSizes = [
+  `(min-width: 1280px) min(608px, ${tallCap(75)})`,
+  `(min-width: 1024px) min(calc(58vw - 7rem), ${tallCap(75)})`,
+  `(min-width: 640px) min(calc(100vw - 7.5rem), ${tallCap(75)})`,
+  `min(calc(100vw - 4.5rem), ${tallCap(75)})`,
+].join(', ');
+
+const pageUrl = absolute(artUrl(entry));
+const sourceLabel = data.source?.includes('instagram.com')
+  ? 'See the original post on Instagram'
+  : 'See the original post';
+
+const schema = jsonLd(
+  {
+    '@type': 'VisualArtwork',
+    '@id': `${pageUrl}#artwork`,
+    url: pageUrl,
+    mainEntityOfPage: pageUrl,
+    name: data.title,
+    description: data.excerpt,
+    image: {
+      '@type': 'ImageObject',
+      url: absolute(schemaImage.src),
+      width: schemaImage.attributes.width,
+      height: schemaImage.attributes.height,
+      caption: data.imageAlt,
+    },
+    artform: typeName,
+    ...(data.medium ? { artMedium: data.medium } : {}),
+    ...(data.dimensions ? { size: data.dimensions } : {}),
+    dateCreated: isoDate(data.date),
+    creator: { '@id': PERSON_ID },
+    copyrightHolder: { '@id': PERSON_ID },
+    ...(data.tags.length ? { keywords: data.tags.join(', ') } : {}),
+    ...(data.source ? { sameAs: data.source } : {}),
+    isPartOf: { '@id': ART_COLLECTION_ID },
+    inLanguage: 'en',
+  },
+  breadcrumbList(pageUrl, [
+    { name: 'Home', path: '/' },
+    { name: 'Art', path: ART_URL },
+    { name: typeName, path: artTypeUrl(data.type.id) },
+    { name: data.title, path: artUrl(entry) },
+  ]),
+);
+
+const facts = [
+  { label: 'Form', value: typeName, href: artTypeUrl(data.type.id) },
+  {
+    label: 'Made',
+    value: formatArtDate(data.date),
+    datetime: isoDate(data.date),
+  },
+  data.medium && { label: 'Medium', value: data.medium },
+  data.dimensions && { label: 'Size', value: data.dimensions },
+].filter(Boolean) as {
+  label: string;
+  value: string;
+  href?: string;
+  datetime?: string;
+}[];
+---
+
+<SiteLayout
+  title={`${data.title} — ${typeName} by Maanasa Narayan`}
+  description={data.excerpt}
+  image={ogImage.src}
+  type="article"
+  publishedTime={data.date}
+>
+  <script is:inline slot="head" type="application/ld+json" set:html={schema} />
+  <div
+    class="mx-auto max-w-7xl px-4 pt-28 pb-20 sm:px-6 sm:pt-36 sm:pb-24 lg:px-10"
+    style={`--art-color:${color}`}
+  >
+    <nav aria-label="Breadcrumb" class="mb-6 sm:mb-8">
+      <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-bold tracking-widest uppercase">
+        <li>
+          <a
+            href={ART_URL}
+            class="inline-flex items-center gap-1.5 border-2 border-black bg-white px-2.5 py-1 shadow-[3px_3px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-black focus-visible:outline-dashed"
+          >
+            <ArrowLeft class="h-3.5 w-3.5 stroke-[3px]" />
+            Art
+          </a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li>
+          <a
+            href={artTypeUrl(data.type.id)}
+            class="decoration-2 underline-offset-4 hover:underline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-black focus-visible:outline-dashed"
+          >
+            {typeName}
+          </a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page" class="max-w-[16rem] truncate text-black/70">
+          {data.title}
+        </li>
+      </ol>
+    </nav>
+
+    <article
+      data-pagefind-body
+      data-pagefind-filter="section:Art"
+      class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12"
+    >
+      <div class="lg:col-span-7 lg:col-start-1 lg:row-start-1">
+        <figure>
+          <a
+            href={mainView.full.src}
+            data-lightbox
+            data-width={mainView.full.attributes.width}
+            data-height={mainView.full.attributes.height}
+            data-alt={mainView.alt}
+            class="group art-mat relative block border-4 border-black p-4 shadow-[8px_8px_0_0_#000] outline-none focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-black focus-visible:outline-dashed sm:p-8 sm:shadow-[12px_12px_0_0_#000]"
+          >
+            <Picture
+              src={data.image}
+              alt={data.imageAlt}
+              formats={['avif']}
+              fallbackFormat="webp"
+              {...responsive(data.image, [400, 480, 600, 720, 880, 1080, 1440])}
+              sizes={heroSizes}
+              quality={55}
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              data-pagefind-meta="image[src], image_alt[alt]"
+              class="art-hero-image mx-auto block h-auto border-4 border-black bg-white shadow-[6px_6px_0_0_#000]"
+              style={`width:min(100%, calc(75vh * ${ratio.toFixed(4)}))`}
+              pictureAttributes={{ class: 'art-pic' }}
+            />
+            <span class="absolute right-3 bottom-3 inline-flex items-center gap-1.5 border-2 border-black bg-white px-2 py-1 text-[11px] font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] transition-transform group-hover:-translate-y-0.5 sm:right-4 sm:bottom-4">
+              <Maximize2 class="h-3.5 w-3.5 stroke-[3px]" />
+              Enlarge
+            </span>
+          </a>
+          <figcaption class="sr-only">{data.imageAlt}</figcaption>
+        </figure>
+
+        {detailViews.length > 0 && (
+          <section aria-labelledby="art-details-title" class="mt-8 sm:mt-10">
+            <h2
+              id="art-details-title"
+              class="mb-3 text-xs font-bold tracking-widest uppercase"
+            >
+              More views
+            </h2>
+            {/* Contact-sheet strip: small, fixed-height thumbnails that open
+                the lightbox at full size. */}
+            <ul class="flex flex-wrap gap-3 sm:gap-4" role="list">
+              {detailViews.map((view, i) => {
+                const r = view.src.width / view.src.height;
+                return (
+                  <li>
+                    <a
+                      href={view.full.src}
+                      data-lightbox
+                      data-width={view.full.attributes.width}
+                      data-height={view.full.attributes.height}
+                      data-alt={view.alt}
+                      class="art-mat block h-24 border-[3px] border-black shadow-[3px_3px_0_0_#000] transition-[translate,box-shadow] duration-150 outline-none hover:-translate-y-0.5 hover:shadow-[5px_5px_0_0_#000] focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-black focus-visible:outline-dashed sm:h-28"
+                      style={`aspect-ratio:${view.src.width}/${view.src.height}`}
+                    >
+                      <Picture
+                        src={view.src}
+                        alt={view.alt}
+                        formats={['avif']}
+                        fallbackFormat="webp"
+                        {...responsive(view.src, [160, 240, 320, 400])}
+                        sizes={`(min-width: 640px) ${Math.round(r * 106)}px, ${Math.round(r * 90)}px`}
+                        quality={58}
+                        loading="lazy"
+                        decoding="async"
+                        class="block h-full w-full object-cover"
+                        pictureAttributes={{ class: 'art-pic' }}
+                      />
+                      <span class="sr-only">
+                        (view {i + 2} of {views.length}, opens larger)
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        )}
+      </div>
+
+      <div class="lg:col-span-5 lg:col-start-8 lg:row-span-3 lg:row-start-1">
+        <div class="space-y-6 lg:sticky lg:top-32">
+          <div class="flex flex-wrap items-center gap-2 text-xs font-bold tracking-widest uppercase">
+            <a
+              href={artTypeUrl(data.type.id)}
+              class:list={[
+                'border-2 border-black px-2 py-0.5 shadow-[2px_2px_0_0_#000] transition-transform hover:-translate-y-0.5 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-black focus-visible:outline-dashed',
+                ART_BG[type?.data.color ?? 'secondary'],
+              ]}
+            >
+              {typeName}
+            </a>
+            <time datetime={isoDate(data.date)} class="text-black/70">
+              {formatArtDate(data.date)}
+            </time>
+          </div>
+
+          <h1 class="font-display text-4xl leading-[0.95] tracking-tight uppercase sm:text-5xl lg:text-6xl">
+            {data.title}
+          </h1>
+
+          <p class="text-lg leading-snug font-medium sm:text-xl">
+            {data.excerpt}
+          </p>
+
+          <dl class="border-4 border-black bg-white shadow-[6px_6px_0_0_#000]">
+            {facts.map((fact, i) => (
+              <div
+                class:list={[
+                  'grid grid-cols-[6.5rem_minmax(0,1fr)] gap-3 px-4 py-2.5',
+                  i > 0 && 'border-t-2 border-black',
+                ]}
+              >
+                <dt class="pt-0.5 tabular-nums text-[11px] font-bold tracking-widest text-black/70 uppercase">
+                  {fact.label}
+                </dt>
+                <dd class="text-sm font-bold">
+                  {fact.href ? (
+                    <a
+                      href={fact.href}
+                      class="decoration-2 underline-offset-4 hover:underline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-black focus-visible:outline-dashed"
+                    >
+                      {fact.value}
+                    </a>
+                  ) : fact.datetime ? (
+                    <time datetime={fact.datetime}>{fact.value}</time>
+                  ) : (
+                    fact.value
+                  )}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          {data.tags.length > 0 && (
+            <ul class="flex flex-wrap gap-2" aria-label="Tags" role="list">
+              {data.tags.map((tag) => (
+                <li class="border-2 border-black bg-white px-2 py-0.5 tabular-nums text-[11px] font-bold tracking-wider uppercase">
+                  #{tag}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {data.source && (
+            <a
+              href={data.source}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-pagefind-ignore
+              class="bg-neo-secondary inline-flex items-center gap-2 border-4 border-black px-4 py-2 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_#000] focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-black focus-visible:outline-dashed"
+            >
+              {sourceLabel}
+              <ArrowUpRight class="h-4 w-4 stroke-[3px]" />
+              <span class="sr-only">(opens in a new tab)</span>
+            </a>
+          )}
+        </div>
+      </div>
+
+      {hasNotes && (
+        <section
+          aria-labelledby="art-notes-title"
+          class="lg:col-span-7 lg:col-start-1"
+        >
+          <span class="text-neo-bg inline-block border-4 border-black bg-black px-3 py-1 text-xs font-bold tracking-widest uppercase shadow-[4px_4px_0_0_#FFD93D]">
+            Inspiration
+          </span>
+          <h2
+            id="art-notes-title"
+            class="font-display mt-4 text-3xl leading-none tracking-tight uppercase sm:text-4xl"
+          >
+            Where it came from
+          </h2>
+          <div class="neo-prose mt-6 max-w-prose">
+            <Content />
+          </div>
+        </section>
+      )}
+    </article>
+
+    {(newer || older) && (
+      <nav
+        aria-label="More artwork"
+        class="art-cv-tail mt-16 grid grid-cols-1 gap-6 border-t-4 border-black pt-10 sm:mt-24 sm:grid-cols-2"
+      >
+        {newer ? (
+          <ArtNeighbour entry={newer} direction="newer" types={types} />
+        ) : (
+          <span class="hidden sm:block" />
+        )}
+        {older && (
+          <ArtNeighbour entry={older} direction="older" types={types} />
+        )}
+      </nav>
+    )}
+
+    {related.length > 0 && (
+      <section
+        aria-labelledby="art-related-title"
+        class="art-cv-tail mt-16 sm:mt-24"
+      >
+        <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <h2
+            id="art-related-title"
+            class="font-display text-3xl leading-none tracking-tight uppercase sm:text-4xl"
+          >
+            More {typeName.toLowerCase()}
+          </h2>
+          <a
+            href={artTypeUrl(data.type.id)}
+            class="inline-flex items-center gap-2 border-2 border-black bg-white px-3 py-1.5 text-xs font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000] transition-all duration-100 hover:-translate-y-0.5 focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-black focus-visible:outline-dashed"
+          >
+            All {typeName.toLowerCase()}
+            <ArrowRight class="h-3.5 w-3.5 stroke-[3px]" />
+          </a>
+        </div>
+        <ArtMiniGrid entries={related} types={types} />
+      </section>
+    )}
+  </div>
+
+  <ArtLightbox />
+</SiteLayout>

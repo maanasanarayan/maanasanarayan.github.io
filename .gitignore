@@ -29,3 +29,6 @@ yarn-error.log*
 !.env.example
 # hidden sections (locally preserved, not deployed)
 .hidden/
+
+# Claude Code agent worktrees
+.claude/worktrees/

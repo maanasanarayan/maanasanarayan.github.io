@@ -1,0 +1,94 @@
+---
+import { Picture } from 'astro:assets';
+import {
+  ART_HEX,
+  artUrl,
+  formatArtMonth,
+  isoDate,
+  responsive,
+  type ArtEntry,
+  type ArtType,
+} from '../../lib/art';
+import './art.css';
+
+interface Props {
+  entry: ArtEntry;
+  type?: ArtType;
+  /** Above-the-fold tiles load eagerly; the very first one gets priority. */
+  priority?: 'high' | 'eager' | 'lazy';
+  /** Row height bucket used to size the image request. */
+  size?: 'default' | 'large';
+  headingLevel?: 'h2' | 'h3' | 'h4';
+  reveal?: boolean;
+}
+
+const {
+  entry,
+  type,
+  priority = 'lazy',
+  size = 'default',
+  headingLevel: Heading = 'h3',
+  reveal = true,
+} = Astro.props;
+const { image, imageAlt, title, date } = entry.data;
+const ar = image.width / image.height;
+const color = ART_HEX[type?.data.color ?? 'secondary'];
+
+// Row heights mirror .art-rows in art.css (mobile / sm / lg). Tiles can grow
+// up to ~1.7x their basis to fill a row, and on phones a lone tile can take
+// the full width.
+const rowH = size === 'large' ? [192, 352, 416] : [120, 208, 256];
+const px = (h: number, grow: number) => Math.round(ar * h * grow);
+const fallbackSizes = [
+  `(min-width: 1024px) ${px(rowH[2], 1.7)}px`,
+  `(min-width: 640px) ${px(rowH[1], 1.7)}px`,
+  `min(calc(100vw - 2rem), ${px(rowH[0], 1.8)}px)`,
+].join(', ');
+const lazy = priority === 'lazy';
+---
+
+<li
+  class:list={['art-tile', reveal && 'art-reveal']}
+  style={`--ar:${ar.toFixed(4)};--art-color:${color}`}
+>
+  <a
+    href={artUrl(entry)}
+    data-art-link={entry.id}
+    class="group block outline-none"
+  >
+    <div
+      class="art-mat relative overflow-hidden border-4 border-black shadow-[4px_4px_0_0_#000] transition-[translate,box-shadow] duration-150 group-hover:-translate-y-1 group-hover:shadow-[8px_8px_0_0_#000] group-focus-visible:-translate-y-1 group-focus-visible:shadow-[8px_8px_0_0_#000] group-focus-visible:outline-4 group-focus-visible:outline-offset-4 group-focus-visible:outline-black group-focus-visible:outline-dashed"
+      style={`aspect-ratio:${image.width}/${image.height}`}
+    >
+      <Picture
+        src={image}
+        alt={imageAlt}
+        formats={['avif']}
+        fallbackFormat="webp"
+        {...responsive(image, [240, 360, 480, 640, 800, 960])}
+        sizes={fallbackSizes}
+        quality={52}
+        loading={lazy ? 'lazy' : 'eager'}
+        fetchpriority={priority === 'high' ? 'high' : undefined}
+        decoding="async"
+        data-art-image={entry.id}
+        class="block h-full w-full object-cover"
+        pictureAttributes={{ class: 'art-pic' }}
+      />
+    </div>
+    <Heading class="mt-2.5 truncate text-sm leading-tight font-bold tracking-wide uppercase decoration-4 underline-offset-4 group-hover:underline group-focus-visible:underline sm:text-base">
+      {title}
+    </Heading>
+    <p class="mt-1 flex min-w-0 items-center gap-1.5 text-[11px] font-bold tracking-widest whitespace-nowrap text-black/70 uppercase">
+      <span
+        aria-hidden="true"
+        class="inline-block h-2.5 w-2.5 shrink-0 border-2 border-black"
+        style={`background:${color}`}
+      />
+      <span class="truncate">
+        {type && `${type.data.name} · `}
+        <time datetime={isoDate(date)}>{formatArtMonth(date)}</time>
+      </span>
+    </p>
+  </a>
+</li>

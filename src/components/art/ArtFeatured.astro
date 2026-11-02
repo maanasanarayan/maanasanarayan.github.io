@@ -1,0 +1,192 @@
+---
+import { Picture } from 'astro:assets';
+import { ArrowRight } from 'lucide-astro';
+import {
+  ART_BG,
+  ART_HEX,
+  artUrl,
+  formatArtDate,
+  containFit,
+  isoDate,
+  responsive,
+  typeById,
+  type ArtEntry,
+  type ArtType,
+} from '../../lib/art';
+import './art.css';
+
+interface Props {
+  entries: ArtEntry[];
+  types: ArtType[];
+}
+
+const { entries, types } = Astro.props;
+const [lead, ...rest] = entries;
+const leadType = lead ? typeById(types, lead.data.type.id) : undefined;
+const formats: 'avif'[] = ['avif'];
+const hasAside = Astro.slots.has('default');
+
+// Width the lead image actually renders at: the mat is square on phones and
+// 5:4 from `sm` up, and the image is contained (never cropped) inside it.
+const leadRatio = lead ? lead.data.image.width / lead.data.image.height : 1;
+const share = (matAspect: number) =>
+  Math.min(1, leadRatio / matAspect).toFixed(3);
+const leadSizes = [
+  `(min-width: 1280px) ${Math.round(608 * Number(share(5 / 4)))}px`,
+  `(min-width: 1024px) calc((58vw - 7rem) * ${share(5 / 4)})`,
+  `(min-width: 640px) calc((100vw - 7.5rem) * ${share(5 / 4)})`,
+  `calc((100vw - 5rem) * ${share(1)})`,
+].join(', ');
+---
+
+{lead && (
+  <section aria-labelledby="art-featured-title" class="relative">
+    <h2 id="art-featured-title" class="sr-only">
+      Featured pieces
+    </h2>
+    <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12 lg:gap-10">
+      {/* Lead piece: framed on a coloured wall, like the first room of a show. */}
+      <article
+        class="border-4 border-black bg-white shadow-[8px_8px_0_0_#000] sm:shadow-[12px_12px_0_0_#000] lg:col-span-7"
+        style={`--art-color:${ART_HEX[leadType?.data.color ?? 'secondary']}`}
+      >
+        <a
+          href={artUrl(lead)}
+          data-art-link={lead.id}
+          class="group block outline-none focus-visible:bg-neo-secondary"
+        >
+          <div class="art-mat art-contain aspect-square border-b-4 border-black p-5 sm:aspect-[5/4] sm:p-8">
+            <Picture
+              src={lead.data.image}
+              alt={lead.data.imageAlt}
+              formats={formats}
+              fallbackFormat="webp"
+              {...responsive(lead.data.image, [360, 480, 640, 800, 1000, 1200])}
+              sizes={leadSizes}
+              quality={55}
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              data-art-image={lead.id}
+              class:list={[
+                containFit(lead.data.image, 1, 5 / 4),
+                'border-4 border-black shadow-[6px_6px_0_0_#000] transition-[translate,box-shadow] duration-150 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_#000]',
+              ]}
+              pictureAttributes={{ class: 'art-pic' }}
+            />
+          </div>
+          <div class="flex flex-col gap-3 p-5 sm:p-7">
+            <div class="flex flex-wrap items-center gap-2 text-xs font-bold tracking-widest uppercase">
+              <span class="text-neo-bg border-2 border-black bg-black px-2 py-0.5 tabular-nums">
+                No. 01
+              </span>
+              {leadType && (
+                <span
+                  class:list={[
+                    'border-2 border-black px-2 py-0.5',
+                    ART_BG[leadType.data.color],
+                  ]}
+                >
+                  {leadType.data.name}
+                </span>
+              )}
+              <time datetime={isoDate(lead.data.date)} class="text-black/70">
+                {formatArtDate(lead.data.date)}
+              </time>
+            </div>
+            <h3 class="font-display text-3xl leading-[0.95] tracking-tight uppercase decoration-4 underline-offset-4 group-hover:underline sm:text-4xl lg:text-5xl">
+              {lead.data.title}
+            </h3>
+            <p class="max-w-xl text-base leading-snug font-medium sm:text-lg">
+              {lead.data.excerpt}
+            </p>
+            <span class="mt-1 inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase">
+              See the piece
+              <ArrowRight class="h-4 w-4 stroke-[3px] transition-transform group-hover:translate-x-1" />
+            </span>
+          </div>
+        </a>
+      </article>
+
+      {(rest.length > 0 || hasAside) && (
+        <div class="grid grid-cols-1 content-start gap-8 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1 lg:gap-10">
+          {rest.map((entry, i) => {
+            const type = typeById(types, entry.data.type.id);
+            return (
+              <article
+                class:list={[
+                  'border-4 border-black bg-white shadow-[8px_8px_0_0_#000]',
+                  i % 2 === 0 ? 'lg:rotate-[0.6deg]' : 'lg:-rotate-[0.6deg]',
+                ]}
+                style={`--art-color:${ART_HEX[type?.data.color ?? 'secondary']}`}
+              >
+                <a
+                  href={artUrl(entry)}
+                  data-art-link={entry.id}
+                  class="group grid grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] outline-none focus-visible:bg-neo-secondary"
+                >
+                  <div class="art-mat art-contain aspect-square border-r-4 border-black p-3 sm:p-4">
+                    <Picture
+                      src={entry.data.image}
+                      alt={entry.data.imageAlt}
+                      formats={formats}
+                      fallbackFormat="webp"
+                      {...responsive(
+                        entry.data.image,
+                        [200, 280, 360, 480, 640],
+                      )}
+                      sizes="(min-width: 1024px) 240px, (min-width: 640px) 180px, 45vw"
+                      quality={58}
+                      loading="lazy"
+                      decoding="async"
+                      data-art-image={entry.id}
+                      class:list={[
+                        containFit(entry.data.image, 1),
+                        'border-[3px] border-black shadow-[4px_4px_0_0_#000]',
+                      ]}
+                      pictureAttributes={{ class: 'art-pic' }}
+                    />
+                  </div>
+                  <div class="flex min-w-0 flex-col justify-between gap-3 p-4 sm:p-5">
+                    <div class="space-y-2">
+                      <span class="text-neo-bg inline-block border-2 border-black bg-black px-2 py-0.5 tabular-nums text-[11px] font-bold tracking-widest uppercase">
+                        No. {String(i + 2).padStart(2, '0')}
+                      </span>
+                      <h3 class="font-display text-xl leading-none tracking-tight uppercase decoration-4 underline-offset-4 group-hover:underline sm:text-2xl">
+                        {entry.data.title}
+                      </h3>
+                      <p class="line-clamp-3 text-sm leading-snug font-medium">
+                        {entry.data.excerpt}
+                      </p>
+                    </div>
+                    <p class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-bold tracking-widest uppercase">
+                      {type && (
+                        <span class="inline-flex items-center gap-1.5">
+                          <span
+                            aria-hidden="true"
+                            class:list={[
+                              'inline-block h-2.5 w-2.5 border-2 border-black',
+                              ART_BG[type.data.color],
+                            ]}
+                          />
+                          {type.data.name}
+                        </span>
+                      )}
+                      <time
+                        datetime={isoDate(entry.data.date)}
+                        class="text-black/70"
+                      >
+                        {formatArtDate(entry.data.date)}
+                      </time>
+                    </p>
+                  </div>
+                </a>
+              </article>
+            );
+          })}
+          <slot />
+        </div>
+      )}
+    </div>
+  </section>
+)}

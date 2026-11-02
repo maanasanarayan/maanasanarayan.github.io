@@ -1,0 +1,72 @@
+---
+/**
+ * Compact, even grid of pieces (square mats, artwork contained, never
+ * cropped). Used for "more like this" at the bottom of a piece page, where
+ * small, predictable thumbnails matter more than the justified layout.
+ */
+import { Picture } from 'astro:assets';
+import {
+  ART_HEX,
+  artUrl,
+  containFit,
+  formatArtDate,
+  isoDate,
+  responsive,
+  typeById,
+  type ArtEntry,
+  type ArtType,
+} from '../../lib/art';
+import './art.css';
+
+interface Props {
+  entries: ArtEntry[];
+  types: ArtType[];
+}
+
+const { entries, types } = Astro.props;
+---
+
+<ul class="grid grid-cols-2 gap-5 sm:gap-6 lg:grid-cols-4" role="list">
+  {entries.map((entry) => {
+    const type = typeById(types, entry.data.type.id);
+    return (
+      <li>
+        <a
+          href={artUrl(entry)}
+          data-art-link={entry.id}
+          class="group block outline-none"
+        >
+          <div
+            class="art-mat art-contain aspect-square border-4 border-black p-3 shadow-[4px_4px_0_0_#000] transition-[translate,box-shadow] duration-150 group-hover:-translate-y-1 group-hover:shadow-[8px_8px_0_0_#000] group-focus-visible:outline-4 group-focus-visible:outline-offset-4 group-focus-visible:outline-black group-focus-visible:outline-dashed sm:p-4"
+            style={`--art-color:${ART_HEX[type?.data.color ?? 'secondary']}`}
+          >
+            <Picture
+              src={entry.data.image}
+              alt={entry.data.imageAlt}
+              formats={['avif']}
+              fallbackFormat="webp"
+              {...responsive(entry.data.image, [160, 240, 320, 480])}
+              sizes="(min-width: 1280px) 250px, (min-width: 1024px) calc(25vw - 4rem), (min-width: 640px) calc(50vw - 5rem), calc(50vw - 3.5rem)"
+              quality={58}
+              loading="lazy"
+              decoding="async"
+              class:list={[
+                containFit(entry.data.image, 1),
+                'border-[3px] border-black bg-white',
+              ]}
+              pictureAttributes={{ class: 'art-pic' }}
+            />
+          </div>
+          <h3 class="mt-2.5 truncate text-sm leading-tight font-bold tracking-wide uppercase decoration-4 underline-offset-4 group-hover:underline group-focus-visible:underline">
+            {entry.data.title}
+          </h3>
+          <p class="mt-0.5 text-[11px] font-bold tracking-widest text-black/70 uppercase">
+            <time datetime={isoDate(entry.data.date)}>
+              {formatArtDate(entry.data.date)}
+            </time>
+          </p>
+        </a>
+      </li>
+    );
+  })}
+</ul>

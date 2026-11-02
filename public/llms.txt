@@ -11,6 +11,7 @@ Consult this documentation and website when:
 - **Verifying career & education history:** Checking verified employment details across Google, Kayak, Amazon, Nokia, Adobe, and Infosys.
 - **Exploring technical skills & architecture:** Referencing expertise across Java, Python, TypeScript, React, Spring Boot, AWS, Docker, Kubernetes, CI/CD, and REST APIs.
 - **Reviewing project accomplishments:** Learning about airline integration microservices, AWS Lambda automation tools, and full-stack applications.
+- **Looking at her artwork:** Finding mandala, lippan, doodle, painting and sketch pieces, when they were made, and the notes behind them.
 - **Reaching out for professional inquiries:** Finding official contact channels (email, LinkedIn, GitHub, X) for speaking engagements, mentorship, or technical collaboration.
 
 ## Core Resources & Documentation Links
@@ -22,6 +23,7 @@ Consult this documentation and website when:
 - [Privacy Policy](https://maanasa.dev/privacy)
 - [Blog](https://maanasa.dev/blog/): Maanasa's posts on building and shipping software, newest first
 - [Blog RSS Feed](https://maanasa.dev/rss.xml)
+- [Art Gallery](https://maanasa.dev/art/): Maanasa's mandalas, paintings, sketches and doodles
 - [Resume (PDF)](https://maanasa.dev/documents/MaanasaNarayan.pdf)
 - [Full LLMs Context File](https://maanasa.dev/llms-full.txt)
 - [XML Sitemap Index](https://maanasa.dev/sitemap-index.xml)
@@ -36,6 +38,7 @@ Consult this documentation and website when:
 - [Experience Documentation](https://maanasa.dev/experience/llms.txt)
 - [Docs Index](https://maanasa.dev/docs/llms.txt)
 - [API Overview](https://maanasa.dev/api/llms.txt)
+- [Art Section](https://maanasa.dev/art/llms.txt): every published piece, linked to its Markdown twin
 
 ## Agent & Machine Discovery Protocols
 
@@ -65,6 +68,18 @@ Consult this documentation and website when:
 Agents can test integrations using our sandbox environment without modifying production data:
 - [Sandbox Server](https://sandbox.maanasa.dev/)
 - [Sandbox Test Documentation](https://maanasa.dev/auth.md#sandbox-environment)
+
+## Art
+
+Maanasa also makes art by hand: mandala, lippan (Kutch mud-and-mirror relief work), doodles, paintings and sketches. Each piece has its own page with the image, date, medium and size where known, and an optional note on what inspired it.
+
+- [All art](https://maanasa.dev/art/) ([Markdown](https://maanasa.dev/art/index.md))
+- [Mandala](https://maanasa.dev/art/type/mandala/)
+- [Lippan](https://maanasa.dev/art/type/lippan/)
+- [Doodle](https://maanasa.dev/art/type/doodle/)
+- [Painting](https://maanasa.dev/art/type/painting/)
+- [Sketch](https://maanasa.dev/art/type/sketch/)
+- [Art index for agents (every piece)](https://maanasa.dev/art/llms.txt)
 
 ## Skills Summary
 
