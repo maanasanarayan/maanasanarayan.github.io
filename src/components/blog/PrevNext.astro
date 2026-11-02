@@ -1,0 +1,56 @@
+---
+import { ArrowLeft, ArrowRight } from 'lucide-astro';
+import { formatDate, postHref, type Post } from '../../lib/blog';
+
+interface Props {
+  older: Post | null;
+  newer: Post | null;
+}
+
+const { older, newer } = Astro.props;
+const card =
+  'group flex h-full flex-col gap-2 border-4 border-black p-5 shadow-[6px_6px_0_0_#000] transition-[translate,box-shadow] duration-150 hover:-translate-y-1 hover:shadow-[9px_9px_0_0_#000] motion-reduce:transition-none';
+---
+
+{(older || newer) && (
+  <nav aria-label="More posts" class="no-print mt-16" data-pagefind-ignore>
+    <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <li>
+        {older && (
+          <a href={postHref(older)} rel="prev" class:list={[card, 'bg-white']}>
+            <span class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase">
+              <ArrowLeft class="h-4 w-4 stroke-[3px]" aria-hidden="true" />
+              Older post
+            </span>
+            <span class="font-display text-xl leading-tight tracking-tight uppercase">
+              {older.data.title}
+            </span>
+            <span class="text-sm font-medium">
+              {formatDate(older.data.pubDate)}
+            </span>
+          </a>
+        )}
+      </li>
+      <li>
+        {newer && (
+          <a
+            href={postHref(newer)}
+            rel="next"
+            class:list={[card, 'bg-neo-sky items-end text-right']}
+          >
+            <span class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase">
+              Newer post
+              <ArrowRight class="h-4 w-4 stroke-[3px]" aria-hidden="true" />
+            </span>
+            <span class="font-display text-xl leading-tight tracking-tight uppercase">
+              {newer.data.title}
+            </span>
+            <span class="text-sm font-medium">
+              {formatDate(newer.data.pubDate)}
+            </span>
+          </a>
+        )}
+      </li>
+    </ul>
+  </nav>
+)}

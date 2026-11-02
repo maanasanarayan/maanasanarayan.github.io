@@ -1,0 +1,258 @@
+---
+import { render } from 'astro:content';
+import { Picture, getImage } from 'astro:assets';
+import { ArrowLeft, Calendar, Clock, RefreshCw } from 'lucide-astro';
+import BlogLayout from '../../../components/blog/BlogLayout.astro';
+import BlogSearch from '../../../components/blog/BlogSearch.astro';
+import PostBody from '../../../components/blog/PostBody.astro';
+import PostEnhancements from '../../../components/blog/PostEnhancements.astro';
+import PrevNext from '../../../components/blog/PrevNext.astro';
+import RelatedPosts from '../../../components/blog/RelatedPosts.astro';
+import TableOfContents from '../../../components/blog/TableOfContents.astro';
+import TagList from '../../../components/blog/TagList.astro';
+import {
+  SITE_URL,
+  formatDate,
+  getNeighbours,
+  getPosts,
+  getRelated,
+  postHref,
+  type Post,
+} from '../../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+const { data } = post;
+const { Content, headings, remarkPluginFrontmatter } = await render(post);
+const posts = await getPosts();
+const { older, newer } = getNeighbours(posts, post);
+const related = getRelated(posts, post);
+
+const minutesRead = remarkPluginFrontmatter?.minutesRead as string | undefined;
+const wordCount = remarkPluginFrontmatter?.wordCount as number | undefined;
+const url = `${SITE_URL}${postHref(post)}`;
+const updated =
+  data.updatedDate && data.updatedDate.valueOf() > data.pubDate.valueOf()
+    ? data.updatedDate
+    : undefined;
+
+// Social card: the cover cropped to 1200x630 when there is one, else the
+// site default from SiteLayout.
+const ogImage = data.cover
+  ? (
+      await getImage({
+        src: data.cover,
+        width: 1200,
+        height: 630,
+        format: 'jpg',
+      })
+    ).src
+  : undefined;
+
+// KaTeX output needs its stylesheet; only load it on posts that use math.
+const hasMath =
+  post.rendered?.html.includes('class="katex') || /\$\$/.test(post.body ?? '');
+
+const schema = [
+  {
+    '@type': 'BlogPosting',
+    '@id': `${url}#article`,
+    url,
+    headline: data.title,
+    description: data.description,
+    datePublished: data.pubDate.toISOString(),
+    dateModified: (updated ?? data.pubDate).toISOString(),
+    inLanguage: 'en',
+    keywords: data.tags.join(', '),
+    ...(wordCount ? { wordCount } : {}),
+    image: new URL(ogImage ?? '/images/maanasan.jpg', SITE_URL).toString(),
+    author: { '@id': `${SITE_URL}/#person` },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    isPartOf: { '@id': `${SITE_URL}/blog/#blog` },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+  },
+  {
+    '@type': 'BreadcrumbList',
+    '@id': `${url}#blog-breadcrumbs`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: `${SITE_URL}/blog/`,
+      },
+      { '@type': 'ListItem', position: 3, name: data.title, item: url },
+    ],
+  },
+];
+---
+
+<BlogLayout
+  title={`${data.title} — Maanasa Narayan`}
+  description={data.description}
+  type="article"
+  publishedTime={data.pubDate}
+  image={ogImage}
+  schema={schema}
+>
+  <Fragment slot="head">
+    <meta property="article:author" content={SITE_URL} />
+    {updated && (
+      <meta property="article:modified_time" content={updated.toISOString()} />
+    )}
+    {data.tags.map((tag) => (
+      <meta property="article:tag" content={tag} />
+    ))}
+    {hasMath && (
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/katex@0.16.47/dist/katex.min.css"
+        crossorigin="anonymous"
+      />
+    )}
+  </Fragment>
+
+  <div class="mx-auto max-w-6xl px-4 pt-28 pb-20 sm:px-6 sm:pt-36 sm:pb-24 lg:px-8">
+    <div class="no-print mb-8 flex flex-wrap items-center justify-between gap-4">
+      <nav aria-label="Breadcrumb">
+        <ol class="flex flex-wrap items-center gap-2 text-xs font-bold tracking-widest uppercase">
+          <li>
+            <a href="/" class="hover:bg-neo-mint px-1 py-1">
+              Home
+            </a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <a
+              href="/blog/"
+              class="hover:bg-neo-mint inline-flex items-center gap-1.5 border-2 border-black bg-white px-3 py-1.5 shadow-[3px_3px_0_0_#000]"
+            >
+              <ArrowLeft class="h-4 w-4 stroke-[3px]" aria-hidden="true" />
+              Blog
+            </a>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li>
+            <span aria-current="page" class="line-clamp-1 max-w-[16rem]">
+              {data.title}
+            </span>
+          </li>
+        </ol>
+      </nav>
+      <BlogSearch />
+    </div>
+
+    <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_16rem] lg:items-start lg:gap-12">
+      <article
+        class="min-w-0"
+        data-pagefind-body
+        data-pagefind-filter="section:Blog"
+        data-pagefind-meta={`date:${data.pubDate.toISOString().slice(0, 10)}`}
+      >
+        <header class="bg-neo-secondary relative border-4 border-black p-6 shadow-[8px_8px_0_0_#000] sm:p-10 sm:shadow-[12px_12px_0_0_#000]">
+          {data.heroEmoji && (
+            <span
+              aria-hidden="true"
+              class="absolute -top-6 -right-3 grid h-14 w-14 rotate-6 place-items-center border-4 border-black bg-white text-3xl shadow-[4px_4px_0_0_#000] sm:-right-5"
+              data-pagefind-ignore
+            >
+              {data.heroEmoji}
+            </span>
+          )}
+          <p
+            class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-bold tracking-widest uppercase"
+            data-pagefind-ignore
+          >
+            <span class="inline-flex items-center gap-1.5">
+              <Calendar class="h-4 w-4 stroke-[3px]" aria-hidden="true" />
+              <span class="sr-only">Published</span>
+              <time datetime={data.pubDate.toISOString()}>
+                {formatDate(data.pubDate)}
+              </time>
+            </span>
+            {updated && (
+              <span class="inline-flex items-center gap-1.5">
+                <RefreshCw class="h-4 w-4 stroke-[3px]" aria-hidden="true" />
+                Updated
+                <time datetime={updated.toISOString()}>
+                  {formatDate(updated)}
+                </time>
+              </span>
+            )}
+            {minutesRead && (
+              <span class="inline-flex items-center gap-1.5">
+                <Clock class="h-4 w-4 stroke-[3px]" aria-hidden="true" />
+                {minutesRead}
+              </span>
+            )}
+          </p>
+          <h1 class="font-display mt-5 text-4xl leading-[0.95] tracking-tight break-words uppercase sm:text-5xl lg:text-6xl">
+            {data.title}
+          </h1>
+          <p class="mt-5 max-w-2xl text-lg leading-snug font-medium sm:text-xl">
+            {data.description}
+          </p>
+          <TagList
+            tags={data.tags}
+            label="Post tags"
+            class="no-print mt-6"
+            data-pagefind-ignore
+          />
+        </header>
+
+        {data.cover && (
+          <figure class="mt-10">
+            <Picture
+              src={data.cover}
+              alt={data.coverAlt ?? ''}
+              formats={['avif', 'webp']}
+              widths={[480, 800, 1200]}
+              sizes="(min-width: 1024px) 760px, 100vw"
+              loading="eager"
+              fetchpriority="high"
+              class="h-auto w-full border-4 border-black shadow-[8px_8px_0_0_#000]"
+            />
+          </figure>
+        )}
+
+        <TableOfContents headings={headings} variant="inline" />
+
+        <PostBody class="mt-10">
+          <Content />
+        </PostBody>
+
+        <footer
+          class="mt-14 flex flex-wrap items-center justify-between gap-4 border-t-4 border-black pt-6"
+          data-pagefind-ignore
+        >
+          <p class="text-sm font-bold tracking-widest uppercase">
+            Written by{' '}
+            <a href="/about" class="hover:bg-neo-mint border-b-4 border-black">
+              Maanasa Narayan
+            </a>
+          </p>
+          <a
+            href={`${postHref(post)}index.md`}
+            class="hover:bg-neo-mint border-2 border-black bg-white px-3 py-1.5 text-xs font-bold tracking-widest uppercase shadow-[3px_3px_0_0_#000]"
+          >
+            View as Markdown
+          </a>
+        </footer>
+      </article>
+
+      <div class="hidden lg:block lg:self-stretch">
+        <TableOfContents headings={headings} variant="rail" />
+      </div>
+    </div>
+
+    <PrevNext older={older} newer={newer} />
+    <RelatedPosts posts={related} />
+  </div>
+
+  <PostEnhancements />
+</BlogLayout>

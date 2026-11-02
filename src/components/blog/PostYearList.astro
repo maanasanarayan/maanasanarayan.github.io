@@ -1,0 +1,44 @@
+---
+import PostCard from './PostCard.astro';
+import { groupByYear, type Post } from '../../lib/blog';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+const years = groupByYear(posts);
+const tones = ['white', 'sky', 'mint', 'muted', 'secondary'] as const;
+---
+
+{posts.length === 0 ? (
+  <p class="mt-14 border-4 border-dashed border-black bg-white p-8 text-center text-lg font-bold">
+    Nothing published here yet. Check back soon.
+  </p>
+) : (
+  <div class="mt-14 flex flex-col gap-14">
+    {years.map(({ year, posts: yearPosts }) => (
+      <section aria-labelledby={`year-${year}`}>
+        <div class="flex items-center gap-4">
+          <h2
+            id={`year-${year}`}
+            class="font-display text-5xl leading-none tracking-tight sm:text-6xl"
+          >
+            {year}
+          </h2>
+          <span aria-hidden="true" class="h-1 flex-1 bg-black" />
+          <span class="border-2 border-black bg-white px-2 py-1 text-xs font-bold tracking-widest uppercase">
+            {yearPosts.length} {yearPosts.length === 1 ? 'post' : 'posts'}
+          </span>
+        </div>
+        <ul class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+          {yearPosts.map((post, i) => (
+            <li>
+              <PostCard post={post} tone={tones[i % tones.length]} />
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+)}

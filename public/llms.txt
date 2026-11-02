@@ -20,6 +20,8 @@ Consult this documentation and website when:
 - [About Maanasa](https://maanasa.dev/about)
 - [Contact Details](https://maanasa.dev/contact)
 - [Privacy Policy](https://maanasa.dev/privacy)
+- [Blog](https://maanasa.dev/blog/): Maanasa's posts on building and shipping software, newest first
+- [Blog RSS Feed](https://maanasa.dev/rss.xml)
 - [Resume (PDF)](https://maanasa.dev/documents/MaanasaNarayan.pdf)
 - [Full LLMs Context File](https://maanasa.dev/llms-full.txt)
 - [XML Sitemap Index](https://maanasa.dev/sitemap-index.xml)
@@ -28,6 +30,7 @@ Consult this documentation and website when:
 
 - [About Section](https://maanasa.dev/about/llms.txt)
 - [Contact Section](https://maanasa.dev/contact/llms.txt)
+- [Blog Section](https://maanasa.dev/blog/llms.txt): every published post, linked to its Markdown twin (`<post url>index.md`)
 - [Projects Documentation](https://maanasa.dev/projects/llms.txt)
 - [Skills Documentation](https://maanasa.dev/skills/llms.txt)
 - [Experience Documentation](https://maanasa.dev/experience/llms.txt)

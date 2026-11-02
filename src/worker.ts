@@ -1488,8 +1488,31 @@ export default {
         return res;
       }
 
-      // Check if base resource without .md exists in static assets
       const basePath = url.pathname.slice(0, -3);
+
+      // `/blog/post.md` -> the generated twin at `/blog/post/index.md`
+      if (basePath && !basePath.endsWith('/index')) {
+        const twinUrl = new URL(url);
+        twinUrl.pathname = `${basePath.replace(/\/$/, '')}/index.md`;
+        const twinRes = await env.ASSETS.fetch(
+          new Request(twinUrl.toString(), { headers: { Accept: '*/*' } }),
+        );
+        if (twinRes.status === 200) {
+          const res = new Response(await twinRes.text(), {
+            status: 200,
+            headers: twinRes.headers,
+          });
+          res.headers.set('Content-Type', 'text/markdown; charset=utf-8');
+          appendVaryAccept(res.headers);
+          res.headers.set(
+            'Link',
+            `<${url.origin}${basePath.replace(/\/$/, '')}/>; rel="canonical"`,
+          );
+          return res;
+        }
+      }
+
+      // Check if base resource without .md exists in static assets
       if (basePath && basePath !== '') {
         const baseReq = new Request(new URL(basePath, url).toString(), {
           headers: { Accept: '*/*' },
@@ -1516,7 +1539,7 @@ export default {
 
       // If .md doesn't exist, return structured markdown 404 with leading heading
       const cleanPath = url.pathname;
-      const notFoundBody = `# 404 Not Found\n\nThe requested Markdown document \`${cleanPath}\` does not exist on https://maanasa.dev.\n\n## Available Markdown Resources\n\n- [Homepage](https://maanasa.dev/index.md)\n- [About Maanasa](https://maanasa.dev/about/index.md)\n- [Developer Portal & API Docs](https://maanasa.dev/developers.md)\n- [Contact](https://maanasa.dev/contact/index.md)\n- [Privacy Policy](https://maanasa.dev/privacy/index.md)\n- [Agent Authentication Guide (auth.md)](https://maanasa.dev/auth.md)\n- [LLMs Context Index](https://maanasa.dev/llms.txt)\n- [OpenAPI Specification](https://maanasa.dev/openapi.json)\n`;
+      const notFoundBody = `# 404 Not Found\n\nThe requested Markdown document \`${cleanPath}\` does not exist on https://maanasa.dev.\n\n## Available Markdown Resources\n\n- [Homepage](https://maanasa.dev/index.md)\n- [About Maanasa](https://maanasa.dev/about/index.md)\n- [Developer Portal & API Docs](https://maanasa.dev/developers.md)\n- [Contact](https://maanasa.dev/contact/index.md)\n- [Blog](https://maanasa.dev/blog/index.md)\n- [Privacy Policy](https://maanasa.dev/privacy/index.md)\n- [Agent Authentication Guide (auth.md)](https://maanasa.dev/auth.md)\n- [LLMs Context Index](https://maanasa.dev/llms.txt)\n- [OpenAPI Specification](https://maanasa.dev/openapi.json)\n`;
 
       const md404Res = new Response(notFoundBody, {
         status: 404,
@@ -1603,7 +1626,7 @@ export default {
 
       // Serve 404 Markdown recovery
       const fallback404 = new Response(
-        '# 404 Not Found\n\nThe requested path does not exist on https://maanasa.dev.\n\n## Where to look next\n\n- Homepage: https://maanasa.dev/\n- Developer Portal: https://maanasa.dev/developers\n- About: https://maanasa.dev/about\n- Contact: https://maanasa.dev/contact\n- Privacy Policy: https://maanasa.dev/privacy\n- Sitemap: https://maanasa.dev/sitemap-index.xml\n- LLMs Context: https://maanasa.dev/llms.txt\n- Resume (PDF): https://maanasa.dev/documents/MaanasaNarayan.pdf\n',
+        '# 404 Not Found\n\nThe requested path does not exist on https://maanasa.dev.\n\n## Where to look next\n\n- Homepage: https://maanasa.dev/\n- Developer Portal: https://maanasa.dev/developers\n- About: https://maanasa.dev/about\n- Contact: https://maanasa.dev/contact\n- Blog: https://maanasa.dev/blog/\n- Privacy Policy: https://maanasa.dev/privacy\n- Sitemap: https://maanasa.dev/sitemap-index.xml\n- LLMs Context: https://maanasa.dev/llms.txt\n- Resume (PDF): https://maanasa.dev/documents/MaanasaNarayan.pdf\n',
         {
           status: 404,
           headers: {

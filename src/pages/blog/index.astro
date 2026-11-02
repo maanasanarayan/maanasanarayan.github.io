@@ -1,0 +1,58 @@
+---
+import BlogLayout from '../../components/blog/BlogLayout.astro';
+import BlogHeader from '../../components/blog/BlogHeader.astro';
+import PostYearList from '../../components/blog/PostYearList.astro';
+import {
+  BLOG_DESCRIPTION,
+  BLOG_TITLE,
+  SITE_URL,
+  getPosts,
+  getTags,
+  postHref,
+} from '../../lib/blog';
+
+const posts = await getPosts();
+const tags = getTags(posts);
+const url = `${SITE_URL}/blog/`;
+
+const schema = [
+  {
+    '@type': 'Blog',
+    '@id': `${url}#blog`,
+    url,
+    name: BLOG_TITLE,
+    description: BLOG_DESCRIPTION,
+    inLanguage: 'en',
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    author: { '@id': `${SITE_URL}/#person` },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    blogPost: posts.map((post) => ({
+      '@type': 'BlogPosting',
+      '@id': `${SITE_URL}${postHref(post)}#article`,
+      headline: post.data.title,
+      url: `${SITE_URL}${postHref(post)}`,
+      datePublished: post.data.pubDate.toISOString(),
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    '@id': `${url}#blog-breadcrumbs`,
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: url },
+    ],
+  },
+];
+---
+
+<BlogLayout title={BLOG_TITLE} description={BLOG_DESCRIPTION} schema={schema}>
+  <div class="mx-auto max-w-6xl px-4 pt-28 pb-20 sm:px-6 sm:pt-36 sm:pb-24 lg:px-8">
+    <BlogHeader kicker="Writing" title="The Blog" tags={tags}>
+      <p>
+        Notes on building and shipping software: what I tried, what broke, and
+        what I would do again.
+      </p>
+    </BlogHeader>
+    <PostYearList posts={posts} />
+  </div>
+</BlogLayout>

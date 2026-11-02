@@ -30,7 +30,11 @@ try {
     const updated = fm.match(/^updatedDate:\s*(\S+)/m)?.[1];
     const published = fm.match(/^pubDate:\s*(\S+)/m)?.[1];
     const d = updated ?? published;
-    if (d) blogLastmod.set(`/blog/${slug}/`, new Date(d).toISOString());
+    if (!d || new Date(published).valueOf() > Date.now()) continue;
+    const iso = new Date(d).toISOString();
+    blogLastmod.set(`/blog/${slug}/`, iso);
+    // The blog index changes whenever any post does.
+    if (iso > (blogLastmod.get('/blog/') ?? '')) blogLastmod.set('/blog/', iso);
   }
 } catch {
   /* fine to skip if dir missing */
@@ -50,10 +54,9 @@ export default defineConfig({
     mdx(),
     markdoc(),
     sitemap({
-      filter: (page) =>
-        !page.endsWith('/blog/tags/') &&
-        !page.endsWith('/404.html') &&
-        !page.endsWith('/404/'),
+      // Drafts and future-dated posts never reach the sitemap: their pages
+      // are not generated in production (see src/lib/blog.ts).
+      filter: (page) => !page.endsWith('/404.html') && !page.endsWith('/404/'),
       changefreq: 'monthly',
       priority: 0.7,
       serialize(item) {
@@ -70,8 +73,9 @@ export default defineConfig({
           url.pathname === '/privacy'
         )
           item.priority = 0.8;
-        else if (url.pathname.startsWith('/blog/') && url.pathname !== '/blog/')
-          item.priority = 0.8;
+        else if (url.pathname === '/blog/') item.priority = 0.8;
+        else if (url.pathname.startsWith('/blog/tags/')) item.priority = 0.4;
+        else if (url.pathname.startsWith('/blog/')) item.priority = 0.8;
         else if (url.pathname.startsWith('/lifestyle/')) item.priority = 0.8;
         return item;
       },

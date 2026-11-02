@@ -1,0 +1,33 @@
+---
+import PostCard from './PostCard.astro';
+import type { Post } from '../../lib/blog';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+const tones = ['mint', 'muted', 'secondary'] as const;
+---
+
+{posts.length > 0 && (
+  <section
+    aria-labelledby="related-heading"
+    class="no-print mt-16"
+    data-pagefind-ignore
+  >
+    <h2
+      id="related-heading"
+      class="font-display text-3xl tracking-tight uppercase sm:text-4xl"
+    >
+      Related posts
+    </h2>
+    <ul class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post, i) => (
+        <li>
+          <PostCard post={post} tone={tones[i % tones.length]} />
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

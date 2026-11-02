@@ -1,0 +1,33 @@
+---
+import { tagHref } from '../../lib/blog';
+
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'ul'> {
+  tags: string[];
+  /** Accessible name for the list, e.g. "Tags for Hello World". */
+  label?: string;
+}
+
+const { tags, label = 'Tags', class: className, ...rest } = Astro.props;
+---
+
+{tags.length > 0 && (
+  <ul
+    {...rest}
+    aria-label={label}
+    class:list={['flex flex-wrap items-center gap-2', className]}
+  >
+    {tags.map((tag) => (
+      <li>
+        <a
+          href={tagHref(tag)}
+          class="hover:bg-neo-mint focus-visible:bg-neo-mint inline-flex min-h-7 items-center border-2 border-black bg-white px-2 py-0.5 text-xs font-bold tracking-widest uppercase shadow-[2px_2px_0_0_#000] transition-transform duration-100 hover:-translate-y-0.5"
+        >
+          <span aria-hidden="true">#</span>
+          {tag}
+        </a>
+      </li>
+    ))}
+  </ul>
+)}
