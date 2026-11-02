@@ -69,6 +69,26 @@ export async function getArtTypeCounts(
   }));
 }
 
+/**
+ * "Mandalas, paintings, doodles and sketches": the forms that have published
+ * pieces, most pieces first, so intro copy never names an empty form.
+ */
+export function formsSentence(counts: ArtTypeWithCount[]): string {
+  const names = counts
+    .filter((c) => c.count > 0)
+    .sort((a, b) => b.count - a.count || a.type.data.order - b.type.data.order)
+    .map(({ type }) => {
+      const name = type.data.name.toLowerCase();
+      // Lippan is a mass noun; the other forms take a plain plural.
+      return type.id === 'lippan' ? name : `${name}s`;
+    });
+  const list =
+    names.length > 1
+      ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`
+      : (names[0] ?? 'artwork');
+  return list.charAt(0).toUpperCase() + list.slice(1);
+}
+
 export function typeById(types: ArtType[], id: string): ArtType | undefined {
   return types.find((t) => t.id === id);
 }

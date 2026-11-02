@@ -9,6 +9,7 @@ import ArtEmpty from '../../components/art/ArtEmpty.astro';
 import ArtViewTransitions from '../../components/art/ArtViewTransitions.astro';
 import {
   artUrl,
+  formsSentence,
   getArt,
   getArtTypeCounts,
   getArtTypes,
@@ -39,11 +40,12 @@ const span =
 const showSpread = art.length >= 6;
 const featured = showSpread ? pickFeatured(art, 3) : [];
 
+const forms = formsSentence(counts);
 const title = 'Art — Maanasa Narayan';
 const description =
   art.length > 0
-    ? `Mandala, lippan, doodles, paintings and sketches by Maanasa Narayan: ${pluralPieces(art.length)}, each with a short note on where it came from.`
-    : 'Mandala, lippan, doodles, paintings and sketches by Maanasa Narayan, each with a short note on where it came from.';
+    ? `${forms} by Maanasa Narayan: ${pluralPieces(art.length)}, each with its date, medium and the original post.`
+    : 'Handmade artwork by Maanasa Narayan.';
 const pageUrl = absolute('/art/');
 const schema = jsonLd(
   collectionPage({
@@ -59,7 +61,7 @@ const schema = jsonLd(
 );
 ---
 
-<SiteLayout title={title} description={description}>
+<SiteLayout title={title} description={description} sectionPage>
   <script is:inline slot="head" type="application/ld+json" set:html={schema} />
   <div class="mx-auto max-w-7xl px-4 pt-28 pb-20 sm:px-6 sm:pt-36 sm:pb-24 lg:px-10">
     <header class="mb-12 grid grid-cols-1 items-end gap-6 sm:mb-16 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:gap-12">
@@ -68,8 +70,7 @@ const schema = jsonLd(
       </div>
       <div class="space-y-5">
         <p class="text-lg leading-snug font-medium sm:text-xl">
-          Mandalas, lippan, doodles, paintings and sketches, mostly made in the
-          evenings. Every piece has a short note on where it came from.
+          {forms}, first shared on Instagram as @doodles.by.maanasa.
         </p>
         {art.length > 0 && (
           <dl class="text-neo-bg grid w-fit grid-cols-3 border-4 border-black bg-black tabular-nums text-xs uppercase shadow-[4px_4px_0_0_#FFD93D]">

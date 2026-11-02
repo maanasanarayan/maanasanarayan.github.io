@@ -162,8 +162,10 @@ const facts = [
   title={`${data.title} — ${typeName} by Maanasa Narayan`}
   description={data.excerpt}
   image={ogImage.src}
+  imageAlt={data.imageAlt}
   type="article"
   publishedTime={data.date}
+  sectionPage
 >
   <script is:inline slot="head" type="application/ld+json" set:html={schema} />
   <div

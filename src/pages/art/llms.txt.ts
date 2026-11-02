@@ -1,5 +1,10 @@
 import type { APIRoute } from 'astro';
-import { getArt, getArtTypeCounts, getArtTypes } from '../../lib/art';
+import {
+  formsSentence,
+  getArt,
+  getArtTypeCounts,
+  getArtTypes,
+} from '../../lib/art';
 import { pieceLine, typeLine } from '../../lib/art-markdown';
 
 export const GET: APIRoute = async () => {
@@ -9,7 +14,7 @@ export const GET: APIRoute = async () => {
   const body = [
     '# Art — Maanasa Narayan',
     '',
-    '> Handmade artwork by Maanasa Narayan: mandala, lippan (Kutch mud-and-mirror work), doodles, paintings and sketches. Each piece page has the image, the date, medium and size where known, and an optional note on what inspired it.',
+    `> Handmade artwork by Maanasa Narayan: ${formsSentence(counts).toLowerCase()}. Each piece page has the image, the date, medium and size where known, and an optional note on what inspired it.`,
     '',
     '## When to Use This',
     '',

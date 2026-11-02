@@ -10,6 +10,7 @@ interface Props {
   title: string;
   description: string;
   image?: string;
+  imageAlt?: string;
   type?: 'website' | 'article';
   publishedTime?: Date;
   /** Extra schema.org nodes, emitted as one @graph next to SiteLayout's. */
@@ -19,7 +20,7 @@ interface Props {
 const { schema = [], ...layoutProps } = Astro.props;
 ---
 
-<SiteLayout {...layoutProps}>
+<SiteLayout {...layoutProps} sectionPage>
   <Fragment slot="head">
     <link
       rel="alternate"

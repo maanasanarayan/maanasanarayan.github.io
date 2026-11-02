@@ -98,6 +98,7 @@ const schema = [
   type="article"
   publishedTime={data.pubDate}
   image={ogImage}
+  imageAlt={data.cover ? data.coverAlt : undefined}
   schema={schema}
 >
   <Fragment slot="head">
